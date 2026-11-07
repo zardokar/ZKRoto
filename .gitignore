@@ -147,3 +147,10 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# ZKRoto
+__pycache__/
+*.pyc
+.dropzone/
+# MediaPipe files: not in the repo, see third-party/NOTICE.md
+third-party/mediapipe/

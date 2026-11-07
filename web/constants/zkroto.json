@@ -1,0 +1,51 @@
+{
+  "app": "ZKRoto",
+  "version": "0.1.3",
+  "consoleTag": "[ZKRoto]",
+  "colors": {
+    "people": [
+      "#4fa3ff",
+      "#ff8a3d"
+    ]
+  },
+  "text": {
+    "ready": "ready",
+    "readyLog": "ZKRoto {version} ready",
+    "loading": "loading {name}",
+    "loaded": "loaded {name} {width}x{height}, {seconds} s, {total} frames @ {fps} fps",
+    "noVideo": "no video loaded",
+    "timeout": "timeout waiting for {event}",
+    "waitError": "error waiting for {event}",
+    "videoError": "video error {code}: {message}",
+    "seekError": "seek error {message}",
+    "uploadFailed": "upload failed: HTTP {status}",
+    "capturedLog": "captured frame {frame} -> {path}",
+    "captured": "captured {name}",
+    "loadingPose": "loading MediaPipe…",
+    "modelMissing": "model missing: put pose_landmarker_full.task in custom_nodes\\{app}\\third-party\\mediapipe\\models\\ (HTTP {status})",
+    "poseReady": "MediaPipe Pose ready ({delegate})",
+    "delegateFailed": "{delegate} delegate failed, using {next}: {message}",
+    "pose": "pose: {n} person(s), {ms} ms",
+    "poseLog": "pose frame {frame}: {n} person(s)",
+    "selftest": "selftest: {ok}/{total} ok",
+    "error": "error: {message}",
+    "time": "t {seconds} s"
+  },
+  "ui": {
+    "title": "ZKRoto",
+    "namePlaceholder": "file in ComfyUI input\\ e.g. clip.mp4",
+    "load": "Load",
+    "orFile": "or",
+    "fps": "fps",
+    "poseOverlay": "pose overlay",
+    "drop": "Load a video from ComfyUI input\\ or drop an mp4 here",
+    "back30": "« 30",
+    "back1": "‹ 1",
+    "frameLabel": "frame",
+    "fwd1": "1 ›",
+    "fwd30": "30 »",
+    "capture": "Capture (C)",
+    "pose": "Pose (P)",
+    "tcEmpty": "00:00:00:00"
+  }
+}
