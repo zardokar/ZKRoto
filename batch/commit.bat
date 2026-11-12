@@ -3,7 +3,7 @@ rem ZKRoto - commit every change in this repo with MSG below, then ask about pus
 setlocal
 rem #### SETTINGS - EDIT HERE ####
 set "GIT=git"
-set "MSG=ZKRoto 0.1.3: AppMaker v003 rewrite, import map ?v= on every module and JSON, last-frame fix, 42 tests, NOTICE only"
+set "MSG=ZKRoto 0.3.0: POV camera, OpenPose + MediaPipe + face, full PNG, export range, point editing, vector guides"
 rem ##############################
 set "RC=0"
 cd /d "%~dp0.."

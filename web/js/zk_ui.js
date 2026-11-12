@@ -1,4 +1,5 @@
-// COMPONENT: page controls - buttons, fps list, slider, frame box, keys, drag and drop. Calls the API only.
+// COMPONENT: page controls - buttons, fps list, slider, frame box, keys (C, P, V, E, Ctrl+E, arrows), drag and drop.
+// Calls the API only.
 const TEXT_INPUT_EXEMPT = ["range", "checkbox"];
 
 function fillFps(ctx) {
@@ -88,23 +89,38 @@ function bindDrop(ctx, api) {
   };
 }
 
-function onKey(ctx, api, e) {
+// Ctrl+E = Export (also while typing a name, never on key repeat); single keys only outside text fields.
+// Letters by e.code (the key's place), so they also work with the Thai keyboard layout.
+export function onKey(ctx, api, e) {
+  if (e.code === "KeyE" && (e.ctrlKey || e.metaKey)) {
+    e.preventDefault();
+    if (!e.repeat) {
+      quiet(guarded(ctx, api.exportPose)());
+    }
+    return;
+  }
   const t = e.target;
   if (t instanceof HTMLInputElement && !TEXT_INPUT_EXEMPT.includes(t.type)) {
     return;
   }
+  if (e.ctrlKey || e.metaKey || e.altKey) {
+    return;
+  }
   const big = e.shiftKey ? ctx.cfg.bigStep : 1;
-  const key = e.key.toLowerCase();
   if (e.key === "ArrowRight") {
     e.preventDefault();
     api.step(big);
   } else if (e.key === "ArrowLeft") {
     e.preventDefault();
     api.step(-big);
-  } else if (key === "c") {
+  } else if (e.code === "KeyC") {
     quiet(guarded(ctx, api.capture)());
-  } else if (key === "p") {
+  } else if (e.code === "KeyP") {
     quiet(guarded(ctx, api.pose)());
+  } else if (e.code === "KeyV") {
+    api.view();
+  } else if (e.code === "KeyE") {
+    api.editMode();
   }
 }
 

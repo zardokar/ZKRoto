@@ -54,16 +54,19 @@ export function createPose(ctx, video, hooks) {
     return landmarker;
   }
 
+  // Any canvas (the shown frame, or a character sheet's side picture) -> shaped pose.
+  async function detect(c, frame) {
+    const lm = await ensure();
+    const t0 = performance.now();
+    const res = lm.detect(c);
+    return shapePose(res, { frame, width: c.width, height: c.height, ms: performance.now() - t0 });
+  }
+
   async function pose() {
     if (!state.url) {
       throw new Error(t("noVideo"));
     }
-    const lm = await ensure();
-    const c = video.frameCanvas();
-    const t0 = performance.now();
-    const res = lm.detect(c);
-    const ms = performance.now() - t0;
-    state.lastPose = shapePose(res, { frame: state.frame, width: c.width, height: c.height, ms });
+    state.lastPose = await detect(video.frameCanvas(), state.frame);
     hooks.onPose();
     const n = state.lastPose.people.length;
     ctx.status(t("pose", { n, ms: state.lastPose.ms }), "ok");
@@ -73,6 +76,7 @@ export function createPose(ctx, video, hooks) {
 
   return {
     pose,
+    detect,
     connections: function () {
       return connections;
     },

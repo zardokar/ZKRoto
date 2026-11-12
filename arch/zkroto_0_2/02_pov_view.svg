@@ -1,0 +1,260 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" width="1280" height="800" font-family="Segoe UI, system-ui, sans-serif" font-size="13" xmlns:c2pa="http://c2pa.org/manifest"><metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo1YWU3YzhmMS0zNDdiLTQ3MWUtYWJkNS04MjAzNmM5YWQ4ZTAAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaJx62uZqhZUnGjwOLf3udU4AAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpmNTQwZGYwMS1kODg1LTQxMTUtODBjNi1lMjAxNDMxMmFhMDlscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoEQN0I+XWjoJbhxRXNQOsWgAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggsAlOgKM7m+y67d31cZhyeznlURoJtRsuiSzRkh8GXXWkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaKSO4iP7jGVIDwh1rWNs6NwAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRNAAAAAAAAAAAAAAAAAGRoYXNoWCBIcTNFlkMKDkD4bQ+B+1LQVbZHfpa4yJjckOzmz86H4mRuYW1lbmp1bWJmIG1hbmlmZXN0amV4Y2x1c2lvbnOBomVzdGFydBjVZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjVhZTdjOGYxLTM0N2ItNDcxZS1hYmQ1LTgyMDM2YzlhZDhlMC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjliMDQzMDExLTE5NDYtNDZlNi04ZGEwLTYyOWFjNzMxYmQ0YXJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCCwCU6Aozub7Lrt3fVxmHJ7OeVRGgm1Gy6JLNGSHwZddaJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggiYINI7syYX2XAy4L7wnBhYoqf5X1jevSkkOtEFs/9VSiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggrSGyl9rkPYlQO3SzpAqjqKEaNRHYzFk521bCxN1ZaLZ0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQJOgK9eqz5qExCCpv7bA5CoVGrSGeNmt8mgqA4HiXI7SdGqxsONnR+O/Cqccivf5fFbdZw+hUZwqgqvY2SMLvQU=</c2pa:manifest></metadata>
+<title>ZKRoto 0.2 - 02 POV view</title>
+<rect width="1280" height="800" fill="#16181c"/>
+<rect x="0" y="0" width="1280" height="44" rx="0" fill="#1f2228" stroke="#2e323a" />
+<text x="12" y="27" fill="#e6e6e6" font-size="14" text-anchor="start" font-weight="bold">ZKRoto 0.2</text>
+<rect x="100" y="10" width="220" height="24" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="106" y="26.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">clip.mp4</text>
+<rect x="326" y="10" width="50" height="24" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="351.0" y="26.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Load</text>
+<text x="386" y="27" fill="#9aa0aa" font-size="13" text-anchor="start" font-weight="normal">or</text>
+<rect x="404" y="10" width="92" height="24" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="450.0" y="26.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Choose file</text>
+<text x="506" y="27" fill="#9aa0aa" font-size="13" text-anchor="start" font-weight="normal">fps</text>
+<rect x="530" y="10" width="72" height="24" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="536" y="26.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal">29.97</text>
+<text x="590" y="26.5" fill="#9aa0aa" font-size="13" text-anchor="middle" font-weight="normal">▾</text>
+<rect x="614" y="15" width="14" height="14" rx="2" fill="#4fa3ff" stroke="#2e323a" />
+<path d="M617 22 l3 3 l6 -7" stroke="#fff" stroke-width="2" fill="none"/>
+<text x="634" y="27" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal">pose overlay</text>
+<text x="732" y="27" fill="#9aa0aa" font-size="13" text-anchor="start" font-weight="normal">person</text>
+<rect x="778" y="10" width="28" height="24" rx="4" fill="#4fa3ff" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="792" y="26.5" fill="#000" font-size="13" text-anchor="middle" font-weight="bold">1</text>
+<rect x="808" y="10" width="28" height="24" rx="4" fill="#2a2e36" stroke="#ff8a3d" stroke-width="1.5"/>
+<text x="822" y="26.5" fill="#ff8a3d" font-size="13" text-anchor="middle" font-weight="bold">2</text>
+<rect x="842" y="10" width="52" height="24" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="868.0" y="26.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Swap</text>
+<text x="906" y="27" fill="#9aa0aa" font-size="13" text-anchor="start" font-weight="normal">view</text>
+<rect x="940" y="10" width="64" height="24" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="972.0" y="26.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Source</text>
+<rect x="1006" y="10" width="64" height="24" rx="4" fill="#21466e" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="1038.0" y="26.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">POV</text>
+<rect x="1072" y="10" width="64" height="24" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="1104.0" y="26.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Split</text>
+<text x="1268" y="27" fill="#9aa0aa" font-size="12" text-anchor="end" font-weight="normal">V = next view</text>
+<rect x="0" y="44" width="940" height="646" rx="0" fill="#000" stroke="#000" />
+<rect x="264.0" y="59" width="412.0" height="616" rx="0" fill="#000" stroke="#555" stroke-dasharray="6 4"/>
+<line x1="470.0" y1="235.5" x2="432.8" y2="230.0" stroke="rgb(153,0,0)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="470.0" y1="235.5" x2="518.4" y2="246.4" stroke="rgb(153,51,0)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="432.8" y1="230.0" x2="395.6" y2="295.6" stroke="rgb(153,102,0)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="395.6" y1="295.6" x2="417.9" y2="355.6" stroke="rgb(153,153,0)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="518.4" y1="246.4" x2="544.4" y2="317.4" stroke="rgb(102,153,0)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="544.4" y1="317.4" x2="529.5" y2="382.9" stroke="rgb(51,153,0)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="470.0" y1="235.5" x2="451.4" y2="399.3" stroke="rgb(0,153,0)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="451.4" y1="399.3" x2="458.8" y2="481.2" stroke="rgb(0,153,51)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="458.8" y1="481.2" x2="451.4" y2="557.6" stroke="rgb(0,153,102)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="470.0" y1="235.5" x2="496.0" y2="404.8" stroke="rgb(0,153,153)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="496.0" y1="404.8" x2="510.9" y2="481.2" stroke="rgb(0,102,153)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="510.9" y1="481.2" x2="514.6" y2="552.2" stroke="rgb(0,51,153)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="470.0" y1="235.5" x2="477.4" y2="175.4" stroke="rgb(0,0,153)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="477.4" y1="175.4" x2="470.0" y2="167.2" stroke="rgb(51,0,153)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="470.0" y1="167.2" x2="458.8" y2="175.4" stroke="rgb(102,0,153)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="477.4" y1="175.4" x2="486.7" y2="170.0" stroke="rgb(153,0,153)" stroke-width="11.0" stroke-linecap="round"/>
+<line x1="486.7" y1="170.0" x2="497.9" y2="180.9" stroke="rgb(153,0,102)" stroke-width="11.0" stroke-linecap="round"/>
+<circle cx="477.4" cy="175.4" r="6.1" fill="rgb(255, 0, 0)"/>
+<circle cx="470.0" cy="235.5" r="6.1" fill="rgb(255, 85, 0)"/>
+<circle cx="432.8" cy="230.0" r="6.1" fill="rgb(255, 170, 0)"/>
+<circle cx="395.6" cy="295.6" r="6.1" fill="rgb(255, 255, 0)"/>
+<circle cx="417.9" cy="355.6" r="6.1" fill="rgb(170, 255, 0)"/>
+<circle cx="518.4" cy="246.4" r="6.1" fill="rgb(85, 255, 0)"/>
+<circle cx="544.4" cy="317.4" r="6.1" fill="rgb(0, 255, 0)"/>
+<circle cx="529.5" cy="382.9" r="6.1" fill="rgb(0, 255, 85)"/>
+<circle cx="451.4" cy="399.3" r="6.1" fill="rgb(0, 255, 170)"/>
+<circle cx="458.8" cy="481.2" r="6.1" fill="rgb(0, 255, 255)"/>
+<circle cx="451.4" cy="557.6" r="6.1" fill="rgb(0, 170, 255)"/>
+<circle cx="496.0" cy="404.8" r="6.1" fill="rgb(0, 85, 255)"/>
+<circle cx="510.9" cy="481.2" r="6.1" fill="rgb(0, 0, 255)"/>
+<circle cx="514.6" cy="552.2" r="6.1" fill="rgb(85, 0, 255)"/>
+<circle cx="470.0" cy="167.2" r="6.1" fill="rgb(170, 0, 255)"/>
+<circle cx="486.7" cy="170.0" r="6.1" fill="rgb(255, 0, 255)"/>
+<circle cx="458.8" cy="175.4" r="6.1" fill="rgb(255, 0, 170)"/>
+<circle cx="497.9" cy="180.9" r="6.1" fill="rgb(255, 0, 85)"/>
+<text x="272.0" y="76" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">POV 832 x 1216 - fit 10/9/5 %</text>
+<text x="668.0" y="76" fill="#4fa3ff" font-size="12" text-anchor="end" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">person 1</text>
+<rect x="940" y="44" width="340" height="646" rx="0" fill="#1f2228" stroke="#2e323a" />
+<rect x="956" y="54" width="80" height="22" rx="4" fill="#21466e" stroke="#2f6bab" />
+<text x="996.0" y="69.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Camera</text>
+<rect x="1040" y="54" width="70" height="22" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="1075.0" y="69.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Points</text>
+<rect x="1206" y="54" width="60" height="22" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="1236.0" y="69.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Reset</text>
+<rect x="956" y="82" width="58" height="22" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="985.0" y="97.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Front</text>
+<rect x="1018" y="82" width="58" height="22" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="1047.0" y="97.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Back</text>
+<rect x="1080" y="82" width="58" height="22" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="1109.0" y="97.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Left</text>
+<rect x="1142" y="82" width="58" height="22" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="1171.0" y="97.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Right</text>
+<rect x="1204" y="82" width="58" height="22" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="1233.0" y="97.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Top</text>
+<text x="956" y="128" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal">Yaw (around the person)</text>
+<rect x="1200" y="116" width="64" height="20" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="1206" y="130.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">35°</text>
+<line x1="956" y1="146" x2="1264" y2="146" stroke="#2e323a" stroke-width="4" stroke-linecap="round"/>
+<line x1="956" y1="146" x2="1139.876" y2="146" stroke="#4fa3ff" stroke-width="4" stroke-linecap="round"/>
+<circle cx="1139.876" cy="146" r="7" fill="#e6e6e6"/>
+<text x="956" y="164" fill="#9aa0aa" font-size="11" text-anchor="start" font-weight="normal">-180°</text>
+<text x="1264" y="164" fill="#9aa0aa" font-size="11" text-anchor="end" font-weight="normal">180°</text>
+<text x="956" y="180" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal">Eye height above the floor</text>
+<rect x="1200" y="168" width="64" height="20" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="1206" y="182.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">1.55 m</text>
+<line x1="956" y1="198" x2="1264" y2="198" stroke="#2e323a" stroke-width="4" stroke-linecap="round"/>
+<line x1="956" y1="198" x2="1163.9" y2="198" stroke="#4fa3ff" stroke-width="4" stroke-linecap="round"/>
+<circle cx="1163.9" cy="198" r="7" fill="#e6e6e6"/>
+<text x="956" y="216" fill="#9aa0aa" font-size="11" text-anchor="start" font-weight="normal">0.20 m</text>
+<text x="1264" y="216" fill="#9aa0aa" font-size="11" text-anchor="end" font-weight="normal">2.20 m</text>
+<text x="956" y="232" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal">Distance to the target</text>
+<rect x="1200" y="220" width="64" height="20" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="1206" y="234.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">1.20 m</text>
+<line x1="956" y1="250" x2="1264" y2="250" stroke="#2e323a" stroke-width="4" stroke-linecap="round"/>
+<line x1="956" y1="250" x2="1014.52" y2="250" stroke="#4fa3ff" stroke-width="4" stroke-linecap="round"/>
+<circle cx="1014.52" cy="250" r="7" fill="#e6e6e6"/>
+<text x="956" y="268" fill="#9aa0aa" font-size="11" text-anchor="start" font-weight="normal">0.30 m</text>
+<text x="1264" y="268" fill="#9aa0aa" font-size="11" text-anchor="end" font-weight="normal">5.00 m</text>
+<text x="956" y="284" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal">Field of view (vertical)</text>
+<rect x="1200" y="272" width="64" height="20" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="1206" y="286.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">60°</text>
+<line x1="956" y1="302" x2="1264" y2="302" stroke="#2e323a" stroke-width="4" stroke-linecap="round"/>
+<line x1="956" y1="302" x2="1110.0" y2="302" stroke="#4fa3ff" stroke-width="4" stroke-linecap="round"/>
+<circle cx="1110.0" cy="302" r="7" fill="#e6e6e6"/>
+<text x="956" y="320" fill="#9aa0aa" font-size="11" text-anchor="start" font-weight="normal">20°</text>
+<text x="1264" y="320" fill="#9aa0aa" font-size="11" text-anchor="end" font-weight="normal">100°</text>
+<text x="956" y="336" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal">Roll (head tilt)</text>
+<rect x="1200" y="324" width="64" height="20" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="1206" y="338.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">0°</text>
+<line x1="956" y1="354" x2="1264" y2="354" stroke="#2e323a" stroke-width="4" stroke-linecap="round"/>
+<line x1="956" y1="354" x2="1110.0" y2="354" stroke="#4fa3ff" stroke-width="4" stroke-linecap="round"/>
+<circle cx="1110.0" cy="354" r="7" fill="#e6e6e6"/>
+<text x="956" y="372" fill="#9aa0aa" font-size="11" text-anchor="start" font-weight="normal">-45°</text>
+<text x="1264" y="372" fill="#9aa0aa" font-size="11" text-anchor="end" font-weight="normal">45°</text>
+<text x="956" y="390" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal">Look at</text>
+<rect x="1050" y="376" width="120" height="24" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="1056" y="392.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal">chest</text>
+<text x="1158" y="392.5" fill="#9aa0aa" font-size="13" text-anchor="middle" font-weight="normal">▾</text>
+<text x="956" y="420" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal">Output</text>
+<rect x="1004" y="406" width="70" height="22" rx="4" fill="#21466e" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="1039.0" y="421.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Portrait</text>
+<rect x="1076" y="406" width="76" height="22" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="1114.0" y="421.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Landscape</text>
+<rect x="1154" y="406" width="56" height="22" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="1182.0" y="421.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Custom</text>
+<circle cx="963" cy="446" r="6.5" fill="#2a2e36" stroke="#2e323a"/>
+<circle cx="963" cy="446" r="3.5" fill="#4fa3ff"/>
+<text x="975" y="450.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal">fit</text>
+<circle cx="1017" cy="446" r="6.5" fill="#2a2e36" stroke="#2e323a"/>
+<text x="1029" y="450.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal">true camera</text>
+<text x="1130" y="450" fill="#9aa0aa" font-size="11" text-anchor="start" font-weight="normal">custom: x64, ~1 MP</text>
+<text x="956" y="475" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal">margin %  top</text>
+<rect x="1044" y="460" width="36" height="22" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="1050" y="475.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">10</text>
+<text x="1086" y="475" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal">bottom</text>
+<rect x="1132" y="460" width="36" height="22" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="1138" y="475.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">9</text>
+<text x="1174" y="475" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal">sides</text>
+<rect x="1212" y="460" width="36" height="22" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="1218" y="475.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">5</text>
+<text x="956" y="502" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal">Layers</text>
+<rect x="1004" y="489" width="14" height="14" rx="2" fill="#4fa3ff" stroke="#2e323a" />
+<path d="M1007 496 l3 3 l6 -7" stroke="#fff" stroke-width="2" fill="none"/>
+<text x="1024" y="501" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal">OpenPose 18</text>
+<rect x="1120" y="489" width="14" height="14" rx="2" fill="#4fa3ff" stroke="#2e323a" />
+<path d="M1123 496 l3 3 l6 -7" stroke="#fff" stroke-width="2" fill="none"/>
+<text x="1140" y="501" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal">MediaPipe 33</text>
+<text x="956" y="528" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal">Hide joints with visibility below</text>
+<rect x="1200" y="514" width="64" height="22" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="1206" y="529.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">0.30</text>
+<rect x="956" y="544" width="308" height="134" rx="4" fill="#14161a" stroke="#2e323a" />
+<text x="964" y="560" fill="#9aa0aa" font-size="11" text-anchor="start" font-weight="normal">top view</text>
+<circle cx="1110.0" cy="617.0" r="44" fill="none" stroke="#2e323a" stroke-dasharray="3 3"/>
+<circle cx="1110.0" cy="617.0" r="9" fill="#e6e6e6"/>
+<path d="M1110.0 626.0 l0 16" stroke="#e6e6e6" stroke-width="2" marker-end=""/>
+<path d="M1105.0 637.0 l5 6 l5 -6" stroke="#e6e6e6" stroke-width="2" fill="none"/>
+<rect x="1101.0" y="656" width="18" height="12" fill="#5a606a"/>
+<text x="1124.0" y="666" fill="#5a606a" font-size="11" text-anchor="start" font-weight="normal">source camera</text>
+<path d="M1135.4 653.2 L1130.5 598.2 L1085.3 629.9 Z" fill="#4fa3ff" fill-opacity="0.14" stroke="#4fa3ff" stroke-opacity="0.5"/>
+<circle cx="1135.4" cy="653.2" r="7" fill="#4fa3ff"/>
+<text x="1147.3635500154433" y="657.2229033984593" fill="#4fa3ff" font-size="11" text-anchor="start" font-weight="normal">POV eye</text>
+<rect x="0" y="690" width="1280" height="110" rx="0" fill="#1f2228" stroke="#2e323a" />
+<line x1="12" y1="706" x2="1268" y2="706" stroke="#2e323a" stroke-width="4" stroke-linecap="round"/>
+<line x1="12" y1="706" x2="526.9599999999999" y2="706" stroke="#4fa3ff" stroke-width="4" stroke-linecap="round"/>
+<circle cx="526.9599999999999" cy="706" r="7" fill="#e6e6e6"/>
+<rect x="12" y="720" width="46" height="24" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="35.0" y="736.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">« 30</text>
+<rect x="62" y="720" width="40" height="24" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="82.0" y="736.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">‹ 1</text>
+<text x="112" y="737" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">frame</text>
+<rect x="160" y="720" width="56" height="24" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="166" y="736.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">123</text>
+<text x="222" y="737" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">/ 300</text>
+<rect x="268" y="720" width="40" height="24" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="288.0" y="736.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">1 ›</text>
+<rect x="312" y="720" width="46" height="24" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="335.0" y="736.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">30 »</text>
+<text x="368" y="737" fill="#9aa0aa" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">00:00:04:03</text>
+<rect x="470" y="720" width="96" height="24" rx="4" fill="#21466e" stroke="#2f6bab" />
+<text x="518.0" y="736.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Capture (C)</text>
+<rect x="572" y="720" width="76" height="24" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="610.0" y="736.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Pose (P)</text>
+<rect x="654" y="720" width="118" height="24" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="713.0" y="736.5" fill="#e6e6e6" font-size="13" text-anchor="middle" font-weight="normal">Export (Ctrl+E)</text>
+<rect x="782" y="725" width="14" height="14" rx="2" fill="#4fa3ff" stroke="#2e323a" />
+<path d="M785 732 l3 3 l6 -7" stroke="#fff" stroke-width="2" fill="none"/>
+<text x="802" y="737" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal">source camera</text>
+<text x="906" y="737" fill="#9aa0aa" font-size="13" text-anchor="start" font-weight="normal">shot</text>
+<rect x="938" y="720" width="104" height="24" rx="4" fill="#2a2e36" stroke="#ffd24a" stroke-width="1.5"/>
+<text x="944" y="736.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal">Character</text>
+<text x="1030" y="736.5" fill="#9aa0aa" font-size="13" text-anchor="middle" font-weight="normal">▾</text>
+<rect x="1046" y="720" width="120" height="24" rx="4" fill="#2a2e36" stroke="#2e323a" />
+<text x="1052" y="736.5" fill="#e6e6e6" font-size="13" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">FRA-007</text>
+<text x="12" y="774" fill="#5ccf86" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">exported FRA-007 f000123: openpose\src, openpose\pov (y035_h155_d120_f60), mediapipe, zkroto</text>
+<text x="12" y="792" fill="#9aa0aa" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">pose frame 123: 2 person(s), using person 1</text>
+<circle cx="470.0" cy="380" r="9" fill="#ffd24a"/>
+<text x="470.0" y="384.5" fill="#000" font-size="12" text-anchor="middle" font-weight="bold">4</text>
+<circle cx="948" cy="93" r="9" fill="#ffd24a"/>
+<text x="948" y="97.5" fill="#000" font-size="12" text-anchor="middle" font-weight="bold">5</text>
+<circle cx="948" cy="568" r="9" fill="#ffd24a"/>
+<text x="948" y="572.5" fill="#000" font-size="12" text-anchor="middle" font-weight="bold">6</text>
+<circle cx="948" cy="417" r="9" fill="#ffd24a"/>
+<text x="948" y="421.5" fill="#000" font-size="12" text-anchor="middle" font-weight="bold">7</text>
+<circle cx="948" cy="446" r="9" fill="#ffd24a"/>
+<text x="948" y="450.5" fill="#000" font-size="12" text-anchor="middle" font-weight="bold">8</text>
+<circle cx="948" cy="498" r="9" fill="#ffd24a"/>
+<text x="948" y="502.5" fill="#000" font-size="12" text-anchor="middle" font-weight="bold">9</text>
+<text x="16" y="100" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">4  Orbit on the canvas:</text>
+<text x="16" y="117" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    drag left/right = yaw,</text>
+<text x="16" y="134" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    drag up/down = eye height,</text>
+<text x="16" y="151" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    wheel = distance,</text>
+<text x="16" y="168" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    double-click = Reset.</text>
+<text x="16" y="185" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve"></text>
+<text x="16" y="202" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">5  Presets set yaw / height only:</text>
+<text x="16" y="219" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    Front 0, Back 180, Left 90,</text>
+<text x="16" y="236" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    Right -90 (the person's own</text>
+<text x="16" y="253" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    sides), Top = high eye.</text>
+<text x="16" y="270" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    Yaw 0 = where the source</text>
+<text x="16" y="287" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    camera stands.</text>
+<text x="16" y="304" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve"></text>
+<text x="16" y="321" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">6  Top view: person (dot, arrow</text>
+<text x="16" y="338" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    = facing), source camera,</text>
+<text x="16" y="355" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    POV eye and its view cone.</text>
+<text x="16" y="372" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve"></text>
+<text x="16" y="389" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">7  832 x 1216 Portrait /</text>
+<text x="16" y="406" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    Landscape; Custom = x64,</text>
+<text x="16" y="423" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    warn far from 1 MP.</text>
+<text x="16" y="440" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve"></text>
+<text x="16" y="457" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">8  fit = skeleton box inside</text>
+<text x="16" y="474" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    margins top / bottom / sides</text>
+<text x="16" y="491" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    (FRA-007 sheets: 10/9/5);</text>
+<text x="16" y="508" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    true camera = no scaling.</text>
+<text x="16" y="525" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve"></text>
+<text x="16" y="542" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">9  Layers on screen: OpenPose</text>
+<text x="16" y="559" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    18 (saved as PNG for</text>
+<text x="16" y="576" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    ControlNet) and MediaPipe 33</text>
+<text x="16" y="593" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    (shown here; saved as JSON</text>
+<text x="16" y="610" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    + one sheet per shot).</text>
+<text x="16" y="627" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve"></text>
+<text x="16" y="644" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">10 Points tab: the 33 points</text>
+<text x="16" y="661" fill="#ffd24a" font-size="12" text-anchor="start" font-weight="normal" font-family="Consolas, ui-monospace, monospace" xml:space="preserve">    of this frame as a table.</text>
+<circle cx="1126" cy="65" r="9" fill="#ffd24a"/>
+<text x="1126" y="69.5" fill="#000" font-size="12" text-anchor="middle" font-weight="bold">10</text>
+</svg>

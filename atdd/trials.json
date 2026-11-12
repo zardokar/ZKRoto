@@ -1,0 +1,11414 @@
+{
+ "about": {
+  "what": "Every way ZKRoto tried to turn the front.png pose into other camera angles, with its settings, data source, results joint by joint and PASS / FAIL. One file for all trials; the README only points here (user, voice 2026-11-09 22:0x).",
+  "check": "Reference check: ZKRoto's POV of the FRA-007 front.png pose (atdd/fixtures/front_pose_face.json) at yaw 0 and 90, eye at chest height, 3 m, fitted onto MediaPipe's own result on front.png / side.png (atdd/fixtures/side_pose.json). Grid 20 x 30 over the 1024 x 1536 picture (51.2 px cells): a joint is right only in the same cell as the reference; near = one cell off; far = more. PASS = every joint of every layer in the same cell.",
+  "layers": "op = OpenPose 18 (from MediaPipe 33), mp = MediaPipe Pose 33, face = OpenPose face 70 (from Face Landmarker 478; front only - no face is found on side.png).",
+  "run": "node dev/zk_trial.js --id T.. --title \"...\" --params '{\"depth\":0.25,\"xy\":\"image\"}' --why \"...\" --record",
+  "rule": "Values AND the reference pictures, every time (user 2026-11-09 21:3x). A trial that is not in this file did not happen.",
+  "seenInAll": "In every re-run trial (T05-T12) the side view has the hips at the buttocks and the legs straight down, while side.png has the pelvis forward and the legs slanting back: that posture is not in the front picture; scaling MediaPipe's depth only trades lean against flatness."
+ },
+ "trials": [
+  {
+   "id": "T01",
+   "date": "2026-11-09 19:59",
+   "version": "0.2.1",
+   "title": "Face mesh fitted onto the pose's head points (best-fit similarity of 7 points: nose, eyes, mouth corners, ears)",
+   "params": {
+    "faceFit": "similarity to pose head points",
+    "depth": 1,
+    "xy": "world"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 world",
+    "face": "MediaPipe Face Landmarker 478"
+   },
+   "measuredBy": "manual (code removed in 0.2.2; numbers from .dropzone/zkroto/20261109_2123_face_fix_0_2_2/notes.md)",
+   "verdict": "FAIL",
+   "why": "Face ~1.4 x too big, eyebrows in the hair, jaw line broken: the pose's head points have guessed depth and the pose ears sit wider than the mesh cheeks. Sent with only the body number (1.3 %), picture not looked at closely.",
+   "results": {
+    "front": {
+     "body": "1.3 % mean / 2.7 % max of the height",
+     "face": "not measured; visibly wrong"
+    },
+    "side": {
+     "body": "7.9 % / 11.7 %"
+    }
+   }
+  },
+  {
+   "id": "T02",
+   "date": "2026-11-09 21:2x",
+   "version": "0.2.2-dev",
+   "title": "Face depth anchored at the pose ears instead of the nose",
+   "params": {
+    "faceAnchor": "ears",
+    "depth": 0.25,
+    "xy": "world"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 world",
+    "face": "MediaPipe Face Landmarker 478"
+   },
+   "measuredBy": "manual (tried, not kept)",
+   "verdict": "FAIL",
+   "why": "Side view: the near half of the face then sits about as far in front of the drawn profile as the nose anchor sits behind it.",
+   "results": {
+    "side": {
+     "face": "in front of the drawn profile by ~the same amount as T03 behind"
+    }
+   }
+  },
+  {
+   "id": "T03",
+   "date": "2026-11-09 21:5x",
+   "version": "0.2.3-dev",
+   "title": "x, y AND z from the image landmarks (image z as depth)",
+   "params": {
+    "xy": "image",
+    "z": "image landmark z"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 image (x, y, z)"
+   },
+   "measuredBy": "manual (experiment script, not kept)",
+   "verdict": "FAIL",
+   "why": "Image z is even more exaggerated than world z (nose -1.4 x the picture width): depth 1 side 20.9 % mean, depth 0.25 side 6.5 % mean / 9.5 % max.",
+   "results": {
+    "front": {
+     "body": "depth 0.25: 1.3 % / 3.1 %"
+    },
+    "side": {
+     "body": "depth 0.25: 6.5 % / 9.5 %"
+    }
+   }
+  },
+  {
+   "id": "T04",
+   "date": "2026-11-09 21:5x",
+   "version": "0.2.3-dev",
+   "title": "Flat body (depth 0 / 0.05) with the 0.2.3 framing",
+   "params": {
+    "depth": 0,
+    "xy": "world"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 world"
+   },
+   "measuredBy": "manual",
+   "verdict": "FAIL",
+   "why": "Depth 0: side 21.8 % mean - partly a framing bug (a skeleton seen edge-on had no width, so it was left unframed; fixed in 0.2.4). Depth 0.05 after the fix: side 3.2 % mean, hips 6 % - MediaPipe's world proportions (wide hips, short torso) still differ from the drawing.",
+   "results": {
+    "side": {
+     "body": "depth 0.05: 3.2 % mean / 6.0 % max"
+    }
+   }
+  },
+  {
+   "id": "T05",
+   "date": "2026-11-09 22:15",
+   "version": "0.2.3",
+   "title": "MediaPipe 3D as it is (0.2.2): world x, y, z",
+   "params": {
+    "depth": 1,
+    "xy": "world"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 (image + world) -> OpenPose 18",
+    "face": "MediaPipe Face Landmarker 478 -> OpenPose face 70"
+   },
+   "camera": {
+    "distance": 3,
+    "eye": "chest height",
+    "yaw": {
+     "front": 0,
+     "side": 90
+    }
+   },
+   "grid": {
+    "cols": 20,
+    "rows": 30
+   },
+   "measuredBy": "dev/zk_trial.js",
+   "verdict": "FAIL",
+   "why": "Seen (grid, 22:2x): side - upper body leans forward, head far in front of the side.png head, legs slant forward. Front - hips wider and higher than the drawing (MediaPipe's own body proportions). Cause: MediaPipe's depth guess from a flat front drawing.",
+   "results": {
+    "front": {
+     "op": {
+      "summary": {
+       "n": 18,
+       "same": 11,
+       "near": 7,
+       "far": 0,
+       "worst": "right shoulder left 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "right elbow",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "right hip",
+        "near",
+        "left 1"
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 16,
+       "near": 17,
+       "far": 0,
+       "worst": "left eye inner left 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye outer",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "near",
+        "down 1"
+       ],
+       [
+        "mouth right",
+        "near",
+        "down 1"
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "left index",
+        "same",
+        ""
+       ],
+       [
+        "right index",
+        "near",
+        "down 1"
+       ],
+       [
+        "left thumb",
+        "same",
+        ""
+       ],
+       [
+        "right thumb",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "near",
+        "left 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "left heel",
+        "near",
+        "right 1"
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "near",
+        "right 1"
+       ],
+       [
+        "right foot index",
+        "near",
+        "right 1"
+       ]
+      ]
+     },
+     "face": {
+      "summary": {
+       "n": 70,
+       "same": 55,
+       "near": 15,
+       "far": 0,
+       "worst": "face 3 down 1"
+      },
+      "joints": [
+       [
+        "face 0",
+        "same",
+        ""
+       ],
+       [
+        "face 1",
+        "same",
+        ""
+       ],
+       [
+        "face 2",
+        "same",
+        ""
+       ],
+       [
+        "face 3",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 4",
+        "same",
+        ""
+       ],
+       [
+        "face 5",
+        "same",
+        ""
+       ],
+       [
+        "face 6",
+        "same",
+        ""
+       ],
+       [
+        "face 7",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 8",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 9",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 10",
+        "same",
+        ""
+       ],
+       [
+        "face 11",
+        "same",
+        ""
+       ],
+       [
+        "face 12",
+        "same",
+        ""
+       ],
+       [
+        "face 13",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 14",
+        "same",
+        ""
+       ],
+       [
+        "face 15",
+        "same",
+        ""
+       ],
+       [
+        "face 16",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 17",
+        "same",
+        ""
+       ],
+       [
+        "face 18",
+        "same",
+        ""
+       ],
+       [
+        "face 19",
+        "same",
+        ""
+       ],
+       [
+        "face 20",
+        "same",
+        ""
+       ],
+       [
+        "face 21",
+        "same",
+        ""
+       ],
+       [
+        "face 22",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 23",
+        "same",
+        ""
+       ],
+       [
+        "face 24",
+        "same",
+        ""
+       ],
+       [
+        "face 25",
+        "same",
+        ""
+       ],
+       [
+        "face 26",
+        "same",
+        ""
+       ],
+       [
+        "face 27",
+        "same",
+        ""
+       ],
+       [
+        "face 28",
+        "same",
+        ""
+       ],
+       [
+        "face 29",
+        "same",
+        ""
+       ],
+       [
+        "face 30",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 31",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 32",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 33",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 34",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 35",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 36",
+        "same",
+        ""
+       ],
+       [
+        "face 37",
+        "same",
+        ""
+       ],
+       [
+        "face 38",
+        "same",
+        ""
+       ],
+       [
+        "face 39",
+        "same",
+        ""
+       ],
+       [
+        "face 40",
+        "same",
+        ""
+       ],
+       [
+        "face 41",
+        "same",
+        ""
+       ],
+       [
+        "face 42",
+        "same",
+        ""
+       ],
+       [
+        "face 43",
+        "same",
+        ""
+       ],
+       [
+        "face 44",
+        "same",
+        ""
+       ],
+       [
+        "face 45",
+        "same",
+        ""
+       ],
+       [
+        "face 46",
+        "same",
+        ""
+       ],
+       [
+        "face 47",
+        "same",
+        ""
+       ],
+       [
+        "face 48",
+        "same",
+        ""
+       ],
+       [
+        "face 49",
+        "same",
+        ""
+       ],
+       [
+        "face 50",
+        "same",
+        ""
+       ],
+       [
+        "face 51",
+        "same",
+        ""
+       ],
+       [
+        "face 52",
+        "same",
+        ""
+       ],
+       [
+        "face 53",
+        "same",
+        ""
+       ],
+       [
+        "face 54",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 55",
+        "same",
+        ""
+       ],
+       [
+        "face 56",
+        "same",
+        ""
+       ],
+       [
+        "face 57",
+        "same",
+        ""
+       ],
+       [
+        "face 58",
+        "same",
+        ""
+       ],
+       [
+        "face 59",
+        "same",
+        ""
+       ],
+       [
+        "face 60",
+        "same",
+        ""
+       ],
+       [
+        "face 61",
+        "same",
+        ""
+       ],
+       [
+        "face 62",
+        "same",
+        ""
+       ],
+       [
+        "face 63",
+        "same",
+        ""
+       ],
+       [
+        "face 64",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 65",
+        "same",
+        ""
+       ],
+       [
+        "face 66",
+        "same",
+        ""
+       ],
+       [
+        "face 67",
+        "same",
+        ""
+       ],
+       [
+        "face 68",
+        "same",
+        ""
+       ],
+       [
+        "face 69",
+        "same",
+        ""
+       ]
+      ]
+     }
+    },
+    "side": {
+     "op": {
+      "summary": {
+       "n": 16,
+       "same": 0,
+       "near": 2,
+       "far": 14,
+       "worst": "nose left 4"
+      },
+      "joints": [
+       [
+        "nose",
+        "far",
+        "left 4"
+       ],
+       [
+        "neck",
+        "far",
+        "left 2"
+       ],
+       [
+        "right shoulder",
+        "far",
+        "left 2"
+       ],
+       [
+        "left shoulder",
+        "far",
+        "left 2"
+       ],
+       [
+        "left elbow",
+        "near",
+        "up 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "up 1"
+       ],
+       [
+        "right hip",
+        "far",
+        "up 2, right 3"
+       ],
+       [
+        "right knee",
+        "far",
+        "up 1, right 2"
+       ],
+       [
+        "right ankle",
+        "far",
+        "up 1, right 3"
+       ],
+       [
+        "left hip",
+        "far",
+        "up 1, right 4"
+       ],
+       [
+        "left knee",
+        "far",
+        "right 2"
+       ],
+       [
+        "left ankle",
+        "far",
+        "right 3"
+       ],
+       [
+        "right eye",
+        "far",
+        "left 3"
+       ],
+       [
+        "left eye",
+        "far",
+        "left 3"
+       ],
+       [
+        "right ear",
+        "far",
+        "left 3"
+       ],
+       [
+        "left ear",
+        "far",
+        "left 3"
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 4,
+       "near": 6,
+       "far": 23,
+       "worst": "nose left 4"
+      },
+      "joints": [
+       [
+        "nose",
+        "far",
+        "left 4"
+       ],
+       [
+        "left eye inner",
+        "far",
+        "left 3"
+       ],
+       [
+        "left eye",
+        "far",
+        "left 3"
+       ],
+       [
+        "left eye outer",
+        "far",
+        "left 3"
+       ],
+       [
+        "right eye inner",
+        "far",
+        "left 3"
+       ],
+       [
+        "right eye",
+        "far",
+        "left 3"
+       ],
+       [
+        "right eye outer",
+        "far",
+        "left 3"
+       ],
+       [
+        "left ear",
+        "far",
+        "left 3"
+       ],
+       [
+        "right ear",
+        "far",
+        "left 3"
+       ],
+       [
+        "mouth left",
+        "far",
+        "left 3"
+       ],
+       [
+        "mouth right",
+        "far",
+        "left 3"
+       ],
+       [
+        "left shoulder",
+        "far",
+        "left 2"
+       ],
+       [
+        "right shoulder",
+        "far",
+        "left 2"
+       ],
+       [
+        "left elbow",
+        "near",
+        "up 1"
+       ],
+       [
+        "right elbow",
+        "near",
+        "up 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "up 1"
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left pinky",
+        "same",
+        ""
+       ],
+       [
+        "right pinky",
+        "same",
+        ""
+       ],
+       [
+        "left index",
+        "near",
+        "left 1"
+       ],
+       [
+        "right index",
+        "same",
+        ""
+       ],
+       [
+        "left thumb",
+        "near",
+        "up 1"
+       ],
+       [
+        "right thumb",
+        "near",
+        "up 1"
+       ],
+       [
+        "left hip",
+        "far",
+        "up 1, right 4"
+       ],
+       [
+        "right hip",
+        "far",
+        "up 2, right 3"
+       ],
+       [
+        "left knee",
+        "far",
+        "right 2"
+       ],
+       [
+        "right knee",
+        "far",
+        "up 1, right 2"
+       ],
+       [
+        "left ankle",
+        "far",
+        "right 3"
+       ],
+       [
+        "right ankle",
+        "far",
+        "up 1, right 3"
+       ],
+       [
+        "left heel",
+        "far",
+        "right 3"
+       ],
+       [
+        "right heel",
+        "far",
+        "up 1, right 2"
+       ],
+       [
+        "left foot index",
+        "far",
+        "right 3"
+       ],
+       [
+        "right foot index",
+        "far",
+        "up 1, right 4"
+       ]
+      ]
+     }
+    }
+   },
+   "lookedAt": "2026-11-09 22:2x, picture with the 20 x 30 grid (not saved)"
+  },
+  {
+   "id": "T06",
+   "date": "2026-11-09 22:15",
+   "version": "0.2.3",
+   "title": "0.2.3 default: world x, y, depth x 0.25",
+   "params": {
+    "depth": 0.25,
+    "xy": "world"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 (image + world) -> OpenPose 18",
+    "face": "MediaPipe Face Landmarker 478 -> OpenPose face 70"
+   },
+   "camera": {
+    "distance": 3,
+    "eye": "chest height",
+    "yaw": {
+     "front": 0,
+     "side": 90
+    }
+   },
+   "grid": {
+    "cols": 20,
+    "rows": 30
+   },
+   "measuredBy": "dev/zk_trial.js",
+   "verdict": "FAIL",
+   "why": "Seen: side - upright, head over the shoulders, but hips at the buttocks and legs straight down (side.png: pelvis forward, legs slant back). Front - hips wider than the drawing. The mean (2.4 %) hid joints 4-6 % off; this was shipped as 0.2.3.",
+   "results": {
+    "front": {
+     "op": {
+      "summary": {
+       "n": 18,
+       "same": 12,
+       "near": 6,
+       "far": 0,
+       "worst": "right elbow left 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "near",
+        "left 1"
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1, left 1"
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "left hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "near",
+        "up 1"
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 19,
+       "near": 14,
+       "far": 0,
+       "worst": "left eye inner left 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye outer",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "near",
+        "up 1"
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "same",
+        ""
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "near",
+        "left 1"
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left pinky",
+        "same",
+        ""
+       ],
+       [
+        "right pinky",
+        "near",
+        "right 1"
+       ],
+       [
+        "left index",
+        "near",
+        "up 1"
+       ],
+       [
+        "right index",
+        "same",
+        ""
+       ],
+       [
+        "left thumb",
+        "near",
+        "up 1"
+       ],
+       [
+        "right thumb",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1, left 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "left heel",
+        "near",
+        "right 1"
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right foot index",
+        "near",
+        "up 1, right 1"
+       ]
+      ]
+     },
+     "face": {
+      "summary": {
+       "n": 70,
+       "same": 61,
+       "near": 9,
+       "far": 0,
+       "worst": "face 3 down 1"
+      },
+      "joints": [
+       [
+        "face 0",
+        "same",
+        ""
+       ],
+       [
+        "face 1",
+        "same",
+        ""
+       ],
+       [
+        "face 2",
+        "same",
+        ""
+       ],
+       [
+        "face 3",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 4",
+        "same",
+        ""
+       ],
+       [
+        "face 5",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 6",
+        "same",
+        ""
+       ],
+       [
+        "face 7",
+        "same",
+        ""
+       ],
+       [
+        "face 8",
+        "same",
+        ""
+       ],
+       [
+        "face 9",
+        "same",
+        ""
+       ],
+       [
+        "face 10",
+        "same",
+        ""
+       ],
+       [
+        "face 11",
+        "same",
+        ""
+       ],
+       [
+        "face 12",
+        "same",
+        ""
+       ],
+       [
+        "face 13",
+        "same",
+        ""
+       ],
+       [
+        "face 14",
+        "same",
+        ""
+       ],
+       [
+        "face 15",
+        "same",
+        ""
+       ],
+       [
+        "face 16",
+        "same",
+        ""
+       ],
+       [
+        "face 17",
+        "same",
+        ""
+       ],
+       [
+        "face 18",
+        "same",
+        ""
+       ],
+       [
+        "face 19",
+        "same",
+        ""
+       ],
+       [
+        "face 20",
+        "same",
+        ""
+       ],
+       [
+        "face 21",
+        "same",
+        ""
+       ],
+       [
+        "face 22",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 23",
+        "same",
+        ""
+       ],
+       [
+        "face 24",
+        "same",
+        ""
+       ],
+       [
+        "face 25",
+        "same",
+        ""
+       ],
+       [
+        "face 26",
+        "same",
+        ""
+       ],
+       [
+        "face 27",
+        "same",
+        ""
+       ],
+       [
+        "face 28",
+        "same",
+        ""
+       ],
+       [
+        "face 29",
+        "same",
+        ""
+       ],
+       [
+        "face 30",
+        "same",
+        ""
+       ],
+       [
+        "face 31",
+        "same",
+        ""
+       ],
+       [
+        "face 32",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 33",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 34",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 35",
+        "same",
+        ""
+       ],
+       [
+        "face 36",
+        "same",
+        ""
+       ],
+       [
+        "face 37",
+        "same",
+        ""
+       ],
+       [
+        "face 38",
+        "same",
+        ""
+       ],
+       [
+        "face 39",
+        "same",
+        ""
+       ],
+       [
+        "face 40",
+        "same",
+        ""
+       ],
+       [
+        "face 41",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 42",
+        "same",
+        ""
+       ],
+       [
+        "face 43",
+        "same",
+        ""
+       ],
+       [
+        "face 44",
+        "same",
+        ""
+       ],
+       [
+        "face 45",
+        "same",
+        ""
+       ],
+       [
+        "face 46",
+        "same",
+        ""
+       ],
+       [
+        "face 47",
+        "same",
+        ""
+       ],
+       [
+        "face 48",
+        "same",
+        ""
+       ],
+       [
+        "face 49",
+        "same",
+        ""
+       ],
+       [
+        "face 50",
+        "same",
+        ""
+       ],
+       [
+        "face 51",
+        "same",
+        ""
+       ],
+       [
+        "face 52",
+        "same",
+        ""
+       ],
+       [
+        "face 53",
+        "same",
+        ""
+       ],
+       [
+        "face 54",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 55",
+        "same",
+        ""
+       ],
+       [
+        "face 56",
+        "same",
+        ""
+       ],
+       [
+        "face 57",
+        "same",
+        ""
+       ],
+       [
+        "face 58",
+        "same",
+        ""
+       ],
+       [
+        "face 59",
+        "same",
+        ""
+       ],
+       [
+        "face 60",
+        "same",
+        ""
+       ],
+       [
+        "face 61",
+        "same",
+        ""
+       ],
+       [
+        "face 62",
+        "same",
+        ""
+       ],
+       [
+        "face 63",
+        "same",
+        ""
+       ],
+       [
+        "face 64",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 65",
+        "same",
+        ""
+       ],
+       [
+        "face 66",
+        "same",
+        ""
+       ],
+       [
+        "face 67",
+        "same",
+        ""
+       ],
+       [
+        "face 68",
+        "same",
+        ""
+       ],
+       [
+        "face 69",
+        "same",
+        ""
+       ]
+      ]
+     }
+    },
+    "side": {
+     "op": {
+      "summary": {
+       "n": 16,
+       "same": 4,
+       "near": 11,
+       "far": 1,
+       "worst": "right hip up 2, right 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "near",
+        "left 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "left elbow",
+        "near",
+        "up 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right hip",
+        "far",
+        "up 2, right 1"
+       ],
+       [
+        "right knee",
+        "near",
+        "up 1"
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1"
+       ],
+       [
+        "left hip",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "near",
+        "left 1"
+       ],
+       [
+        "left ear",
+        "near",
+        "left 1"
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 10,
+       "near": 20,
+       "far": 3,
+       "worst": "right foot index up 1, right 3"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ear",
+        "near",
+        "left 1"
+       ],
+       [
+        "mouth left",
+        "same",
+        ""
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "left elbow",
+        "near",
+        "up 1"
+       ],
+       [
+        "right elbow",
+        "near",
+        "up 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "right 1"
+       ],
+       [
+        "left pinky",
+        "near",
+        "right 1"
+       ],
+       [
+        "right pinky",
+        "near",
+        "right 1"
+       ],
+       [
+        "left index",
+        "near",
+        "right 1"
+       ],
+       [
+        "right index",
+        "near",
+        "right 1"
+       ],
+       [
+        "left thumb",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right thumb",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "left hip",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right hip",
+        "far",
+        "up 2, right 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "near",
+        "up 1"
+       ],
+       [
+        "left ankle",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1"
+       ],
+       [
+        "left heel",
+        "near",
+        "left 1"
+       ],
+       [
+        "right heel",
+        "near",
+        "up 1, left 1"
+       ],
+       [
+        "left foot index",
+        "far",
+        "right 2"
+       ],
+       [
+        "right foot index",
+        "far",
+        "up 1, right 3"
+       ]
+      ]
+     }
+    }
+   },
+   "lookedAt": "2026-11-09 22:2x, picture with the 20 x 30 grid (not saved)"
+  },
+  {
+   "id": "T07",
+   "date": "2026-11-09 22:15",
+   "version": "0.2.3",
+   "title": "world x, y, depth x 0.5",
+   "params": {
+    "depth": 0.5,
+    "xy": "world"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 (image + world) -> OpenPose 18",
+    "face": "MediaPipe Face Landmarker 478 -> OpenPose face 70"
+   },
+   "camera": {
+    "distance": 3,
+    "eye": "chest height",
+    "yaw": {
+     "front": 0,
+     "side": 90
+    }
+   },
+   "grid": {
+    "cols": 20,
+    "rows": 30
+   },
+   "measuredBy": "dev/zk_trial.js",
+   "verdict": "FAIL",
+   "why": "Seen: side - still leans forward, head in front of the drawn head, hips at the back.",
+   "results": {
+    "front": {
+     "op": {
+      "summary": {
+       "n": 18,
+       "same": 12,
+       "near": 6,
+       "far": 0,
+       "worst": "right shoulder left 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "right elbow",
+        "near",
+        "left 1"
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1, left 1"
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "left hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 19,
+       "near": 14,
+       "far": 0,
+       "worst": "left eye inner left 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye outer",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "same",
+        ""
+       ],
+       [
+        "mouth right",
+        "near",
+        "down 1"
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "near",
+        "left 1"
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left pinky",
+        "same",
+        ""
+       ],
+       [
+        "right pinky",
+        "near",
+        "right 1"
+       ],
+       [
+        "left index",
+        "same",
+        ""
+       ],
+       [
+        "right index",
+        "same",
+        ""
+       ],
+       [
+        "left thumb",
+        "near",
+        "up 1"
+       ],
+       [
+        "right thumb",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1, left 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "left heel",
+        "near",
+        "right 1"
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right foot index",
+        "near",
+        "up 1, right 1"
+       ]
+      ]
+     },
+     "face": {
+      "summary": {
+       "n": 70,
+       "same": 60,
+       "near": 10,
+       "far": 0,
+       "worst": "face 3 down 1"
+      },
+      "joints": [
+       [
+        "face 0",
+        "same",
+        ""
+       ],
+       [
+        "face 1",
+        "same",
+        ""
+       ],
+       [
+        "face 2",
+        "same",
+        ""
+       ],
+       [
+        "face 3",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 4",
+        "same",
+        ""
+       ],
+       [
+        "face 5",
+        "same",
+        ""
+       ],
+       [
+        "face 6",
+        "same",
+        ""
+       ],
+       [
+        "face 7",
+        "same",
+        ""
+       ],
+       [
+        "face 8",
+        "same",
+        ""
+       ],
+       [
+        "face 9",
+        "same",
+        ""
+       ],
+       [
+        "face 10",
+        "same",
+        ""
+       ],
+       [
+        "face 11",
+        "same",
+        ""
+       ],
+       [
+        "face 12",
+        "same",
+        ""
+       ],
+       [
+        "face 13",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 14",
+        "same",
+        ""
+       ],
+       [
+        "face 15",
+        "same",
+        ""
+       ],
+       [
+        "face 16",
+        "same",
+        ""
+       ],
+       [
+        "face 17",
+        "same",
+        ""
+       ],
+       [
+        "face 18",
+        "same",
+        ""
+       ],
+       [
+        "face 19",
+        "same",
+        ""
+       ],
+       [
+        "face 20",
+        "same",
+        ""
+       ],
+       [
+        "face 21",
+        "same",
+        ""
+       ],
+       [
+        "face 22",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 23",
+        "same",
+        ""
+       ],
+       [
+        "face 24",
+        "same",
+        ""
+       ],
+       [
+        "face 25",
+        "same",
+        ""
+       ],
+       [
+        "face 26",
+        "same",
+        ""
+       ],
+       [
+        "face 27",
+        "same",
+        ""
+       ],
+       [
+        "face 28",
+        "same",
+        ""
+       ],
+       [
+        "face 29",
+        "same",
+        ""
+       ],
+       [
+        "face 30",
+        "same",
+        ""
+       ],
+       [
+        "face 31",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 32",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 33",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 34",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 35",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 36",
+        "same",
+        ""
+       ],
+       [
+        "face 37",
+        "same",
+        ""
+       ],
+       [
+        "face 38",
+        "same",
+        ""
+       ],
+       [
+        "face 39",
+        "same",
+        ""
+       ],
+       [
+        "face 40",
+        "same",
+        ""
+       ],
+       [
+        "face 41",
+        "same",
+        ""
+       ],
+       [
+        "face 42",
+        "same",
+        ""
+       ],
+       [
+        "face 43",
+        "same",
+        ""
+       ],
+       [
+        "face 44",
+        "same",
+        ""
+       ],
+       [
+        "face 45",
+        "same",
+        ""
+       ],
+       [
+        "face 46",
+        "same",
+        ""
+       ],
+       [
+        "face 47",
+        "same",
+        ""
+       ],
+       [
+        "face 48",
+        "same",
+        ""
+       ],
+       [
+        "face 49",
+        "same",
+        ""
+       ],
+       [
+        "face 50",
+        "same",
+        ""
+       ],
+       [
+        "face 51",
+        "same",
+        ""
+       ],
+       [
+        "face 52",
+        "same",
+        ""
+       ],
+       [
+        "face 53",
+        "same",
+        ""
+       ],
+       [
+        "face 54",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 55",
+        "same",
+        ""
+       ],
+       [
+        "face 56",
+        "same",
+        ""
+       ],
+       [
+        "face 57",
+        "same",
+        ""
+       ],
+       [
+        "face 58",
+        "same",
+        ""
+       ],
+       [
+        "face 59",
+        "same",
+        ""
+       ],
+       [
+        "face 60",
+        "same",
+        ""
+       ],
+       [
+        "face 61",
+        "same",
+        ""
+       ],
+       [
+        "face 62",
+        "same",
+        ""
+       ],
+       [
+        "face 63",
+        "same",
+        ""
+       ],
+       [
+        "face 64",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 65",
+        "same",
+        ""
+       ],
+       [
+        "face 66",
+        "same",
+        ""
+       ],
+       [
+        "face 67",
+        "same",
+        ""
+       ],
+       [
+        "face 68",
+        "same",
+        ""
+       ],
+       [
+        "face 69",
+        "same",
+        ""
+       ]
+      ]
+     }
+    },
+    "side": {
+     "op": {
+      "summary": {
+       "n": 16,
+       "same": 1,
+       "near": 13,
+       "far": 2,
+       "worst": "right hip up 2, right 2"
+      },
+      "joints": [
+       [
+        "nose",
+        "near",
+        "left 1"
+       ],
+       [
+        "neck",
+        "near",
+        "left 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "left elbow",
+        "near",
+        "up 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right hip",
+        "far",
+        "up 2, right 2"
+       ],
+       [
+        "right knee",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "left hip",
+        "far",
+        "up 1, right 2"
+       ],
+       [
+        "left knee",
+        "near",
+        "right 1"
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ear",
+        "near",
+        "left 1"
+       ],
+       [
+        "left ear",
+        "near",
+        "left 1"
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 5,
+       "near": 24,
+       "far": 4,
+       "worst": "right foot index up 1, right 3"
+      },
+      "joints": [
+       [
+        "nose",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye inner",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye outer",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye inner",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye outer",
+        "near",
+        "left 1"
+       ],
+       [
+        "left ear",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ear",
+        "near",
+        "left 1"
+       ],
+       [
+        "mouth left",
+        "near",
+        "left 1"
+       ],
+       [
+        "mouth right",
+        "near",
+        "left 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "left elbow",
+        "near",
+        "up 1"
+       ],
+       [
+        "right elbow",
+        "near",
+        "up 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "right 1"
+       ],
+       [
+        "left pinky",
+        "same",
+        ""
+       ],
+       [
+        "right pinky",
+        "near",
+        "right 1"
+       ],
+       [
+        "left index",
+        "same",
+        ""
+       ],
+       [
+        "right index",
+        "same",
+        ""
+       ],
+       [
+        "left thumb",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right thumb",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "left hip",
+        "far",
+        "up 1, right 2"
+       ],
+       [
+        "right hip",
+        "far",
+        "up 2, right 2"
+       ],
+       [
+        "left knee",
+        "near",
+        "right 1"
+       ],
+       [
+        "right knee",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "near",
+        "up 1"
+       ],
+       [
+        "left foot index",
+        "far",
+        "right 2"
+       ],
+       [
+        "right foot index",
+        "far",
+        "up 1, right 3"
+       ]
+      ]
+     }
+    }
+   },
+   "lookedAt": "2026-11-09 22:2x, picture with the 20 x 30 grid (not saved)"
+  },
+  {
+   "id": "T08",
+   "date": "2026-11-09 22:15",
+   "version": "0.2.3",
+   "title": "world x, y, depth x 0.1",
+   "params": {
+    "depth": 0.1,
+    "xy": "world"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 (image + world) -> OpenPose 18",
+    "face": "MediaPipe Face Landmarker 478 -> OpenPose face 70"
+   },
+   "camera": {
+    "distance": 3,
+    "eye": "chest height",
+    "yaw": {
+     "front": 0,
+     "side": 90
+    }
+   },
+   "grid": {
+    "cols": 20,
+    "rows": 30
+   },
+   "measuredBy": "dev/zk_trial.js",
+   "verdict": "FAIL",
+   "why": "Seen: side - nearly one vertical line, head over the shoulders, hips and legs at the back of the body, legs straight. Front - hips wide (world proportions).",
+   "results": {
+    "front": {
+     "op": {
+      "summary": {
+       "n": 18,
+       "same": 10,
+       "near": 8,
+       "far": 0,
+       "worst": "right elbow left 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "near",
+        "left 1"
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1, left 1"
+       ],
+       [
+        "right knee",
+        "near",
+        "up 1"
+       ],
+       [
+        "right ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "left hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "near",
+        "up 1"
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 15,
+       "near": 18,
+       "far": 0,
+       "worst": "left eye inner left 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye outer",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "near",
+        "up 1"
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "same",
+        ""
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "near",
+        "left 1"
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left pinky",
+        "same",
+        ""
+       ],
+       [
+        "right pinky",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "left index",
+        "near",
+        "up 1"
+       ],
+       [
+        "right index",
+        "near",
+        "up 1"
+       ],
+       [
+        "left thumb",
+        "near",
+        "up 1"
+       ],
+       [
+        "right thumb",
+        "near",
+        "up 1"
+       ],
+       [
+        "left hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1, left 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "near",
+        "up 1"
+       ],
+       [
+        "left ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "right ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "left heel",
+        "near",
+        "right 1"
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right foot index",
+        "near",
+        "up 1, right 1"
+       ]
+      ]
+     },
+     "face": {
+      "summary": {
+       "n": 70,
+       "same": 62,
+       "near": 8,
+       "far": 0,
+       "worst": "face 5 right 1"
+      },
+      "joints": [
+       [
+        "face 0",
+        "same",
+        ""
+       ],
+       [
+        "face 1",
+        "same",
+        ""
+       ],
+       [
+        "face 2",
+        "same",
+        ""
+       ],
+       [
+        "face 3",
+        "same",
+        ""
+       ],
+       [
+        "face 4",
+        "same",
+        ""
+       ],
+       [
+        "face 5",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 6",
+        "same",
+        ""
+       ],
+       [
+        "face 7",
+        "same",
+        ""
+       ],
+       [
+        "face 8",
+        "same",
+        ""
+       ],
+       [
+        "face 9",
+        "same",
+        ""
+       ],
+       [
+        "face 10",
+        "same",
+        ""
+       ],
+       [
+        "face 11",
+        "same",
+        ""
+       ],
+       [
+        "face 12",
+        "same",
+        ""
+       ],
+       [
+        "face 13",
+        "same",
+        ""
+       ],
+       [
+        "face 14",
+        "same",
+        ""
+       ],
+       [
+        "face 15",
+        "same",
+        ""
+       ],
+       [
+        "face 16",
+        "same",
+        ""
+       ],
+       [
+        "face 17",
+        "same",
+        ""
+       ],
+       [
+        "face 18",
+        "same",
+        ""
+       ],
+       [
+        "face 19",
+        "same",
+        ""
+       ],
+       [
+        "face 20",
+        "same",
+        ""
+       ],
+       [
+        "face 21",
+        "same",
+        ""
+       ],
+       [
+        "face 22",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 23",
+        "same",
+        ""
+       ],
+       [
+        "face 24",
+        "same",
+        ""
+       ],
+       [
+        "face 25",
+        "same",
+        ""
+       ],
+       [
+        "face 26",
+        "same",
+        ""
+       ],
+       [
+        "face 27",
+        "same",
+        ""
+       ],
+       [
+        "face 28",
+        "same",
+        ""
+       ],
+       [
+        "face 29",
+        "same",
+        ""
+       ],
+       [
+        "face 30",
+        "same",
+        ""
+       ],
+       [
+        "face 31",
+        "same",
+        ""
+       ],
+       [
+        "face 32",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 33",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 34",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 35",
+        "same",
+        ""
+       ],
+       [
+        "face 36",
+        "same",
+        ""
+       ],
+       [
+        "face 37",
+        "same",
+        ""
+       ],
+       [
+        "face 38",
+        "same",
+        ""
+       ],
+       [
+        "face 39",
+        "same",
+        ""
+       ],
+       [
+        "face 40",
+        "same",
+        ""
+       ],
+       [
+        "face 41",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 42",
+        "same",
+        ""
+       ],
+       [
+        "face 43",
+        "same",
+        ""
+       ],
+       [
+        "face 44",
+        "same",
+        ""
+       ],
+       [
+        "face 45",
+        "same",
+        ""
+       ],
+       [
+        "face 46",
+        "same",
+        ""
+       ],
+       [
+        "face 47",
+        "same",
+        ""
+       ],
+       [
+        "face 48",
+        "same",
+        ""
+       ],
+       [
+        "face 49",
+        "same",
+        ""
+       ],
+       [
+        "face 50",
+        "same",
+        ""
+       ],
+       [
+        "face 51",
+        "same",
+        ""
+       ],
+       [
+        "face 52",
+        "same",
+        ""
+       ],
+       [
+        "face 53",
+        "same",
+        ""
+       ],
+       [
+        "face 54",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 55",
+        "same",
+        ""
+       ],
+       [
+        "face 56",
+        "same",
+        ""
+       ],
+       [
+        "face 57",
+        "same",
+        ""
+       ],
+       [
+        "face 58",
+        "same",
+        ""
+       ],
+       [
+        "face 59",
+        "same",
+        ""
+       ],
+       [
+        "face 60",
+        "same",
+        ""
+       ],
+       [
+        "face 61",
+        "same",
+        ""
+       ],
+       [
+        "face 62",
+        "same",
+        ""
+       ],
+       [
+        "face 63",
+        "same",
+        ""
+       ],
+       [
+        "face 64",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 65",
+        "same",
+        ""
+       ],
+       [
+        "face 66",
+        "same",
+        ""
+       ],
+       [
+        "face 67",
+        "same",
+        ""
+       ],
+       [
+        "face 68",
+        "same",
+        ""
+       ],
+       [
+        "face 69",
+        "same",
+        ""
+       ]
+      ]
+     }
+    },
+    "side": {
+     "op": {
+      "summary": {
+       "n": 16,
+       "same": 2,
+       "near": 13,
+       "far": 1,
+       "worst": "right hip up 2"
+      },
+      "joints": [
+       [
+        "nose",
+        "near",
+        "right 1"
+       ],
+       [
+        "neck",
+        "near",
+        "left 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "left elbow",
+        "near",
+        "up 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right hip",
+        "far",
+        "up 2"
+       ],
+       [
+        "right knee",
+        "near",
+        "up 1, left 1"
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1"
+       ],
+       [
+        "left hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "left knee",
+        "near",
+        "left 1"
+       ],
+       [
+        "left ankle",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye",
+        "near",
+        "right 1"
+       ],
+       [
+        "left eye",
+        "near",
+        "right 1"
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 2,
+       "near": 29,
+       "far": 2,
+       "worst": "right hip up 2"
+      },
+      "joints": [
+       [
+        "nose",
+        "near",
+        "right 1"
+       ],
+       [
+        "left eye inner",
+        "near",
+        "right 1"
+       ],
+       [
+        "left eye",
+        "near",
+        "right 1"
+       ],
+       [
+        "left eye outer",
+        "near",
+        "right 1"
+       ],
+       [
+        "right eye inner",
+        "near",
+        "right 1"
+       ],
+       [
+        "right eye",
+        "near",
+        "right 1"
+       ],
+       [
+        "right eye outer",
+        "near",
+        "right 1"
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "near",
+        "right 1"
+       ],
+       [
+        "mouth right",
+        "near",
+        "right 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "left elbow",
+        "near",
+        "up 1"
+       ],
+       [
+        "right elbow",
+        "near",
+        "up 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "right 1"
+       ],
+       [
+        "left pinky",
+        "near",
+        "right 1"
+       ],
+       [
+        "right pinky",
+        "near",
+        "right 1"
+       ],
+       [
+        "left index",
+        "near",
+        "right 1"
+       ],
+       [
+        "right index",
+        "near",
+        "right 1"
+       ],
+       [
+        "left thumb",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right thumb",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "left hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "right hip",
+        "far",
+        "up 2"
+       ],
+       [
+        "left knee",
+        "near",
+        "left 1"
+       ],
+       [
+        "right knee",
+        "near",
+        "up 1, left 1"
+       ],
+       [
+        "left ankle",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1"
+       ],
+       [
+        "left heel",
+        "near",
+        "left 1"
+       ],
+       [
+        "right heel",
+        "near",
+        "up 1, left 1"
+       ],
+       [
+        "left foot index",
+        "near",
+        "right 1"
+       ],
+       [
+        "right foot index",
+        "far",
+        "up 1, right 2"
+       ]
+      ]
+     }
+    }
+   },
+   "lookedAt": "2026-11-09 22:2x, picture with the 20 x 30 grid (not saved)"
+  },
+  {
+   "id": "T09",
+   "date": "2026-11-09 22:15",
+   "version": "0.2.3",
+   "title": "image x, y (torso scale) + world depth x 1",
+   "params": {
+    "depth": 1,
+    "xy": "image"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 (image + world) -> OpenPose 18",
+    "face": "MediaPipe Face Landmarker 478 -> OpenPose face 70"
+   },
+   "camera": {
+    "distance": 3,
+    "eye": "chest height",
+    "yaw": {
+     "front": 0,
+     "side": 90
+    }
+   },
+   "grid": {
+    "cols": 20,
+    "rows": 30
+   },
+   "measuredBy": "dev/zk_trial.js",
+   "verdict": "FAIL",
+   "why": "Seen: front - matches the drawing's proportions; side - leans forward like T05 (same depth).",
+   "results": {
+    "front": {
+     "op": {
+      "summary": {
+       "n": 18,
+       "same": 10,
+       "near": 8,
+       "far": 0,
+       "worst": "neck down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "near",
+        "down 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "right elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 17,
+       "near": 15,
+       "far": 1,
+       "worst": "left pinky down 2"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "near",
+        "down 1"
+       ],
+       [
+        "mouth right",
+        "near",
+        "down 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "right elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left pinky",
+        "far",
+        "down 2"
+       ],
+       [
+        "right pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "left index",
+        "near",
+        "down 1"
+       ],
+       [
+        "right index",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left thumb",
+        "near",
+        "down 1"
+       ],
+       [
+        "right thumb",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "near",
+        "right 1"
+       ],
+       [
+        "right foot index",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "face": {
+      "summary": {
+       "n": 70,
+       "same": 55,
+       "near": 15,
+       "far": 0,
+       "worst": "face 3 down 1"
+      },
+      "joints": [
+       [
+        "face 0",
+        "same",
+        ""
+       ],
+       [
+        "face 1",
+        "same",
+        ""
+       ],
+       [
+        "face 2",
+        "same",
+        ""
+       ],
+       [
+        "face 3",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 4",
+        "same",
+        ""
+       ],
+       [
+        "face 5",
+        "same",
+        ""
+       ],
+       [
+        "face 6",
+        "same",
+        ""
+       ],
+       [
+        "face 7",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 8",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 9",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 10",
+        "same",
+        ""
+       ],
+       [
+        "face 11",
+        "same",
+        ""
+       ],
+       [
+        "face 12",
+        "same",
+        ""
+       ],
+       [
+        "face 13",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 14",
+        "same",
+        ""
+       ],
+       [
+        "face 15",
+        "same",
+        ""
+       ],
+       [
+        "face 16",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 17",
+        "same",
+        ""
+       ],
+       [
+        "face 18",
+        "same",
+        ""
+       ],
+       [
+        "face 19",
+        "same",
+        ""
+       ],
+       [
+        "face 20",
+        "near",
+        "left 1"
+       ],
+       [
+        "face 21",
+        "same",
+        ""
+       ],
+       [
+        "face 22",
+        "same",
+        ""
+       ],
+       [
+        "face 23",
+        "same",
+        ""
+       ],
+       [
+        "face 24",
+        "same",
+        ""
+       ],
+       [
+        "face 25",
+        "same",
+        ""
+       ],
+       [
+        "face 26",
+        "same",
+        ""
+       ],
+       [
+        "face 27",
+        "same",
+        ""
+       ],
+       [
+        "face 28",
+        "same",
+        ""
+       ],
+       [
+        "face 29",
+        "same",
+        ""
+       ],
+       [
+        "face 30",
+        "same",
+        ""
+       ],
+       [
+        "face 31",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 32",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 33",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 34",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 35",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 36",
+        "same",
+        ""
+       ],
+       [
+        "face 37",
+        "same",
+        ""
+       ],
+       [
+        "face 38",
+        "near",
+        "left 1"
+       ],
+       [
+        "face 39",
+        "same",
+        ""
+       ],
+       [
+        "face 40",
+        "same",
+        ""
+       ],
+       [
+        "face 41",
+        "same",
+        ""
+       ],
+       [
+        "face 42",
+        "same",
+        ""
+       ],
+       [
+        "face 43",
+        "same",
+        ""
+       ],
+       [
+        "face 44",
+        "same",
+        ""
+       ],
+       [
+        "face 45",
+        "same",
+        ""
+       ],
+       [
+        "face 46",
+        "same",
+        ""
+       ],
+       [
+        "face 47",
+        "same",
+        ""
+       ],
+       [
+        "face 48",
+        "same",
+        ""
+       ],
+       [
+        "face 49",
+        "same",
+        ""
+       ],
+       [
+        "face 50",
+        "same",
+        ""
+       ],
+       [
+        "face 51",
+        "same",
+        ""
+       ],
+       [
+        "face 52",
+        "same",
+        ""
+       ],
+       [
+        "face 53",
+        "same",
+        ""
+       ],
+       [
+        "face 54",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 55",
+        "same",
+        ""
+       ],
+       [
+        "face 56",
+        "same",
+        ""
+       ],
+       [
+        "face 57",
+        "same",
+        ""
+       ],
+       [
+        "face 58",
+        "same",
+        ""
+       ],
+       [
+        "face 59",
+        "same",
+        ""
+       ],
+       [
+        "face 60",
+        "same",
+        ""
+       ],
+       [
+        "face 61",
+        "same",
+        ""
+       ],
+       [
+        "face 62",
+        "same",
+        ""
+       ],
+       [
+        "face 63",
+        "same",
+        ""
+       ],
+       [
+        "face 64",
+        "same",
+        ""
+       ],
+       [
+        "face 65",
+        "same",
+        ""
+       ],
+       [
+        "face 66",
+        "same",
+        ""
+       ],
+       [
+        "face 67",
+        "same",
+        ""
+       ],
+       [
+        "face 68",
+        "near",
+        "left 1"
+       ],
+       [
+        "face 69",
+        "same",
+        ""
+       ]
+      ]
+     }
+    },
+    "side": {
+     "op": {
+      "summary": {
+       "n": 16,
+       "same": 2,
+       "near": 0,
+       "far": 14,
+       "worst": "nose left 4"
+      },
+      "joints": [
+       [
+        "nose",
+        "far",
+        "left 4"
+       ],
+       [
+        "neck",
+        "far",
+        "down 1, left 2"
+       ],
+       [
+        "right shoulder",
+        "far",
+        "down 1, left 2"
+       ],
+       [
+        "left shoulder",
+        "far",
+        "down 1, left 2"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "far",
+        "up 1, right 3"
+       ],
+       [
+        "right knee",
+        "far",
+        "right 2"
+       ],
+       [
+        "right ankle",
+        "far",
+        "up 1, right 4"
+       ],
+       [
+        "left hip",
+        "far",
+        "right 4"
+       ],
+       [
+        "left knee",
+        "far",
+        "right 2"
+       ],
+       [
+        "left ankle",
+        "far",
+        "right 3"
+       ],
+       [
+        "right eye",
+        "far",
+        "left 4"
+       ],
+       [
+        "left eye",
+        "far",
+        "left 4"
+       ],
+       [
+        "right ear",
+        "far",
+        "left 3"
+       ],
+       [
+        "left ear",
+        "far",
+        "left 3"
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 8,
+       "near": 2,
+       "far": 23,
+       "worst": "nose left 4"
+      },
+      "joints": [
+       [
+        "nose",
+        "far",
+        "left 4"
+       ],
+       [
+        "left eye inner",
+        "far",
+        "left 4"
+       ],
+       [
+        "left eye",
+        "far",
+        "left 4"
+       ],
+       [
+        "left eye outer",
+        "far",
+        "left 4"
+       ],
+       [
+        "right eye inner",
+        "far",
+        "left 4"
+       ],
+       [
+        "right eye",
+        "far",
+        "left 4"
+       ],
+       [
+        "right eye outer",
+        "far",
+        "left 3"
+       ],
+       [
+        "left ear",
+        "far",
+        "left 3"
+       ],
+       [
+        "right ear",
+        "far",
+        "left 3"
+       ],
+       [
+        "mouth left",
+        "far",
+        "left 3"
+       ],
+       [
+        "mouth right",
+        "far",
+        "left 3"
+       ],
+       [
+        "left shoulder",
+        "far",
+        "down 1, left 2"
+       ],
+       [
+        "right shoulder",
+        "far",
+        "down 1, left 2"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "same",
+        ""
+       ],
+       [
+        "left index",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "right index",
+        "same",
+        ""
+       ],
+       [
+        "left thumb",
+        "same",
+        ""
+       ],
+       [
+        "right thumb",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "far",
+        "right 4"
+       ],
+       [
+        "right hip",
+        "far",
+        "up 1, right 3"
+       ],
+       [
+        "left knee",
+        "far",
+        "right 2"
+       ],
+       [
+        "right knee",
+        "far",
+        "right 2"
+       ],
+       [
+        "left ankle",
+        "far",
+        "right 3"
+       ],
+       [
+        "right ankle",
+        "far",
+        "up 1, right 4"
+       ],
+       [
+        "left heel",
+        "far",
+        "right 3"
+       ],
+       [
+        "right heel",
+        "far",
+        "up 1, right 3"
+       ],
+       [
+        "left foot index",
+        "far",
+        "down 1, right 3"
+       ],
+       [
+        "right foot index",
+        "far",
+        "up 1, right 4"
+       ]
+      ]
+     }
+    }
+   },
+   "lookedAt": "2026-11-09 22:2x, picture with the 20 x 30 grid (not saved)"
+  },
+  {
+   "id": "T10",
+   "date": "2026-11-09 22:15",
+   "version": "0.2.3",
+   "title": "image x, y + world depth x 0.5",
+   "params": {
+    "depth": 0.5,
+    "xy": "image"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 (image + world) -> OpenPose 18",
+    "face": "MediaPipe Face Landmarker 478 -> OpenPose face 70"
+   },
+   "camera": {
+    "distance": 3,
+    "eye": "chest height",
+    "yaw": {
+     "front": 0,
+     "side": 90
+    }
+   },
+   "grid": {
+    "cols": 20,
+    "rows": 30
+   },
+   "measuredBy": "dev/zk_trial.js",
+   "verdict": "FAIL",
+   "why": "Seen: side - leans a little, head somewhat in front.",
+   "results": {
+    "front": {
+     "op": {
+      "summary": {
+       "n": 18,
+       "same": 12,
+       "near": 6,
+       "far": 0,
+       "worst": "right shoulder left 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "right elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 21,
+       "near": 12,
+       "far": 0,
+       "worst": "mouth left down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "near",
+        "down 1"
+       ],
+       [
+        "mouth right",
+        "near",
+        "down 1"
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "near",
+        "left 1"
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "right elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "same",
+        ""
+       ],
+       [
+        "left index",
+        "same",
+        ""
+       ],
+       [
+        "right index",
+        "near",
+        "left 1"
+       ],
+       [
+        "left thumb",
+        "near",
+        "down 1"
+       ],
+       [
+        "right thumb",
+        "near",
+        "down 1"
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "right 1"
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "same",
+        ""
+       ],
+       [
+        "right foot index",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "face": {
+      "summary": {
+       "n": 70,
+       "same": 64,
+       "near": 6,
+       "far": 0,
+       "worst": "face 3 down 1"
+      },
+      "joints": [
+       [
+        "face 0",
+        "same",
+        ""
+       ],
+       [
+        "face 1",
+        "same",
+        ""
+       ],
+       [
+        "face 2",
+        "same",
+        ""
+       ],
+       [
+        "face 3",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 4",
+        "same",
+        ""
+       ],
+       [
+        "face 5",
+        "same",
+        ""
+       ],
+       [
+        "face 6",
+        "same",
+        ""
+       ],
+       [
+        "face 7",
+        "same",
+        ""
+       ],
+       [
+        "face 8",
+        "same",
+        ""
+       ],
+       [
+        "face 9",
+        "same",
+        ""
+       ],
+       [
+        "face 10",
+        "same",
+        ""
+       ],
+       [
+        "face 11",
+        "same",
+        ""
+       ],
+       [
+        "face 12",
+        "same",
+        ""
+       ],
+       [
+        "face 13",
+        "same",
+        ""
+       ],
+       [
+        "face 14",
+        "same",
+        ""
+       ],
+       [
+        "face 15",
+        "same",
+        ""
+       ],
+       [
+        "face 16",
+        "same",
+        ""
+       ],
+       [
+        "face 17",
+        "same",
+        ""
+       ],
+       [
+        "face 18",
+        "same",
+        ""
+       ],
+       [
+        "face 19",
+        "same",
+        ""
+       ],
+       [
+        "face 20",
+        "same",
+        ""
+       ],
+       [
+        "face 21",
+        "same",
+        ""
+       ],
+       [
+        "face 22",
+        "same",
+        ""
+       ],
+       [
+        "face 23",
+        "same",
+        ""
+       ],
+       [
+        "face 24",
+        "same",
+        ""
+       ],
+       [
+        "face 25",
+        "same",
+        ""
+       ],
+       [
+        "face 26",
+        "same",
+        ""
+       ],
+       [
+        "face 27",
+        "same",
+        ""
+       ],
+       [
+        "face 28",
+        "same",
+        ""
+       ],
+       [
+        "face 29",
+        "same",
+        ""
+       ],
+       [
+        "face 30",
+        "same",
+        ""
+       ],
+       [
+        "face 31",
+        "same",
+        ""
+       ],
+       [
+        "face 32",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 33",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 34",
+        "near",
+        "down 1"
+       ],
+       [
+        "face 35",
+        "same",
+        ""
+       ],
+       [
+        "face 36",
+        "same",
+        ""
+       ],
+       [
+        "face 37",
+        "same",
+        ""
+       ],
+       [
+        "face 38",
+        "same",
+        ""
+       ],
+       [
+        "face 39",
+        "same",
+        ""
+       ],
+       [
+        "face 40",
+        "same",
+        ""
+       ],
+       [
+        "face 41",
+        "same",
+        ""
+       ],
+       [
+        "face 42",
+        "same",
+        ""
+       ],
+       [
+        "face 43",
+        "same",
+        ""
+       ],
+       [
+        "face 44",
+        "same",
+        ""
+       ],
+       [
+        "face 45",
+        "same",
+        ""
+       ],
+       [
+        "face 46",
+        "same",
+        ""
+       ],
+       [
+        "face 47",
+        "same",
+        ""
+       ],
+       [
+        "face 48",
+        "same",
+        ""
+       ],
+       [
+        "face 49",
+        "same",
+        ""
+       ],
+       [
+        "face 50",
+        "same",
+        ""
+       ],
+       [
+        "face 51",
+        "same",
+        ""
+       ],
+       [
+        "face 52",
+        "same",
+        ""
+       ],
+       [
+        "face 53",
+        "same",
+        ""
+       ],
+       [
+        "face 54",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 55",
+        "same",
+        ""
+       ],
+       [
+        "face 56",
+        "same",
+        ""
+       ],
+       [
+        "face 57",
+        "same",
+        ""
+       ],
+       [
+        "face 58",
+        "same",
+        ""
+       ],
+       [
+        "face 59",
+        "same",
+        ""
+       ],
+       [
+        "face 60",
+        "same",
+        ""
+       ],
+       [
+        "face 61",
+        "same",
+        ""
+       ],
+       [
+        "face 62",
+        "same",
+        ""
+       ],
+       [
+        "face 63",
+        "same",
+        ""
+       ],
+       [
+        "face 64",
+        "same",
+        ""
+       ],
+       [
+        "face 65",
+        "same",
+        ""
+       ],
+       [
+        "face 66",
+        "same",
+        ""
+       ],
+       [
+        "face 67",
+        "same",
+        ""
+       ],
+       [
+        "face 68",
+        "near",
+        "left 1"
+       ],
+       [
+        "face 69",
+        "same",
+        ""
+       ]
+      ]
+     }
+    },
+    "side": {
+     "op": {
+      "summary": {
+       "n": 16,
+       "same": 2,
+       "near": 12,
+       "far": 2,
+       "worst": "right hip up 1, right 2"
+      },
+      "joints": [
+       [
+        "nose",
+        "near",
+        "left 1"
+       ],
+       [
+        "neck",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "near",
+        "right 1"
+       ],
+       [
+        "right hip",
+        "far",
+        "up 1, right 2"
+       ],
+       [
+        "right knee",
+        "near",
+        "right 1"
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "left hip",
+        "far",
+        "right 2"
+       ],
+       [
+        "left knee",
+        "near",
+        "right 1"
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ear",
+        "near",
+        "left 1"
+       ],
+       [
+        "left ear",
+        "near",
+        "left 1"
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 5,
+       "near": 24,
+       "far": 4,
+       "worst": "right foot index up 1, right 3"
+      },
+      "joints": [
+       [
+        "nose",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye inner",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "left eye outer",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye inner",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye outer",
+        "near",
+        "left 1"
+       ],
+       [
+        "left ear",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ear",
+        "near",
+        "left 1"
+       ],
+       [
+        "mouth left",
+        "near",
+        "left 1"
+       ],
+       [
+        "mouth right",
+        "near",
+        "left 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "near",
+        "right 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "right 1"
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "near",
+        "right 1"
+       ],
+       [
+        "left index",
+        "near",
+        "down 1"
+       ],
+       [
+        "right index",
+        "same",
+        ""
+       ],
+       [
+        "left thumb",
+        "near",
+        "right 1"
+       ],
+       [
+        "right thumb",
+        "near",
+        "right 1"
+       ],
+       [
+        "left hip",
+        "far",
+        "right 2"
+       ],
+       [
+        "right hip",
+        "far",
+        "up 1, right 2"
+       ],
+       [
+        "left knee",
+        "near",
+        "right 1"
+       ],
+       [
+        "right knee",
+        "near",
+        "right 1"
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "near",
+        "up 1"
+       ],
+       [
+        "left foot index",
+        "far",
+        "down 1, right 2"
+       ],
+       [
+        "right foot index",
+        "far",
+        "up 1, right 3"
+       ]
+      ]
+     }
+    }
+   },
+   "lookedAt": "2026-11-09 22:2x, picture with the 20 x 30 grid (not saved)"
+  },
+  {
+   "id": "T11",
+   "date": "2026-11-09 22:15",
+   "version": "0.2.3",
+   "title": "image x, y + world depth x 0.25",
+   "params": {
+    "depth": 0.25,
+    "xy": "image"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 (image + world) -> OpenPose 18",
+    "face": "MediaPipe Face Landmarker 478 -> OpenPose face 70"
+   },
+   "camera": {
+    "distance": 3,
+    "eye": "chest height",
+    "yaw": {
+     "front": 0,
+     "side": 90
+    }
+   },
+   "grid": {
+    "cols": 20,
+    "rows": 30
+   },
+   "measuredBy": "dev/zk_trial.js",
+   "verdict": "FAIL",
+   "why": "Seen: front - matches the drawing (face 70/70 same cell); side - head roughly over the shoulders, hips at the buttocks, legs straight down; side.png legs slant back - posture the front picture does not contain.",
+   "results": {
+    "front": {
+     "op": {
+      "summary": {
+       "n": 18,
+       "same": 14,
+       "near": 4,
+       "far": 0,
+       "worst": "right elbow down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 25,
+       "near": 8,
+       "far": 0,
+       "worst": "mouth left down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "near",
+        "down 1"
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "right elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "same",
+        ""
+       ],
+       [
+        "left index",
+        "same",
+        ""
+       ],
+       [
+        "right index",
+        "near",
+        "left 1"
+       ],
+       [
+        "left thumb",
+        "same",
+        ""
+       ],
+       [
+        "right thumb",
+        "near",
+        "down 1"
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "same",
+        ""
+       ],
+       [
+        "right foot index",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "face": {
+      "summary": {
+       "n": 70,
+       "same": 70,
+       "near": 0,
+       "far": 0,
+       "worst": "face 0 same"
+      },
+      "joints": [
+       [
+        "face 0",
+        "same",
+        ""
+       ],
+       [
+        "face 1",
+        "same",
+        ""
+       ],
+       [
+        "face 2",
+        "same",
+        ""
+       ],
+       [
+        "face 3",
+        "same",
+        ""
+       ],
+       [
+        "face 4",
+        "same",
+        ""
+       ],
+       [
+        "face 5",
+        "same",
+        ""
+       ],
+       [
+        "face 6",
+        "same",
+        ""
+       ],
+       [
+        "face 7",
+        "same",
+        ""
+       ],
+       [
+        "face 8",
+        "same",
+        ""
+       ],
+       [
+        "face 9",
+        "same",
+        ""
+       ],
+       [
+        "face 10",
+        "same",
+        ""
+       ],
+       [
+        "face 11",
+        "same",
+        ""
+       ],
+       [
+        "face 12",
+        "same",
+        ""
+       ],
+       [
+        "face 13",
+        "same",
+        ""
+       ],
+       [
+        "face 14",
+        "same",
+        ""
+       ],
+       [
+        "face 15",
+        "same",
+        ""
+       ],
+       [
+        "face 16",
+        "same",
+        ""
+       ],
+       [
+        "face 17",
+        "same",
+        ""
+       ],
+       [
+        "face 18",
+        "same",
+        ""
+       ],
+       [
+        "face 19",
+        "same",
+        ""
+       ],
+       [
+        "face 20",
+        "same",
+        ""
+       ],
+       [
+        "face 21",
+        "same",
+        ""
+       ],
+       [
+        "face 22",
+        "same",
+        ""
+       ],
+       [
+        "face 23",
+        "same",
+        ""
+       ],
+       [
+        "face 24",
+        "same",
+        ""
+       ],
+       [
+        "face 25",
+        "same",
+        ""
+       ],
+       [
+        "face 26",
+        "same",
+        ""
+       ],
+       [
+        "face 27",
+        "same",
+        ""
+       ],
+       [
+        "face 28",
+        "same",
+        ""
+       ],
+       [
+        "face 29",
+        "same",
+        ""
+       ],
+       [
+        "face 30",
+        "same",
+        ""
+       ],
+       [
+        "face 31",
+        "same",
+        ""
+       ],
+       [
+        "face 32",
+        "same",
+        ""
+       ],
+       [
+        "face 33",
+        "same",
+        ""
+       ],
+       [
+        "face 34",
+        "same",
+        ""
+       ],
+       [
+        "face 35",
+        "same",
+        ""
+       ],
+       [
+        "face 36",
+        "same",
+        ""
+       ],
+       [
+        "face 37",
+        "same",
+        ""
+       ],
+       [
+        "face 38",
+        "same",
+        ""
+       ],
+       [
+        "face 39",
+        "same",
+        ""
+       ],
+       [
+        "face 40",
+        "same",
+        ""
+       ],
+       [
+        "face 41",
+        "same",
+        ""
+       ],
+       [
+        "face 42",
+        "same",
+        ""
+       ],
+       [
+        "face 43",
+        "same",
+        ""
+       ],
+       [
+        "face 44",
+        "same",
+        ""
+       ],
+       [
+        "face 45",
+        "same",
+        ""
+       ],
+       [
+        "face 46",
+        "same",
+        ""
+       ],
+       [
+        "face 47",
+        "same",
+        ""
+       ],
+       [
+        "face 48",
+        "same",
+        ""
+       ],
+       [
+        "face 49",
+        "same",
+        ""
+       ],
+       [
+        "face 50",
+        "same",
+        ""
+       ],
+       [
+        "face 51",
+        "same",
+        ""
+       ],
+       [
+        "face 52",
+        "same",
+        ""
+       ],
+       [
+        "face 53",
+        "same",
+        ""
+       ],
+       [
+        "face 54",
+        "same",
+        ""
+       ],
+       [
+        "face 55",
+        "same",
+        ""
+       ],
+       [
+        "face 56",
+        "same",
+        ""
+       ],
+       [
+        "face 57",
+        "same",
+        ""
+       ],
+       [
+        "face 58",
+        "same",
+        ""
+       ],
+       [
+        "face 59",
+        "same",
+        ""
+       ],
+       [
+        "face 60",
+        "same",
+        ""
+       ],
+       [
+        "face 61",
+        "same",
+        ""
+       ],
+       [
+        "face 62",
+        "same",
+        ""
+       ],
+       [
+        "face 63",
+        "same",
+        ""
+       ],
+       [
+        "face 64",
+        "same",
+        ""
+       ],
+       [
+        "face 65",
+        "same",
+        ""
+       ],
+       [
+        "face 66",
+        "same",
+        ""
+       ],
+       [
+        "face 67",
+        "same",
+        ""
+       ],
+       [
+        "face 68",
+        "same",
+        ""
+       ],
+       [
+        "face 69",
+        "same",
+        ""
+       ]
+      ]
+     }
+    },
+    "side": {
+     "op": {
+      "summary": {
+       "n": 16,
+       "same": 6,
+       "near": 10,
+       "far": 0,
+       "worst": "neck down 1, left 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "near",
+        "right 1"
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1"
+       ],
+       [
+        "left hip",
+        "near",
+        "right 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "near",
+        "left 1"
+       ],
+       [
+        "left ear",
+        "near",
+        "left 1"
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 13,
+       "near": 18,
+       "far": 2,
+       "worst": "right foot index up 1, right 3"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ear",
+        "near",
+        "left 1"
+       ],
+       [
+        "mouth left",
+        "same",
+        ""
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "near",
+        "right 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "right 1"
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1, right 1"
+       ],
+       [
+        "right pinky",
+        "near",
+        "right 1"
+       ],
+       [
+        "left index",
+        "near",
+        "down 1, right 1"
+       ],
+       [
+        "right index",
+        "near",
+        "right 1"
+       ],
+       [
+        "left thumb",
+        "near",
+        "right 1"
+       ],
+       [
+        "right thumb",
+        "near",
+        "right 1"
+       ],
+       [
+        "left hip",
+        "near",
+        "right 1"
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1, right 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1"
+       ],
+       [
+        "left heel",
+        "near",
+        "left 1"
+       ],
+       [
+        "right heel",
+        "near",
+        "up 1, left 1"
+       ],
+       [
+        "left foot index",
+        "far",
+        "down 1, right 2"
+       ],
+       [
+        "right foot index",
+        "far",
+        "up 1, right 3"
+       ]
+      ]
+     }
+    }
+   },
+   "lookedAt": "2026-11-09 22:2x, picture with the 20 x 30 grid (not saved)"
+  },
+  {
+   "id": "T12",
+   "date": "2026-11-09 22:15",
+   "version": "0.2.3",
+   "title": "image x, y + world depth x 0.1",
+   "params": {
+    "depth": 0.1,
+    "xy": "image"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 (image + world) -> OpenPose 18",
+    "face": "MediaPipe Face Landmarker 478 -> OpenPose face 70"
+   },
+   "camera": {
+    "distance": 3,
+    "eye": "chest height",
+    "yaw": {
+     "front": 0,
+     "side": 90
+    }
+   },
+   "grid": {
+    "cols": 20,
+    "rows": 30
+   },
+   "measuredBy": "dev/zk_trial.js",
+   "verdict": "FAIL",
+   "why": "Seen: front - best match (op 17/18); side - whole body one straight vertical line at the back, hips at the buttocks, legs straight.",
+   "results": {
+    "front": {
+     "op": {
+      "summary": {
+       "n": 18,
+       "same": 17,
+       "near": 1,
+       "far": 0,
+       "worst": "left elbow down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 30,
+       "near": 3,
+       "far": 0,
+       "worst": "mouth left down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "near",
+        "down 1"
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "same",
+        ""
+       ],
+       [
+        "left index",
+        "same",
+        ""
+       ],
+       [
+        "right index",
+        "same",
+        ""
+       ],
+       [
+        "left thumb",
+        "same",
+        ""
+       ],
+       [
+        "right thumb",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "same",
+        ""
+       ],
+       [
+        "right foot index",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "face": {
+      "summary": {
+       "n": 70,
+       "same": 70,
+       "near": 0,
+       "far": 0,
+       "worst": "face 0 same"
+      },
+      "joints": [
+       [
+        "face 0",
+        "same",
+        ""
+       ],
+       [
+        "face 1",
+        "same",
+        ""
+       ],
+       [
+        "face 2",
+        "same",
+        ""
+       ],
+       [
+        "face 3",
+        "same",
+        ""
+       ],
+       [
+        "face 4",
+        "same",
+        ""
+       ],
+       [
+        "face 5",
+        "same",
+        ""
+       ],
+       [
+        "face 6",
+        "same",
+        ""
+       ],
+       [
+        "face 7",
+        "same",
+        ""
+       ],
+       [
+        "face 8",
+        "same",
+        ""
+       ],
+       [
+        "face 9",
+        "same",
+        ""
+       ],
+       [
+        "face 10",
+        "same",
+        ""
+       ],
+       [
+        "face 11",
+        "same",
+        ""
+       ],
+       [
+        "face 12",
+        "same",
+        ""
+       ],
+       [
+        "face 13",
+        "same",
+        ""
+       ],
+       [
+        "face 14",
+        "same",
+        ""
+       ],
+       [
+        "face 15",
+        "same",
+        ""
+       ],
+       [
+        "face 16",
+        "same",
+        ""
+       ],
+       [
+        "face 17",
+        "same",
+        ""
+       ],
+       [
+        "face 18",
+        "same",
+        ""
+       ],
+       [
+        "face 19",
+        "same",
+        ""
+       ],
+       [
+        "face 20",
+        "same",
+        ""
+       ],
+       [
+        "face 21",
+        "same",
+        ""
+       ],
+       [
+        "face 22",
+        "same",
+        ""
+       ],
+       [
+        "face 23",
+        "same",
+        ""
+       ],
+       [
+        "face 24",
+        "same",
+        ""
+       ],
+       [
+        "face 25",
+        "same",
+        ""
+       ],
+       [
+        "face 26",
+        "same",
+        ""
+       ],
+       [
+        "face 27",
+        "same",
+        ""
+       ],
+       [
+        "face 28",
+        "same",
+        ""
+       ],
+       [
+        "face 29",
+        "same",
+        ""
+       ],
+       [
+        "face 30",
+        "same",
+        ""
+       ],
+       [
+        "face 31",
+        "same",
+        ""
+       ],
+       [
+        "face 32",
+        "same",
+        ""
+       ],
+       [
+        "face 33",
+        "same",
+        ""
+       ],
+       [
+        "face 34",
+        "same",
+        ""
+       ],
+       [
+        "face 35",
+        "same",
+        ""
+       ],
+       [
+        "face 36",
+        "same",
+        ""
+       ],
+       [
+        "face 37",
+        "same",
+        ""
+       ],
+       [
+        "face 38",
+        "same",
+        ""
+       ],
+       [
+        "face 39",
+        "same",
+        ""
+       ],
+       [
+        "face 40",
+        "same",
+        ""
+       ],
+       [
+        "face 41",
+        "same",
+        ""
+       ],
+       [
+        "face 42",
+        "same",
+        ""
+       ],
+       [
+        "face 43",
+        "same",
+        ""
+       ],
+       [
+        "face 44",
+        "same",
+        ""
+       ],
+       [
+        "face 45",
+        "same",
+        ""
+       ],
+       [
+        "face 46",
+        "same",
+        ""
+       ],
+       [
+        "face 47",
+        "same",
+        ""
+       ],
+       [
+        "face 48",
+        "same",
+        ""
+       ],
+       [
+        "face 49",
+        "same",
+        ""
+       ],
+       [
+        "face 50",
+        "same",
+        ""
+       ],
+       [
+        "face 51",
+        "same",
+        ""
+       ],
+       [
+        "face 52",
+        "same",
+        ""
+       ],
+       [
+        "face 53",
+        "same",
+        ""
+       ],
+       [
+        "face 54",
+        "same",
+        ""
+       ],
+       [
+        "face 55",
+        "same",
+        ""
+       ],
+       [
+        "face 56",
+        "same",
+        ""
+       ],
+       [
+        "face 57",
+        "same",
+        ""
+       ],
+       [
+        "face 58",
+        "same",
+        ""
+       ],
+       [
+        "face 59",
+        "same",
+        ""
+       ],
+       [
+        "face 60",
+        "same",
+        ""
+       ],
+       [
+        "face 61",
+        "same",
+        ""
+       ],
+       [
+        "face 62",
+        "same",
+        ""
+       ],
+       [
+        "face 63",
+        "same",
+        ""
+       ],
+       [
+        "face 64",
+        "same",
+        ""
+       ],
+       [
+        "face 65",
+        "same",
+        ""
+       ],
+       [
+        "face 66",
+        "same",
+        ""
+       ],
+       [
+        "face 67",
+        "same",
+        ""
+       ],
+       [
+        "face 68",
+        "same",
+        ""
+       ],
+       [
+        "face 69",
+        "same",
+        ""
+       ]
+      ]
+     }
+    },
+    "side": {
+     "op": {
+      "summary": {
+       "n": 16,
+       "same": 4,
+       "near": 12,
+       "far": 0,
+       "worst": "nose right 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "near",
+        "right 1"
+       ],
+       [
+        "neck",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "near",
+        "right 1"
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "right knee",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1"
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "near",
+        "left 1"
+       ],
+       [
+        "left ankle",
+        "near",
+        "left 1"
+       ],
+       [
+        "right eye",
+        "near",
+        "right 1"
+       ],
+       [
+        "left eye",
+        "near",
+        "right 1"
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 5,
+       "near": 27,
+       "far": 1,
+       "worst": "right foot index up 1, right 2"
+      },
+      "joints": [
+       [
+        "nose",
+        "near",
+        "right 1"
+       ],
+       [
+        "left eye inner",
+        "near",
+        "right 1"
+       ],
+       [
+        "left eye",
+        "near",
+        "right 1"
+       ],
+       [
+        "left eye outer",
+        "near",
+        "right 1"
+       ],
+       [
+        "right eye inner",
+        "near",
+        "right 1"
+       ],
+       [
+        "right eye",
+        "near",
+        "right 1"
+       ],
+       [
+        "right eye outer",
+        "near",
+        "right 1"
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "near",
+        "right 1"
+       ],
+       [
+        "mouth right",
+        "near",
+        "right 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "near",
+        "right 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "right 1"
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1, right 1"
+       ],
+       [
+        "right pinky",
+        "near",
+        "right 1"
+       ],
+       [
+        "left index",
+        "near",
+        "down 1, right 1"
+       ],
+       [
+        "right index",
+        "near",
+        "right 1"
+       ],
+       [
+        "left thumb",
+        "near",
+        "right 1"
+       ],
+       [
+        "right thumb",
+        "near",
+        "right 1"
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "left knee",
+        "near",
+        "left 1"
+       ],
+       [
+        "right knee",
+        "near",
+        "left 1"
+       ],
+       [
+        "left ankle",
+        "near",
+        "left 1"
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1"
+       ],
+       [
+        "left heel",
+        "near",
+        "left 1"
+       ],
+       [
+        "right heel",
+        "near",
+        "up 1, left 1"
+       ],
+       [
+        "left foot index",
+        "near",
+        "down 1, right 1"
+       ],
+       [
+        "right foot index",
+        "far",
+        "up 1, right 2"
+       ]
+      ]
+     }
+    }
+   },
+   "lookedAt": "2026-11-09 22:2x, picture with the 20 x 30 grid (not saved)"
+  },
+  {
+   "id": "T13",
+   "date": "2026-11-10 07:03",
+   "version": "0.2.4",
+   "title": "Character sheet: x / y from front.png, depth from side.png (MediaPipe on each)",
+   "params": {
+    "xy": "sheet"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 (image + world) -> OpenPose 18",
+    "face": "MediaPipe Face Landmarker 478 -> OpenPose face 70"
+   },
+   "camera": {
+    "distance": 3,
+    "eye": "chest height",
+    "yaw": {
+     "front": 0,
+     "side": 90
+    }
+   },
+   "grid": {
+    "cols": 20,
+    "rows": 30
+   },
+   "measuredBy": "dev/zk_trial.js",
+   "verdict": "FAIL",
+   "why": "Seen (grid, 2026-11-10 07:0x): side - posture now matches side.png (head forward, legs slanting back, no lean); neck / shoulders 1 cell low, hips 1 cell high (side.png's MediaPipe puts shoulders higher and hips lower than front.png's). Front - hands 1 cell low: perspective of the 3 m camera (the drawing has none).",
+   "results": {
+    "front": {
+     "op": {
+      "summary": {
+       "n": 18,
+       "same": 14,
+       "near": 4,
+       "far": 0,
+       "worst": "right elbow down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 23,
+       "near": 10,
+       "far": 0,
+       "worst": "mouth left down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "near",
+        "down 1"
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "right elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "left wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "right wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "same",
+        ""
+       ],
+       [
+        "left index",
+        "same",
+        ""
+       ],
+       [
+        "right index",
+        "near",
+        "left 1"
+       ],
+       [
+        "left thumb",
+        "near",
+        "down 1"
+       ],
+       [
+        "right thumb",
+        "near",
+        "down 1"
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "near",
+        "right 1"
+       ],
+       [
+        "right foot index",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "face": {
+      "summary": {
+       "n": 70,
+       "same": 70,
+       "near": 0,
+       "far": 0,
+       "worst": "face 0 same"
+      },
+      "joints": [
+       [
+        "face 0",
+        "same",
+        ""
+       ],
+       [
+        "face 1",
+        "same",
+        ""
+       ],
+       [
+        "face 2",
+        "same",
+        ""
+       ],
+       [
+        "face 3",
+        "same",
+        ""
+       ],
+       [
+        "face 4",
+        "same",
+        ""
+       ],
+       [
+        "face 5",
+        "same",
+        ""
+       ],
+       [
+        "face 6",
+        "same",
+        ""
+       ],
+       [
+        "face 7",
+        "same",
+        ""
+       ],
+       [
+        "face 8",
+        "same",
+        ""
+       ],
+       [
+        "face 9",
+        "same",
+        ""
+       ],
+       [
+        "face 10",
+        "same",
+        ""
+       ],
+       [
+        "face 11",
+        "same",
+        ""
+       ],
+       [
+        "face 12",
+        "same",
+        ""
+       ],
+       [
+        "face 13",
+        "same",
+        ""
+       ],
+       [
+        "face 14",
+        "same",
+        ""
+       ],
+       [
+        "face 15",
+        "same",
+        ""
+       ],
+       [
+        "face 16",
+        "same",
+        ""
+       ],
+       [
+        "face 17",
+        "same",
+        ""
+       ],
+       [
+        "face 18",
+        "same",
+        ""
+       ],
+       [
+        "face 19",
+        "same",
+        ""
+       ],
+       [
+        "face 20",
+        "same",
+        ""
+       ],
+       [
+        "face 21",
+        "same",
+        ""
+       ],
+       [
+        "face 22",
+        "same",
+        ""
+       ],
+       [
+        "face 23",
+        "same",
+        ""
+       ],
+       [
+        "face 24",
+        "same",
+        ""
+       ],
+       [
+        "face 25",
+        "same",
+        ""
+       ],
+       [
+        "face 26",
+        "same",
+        ""
+       ],
+       [
+        "face 27",
+        "same",
+        ""
+       ],
+       [
+        "face 28",
+        "same",
+        ""
+       ],
+       [
+        "face 29",
+        "same",
+        ""
+       ],
+       [
+        "face 30",
+        "same",
+        ""
+       ],
+       [
+        "face 31",
+        "same",
+        ""
+       ],
+       [
+        "face 32",
+        "same",
+        ""
+       ],
+       [
+        "face 33",
+        "same",
+        ""
+       ],
+       [
+        "face 34",
+        "same",
+        ""
+       ],
+       [
+        "face 35",
+        "same",
+        ""
+       ],
+       [
+        "face 36",
+        "same",
+        ""
+       ],
+       [
+        "face 37",
+        "same",
+        ""
+       ],
+       [
+        "face 38",
+        "same",
+        ""
+       ],
+       [
+        "face 39",
+        "same",
+        ""
+       ],
+       [
+        "face 40",
+        "same",
+        ""
+       ],
+       [
+        "face 41",
+        "same",
+        ""
+       ],
+       [
+        "face 42",
+        "same",
+        ""
+       ],
+       [
+        "face 43",
+        "same",
+        ""
+       ],
+       [
+        "face 44",
+        "same",
+        ""
+       ],
+       [
+        "face 45",
+        "same",
+        ""
+       ],
+       [
+        "face 46",
+        "same",
+        ""
+       ],
+       [
+        "face 47",
+        "same",
+        ""
+       ],
+       [
+        "face 48",
+        "same",
+        ""
+       ],
+       [
+        "face 49",
+        "same",
+        ""
+       ],
+       [
+        "face 50",
+        "same",
+        ""
+       ],
+       [
+        "face 51",
+        "same",
+        ""
+       ],
+       [
+        "face 52",
+        "same",
+        ""
+       ],
+       [
+        "face 53",
+        "same",
+        ""
+       ],
+       [
+        "face 54",
+        "same",
+        ""
+       ],
+       [
+        "face 55",
+        "same",
+        ""
+       ],
+       [
+        "face 56",
+        "same",
+        ""
+       ],
+       [
+        "face 57",
+        "same",
+        ""
+       ],
+       [
+        "face 58",
+        "same",
+        ""
+       ],
+       [
+        "face 59",
+        "same",
+        ""
+       ],
+       [
+        "face 60",
+        "same",
+        ""
+       ],
+       [
+        "face 61",
+        "same",
+        ""
+       ],
+       [
+        "face 62",
+        "same",
+        ""
+       ],
+       [
+        "face 63",
+        "same",
+        ""
+       ],
+       [
+        "face 64",
+        "same",
+        ""
+       ],
+       [
+        "face 65",
+        "same",
+        ""
+       ],
+       [
+        "face 66",
+        "same",
+        ""
+       ],
+       [
+        "face 67",
+        "same",
+        ""
+       ],
+       [
+        "face 68",
+        "same",
+        ""
+       ],
+       [
+        "face 69",
+        "same",
+        ""
+       ]
+      ]
+     }
+    },
+    "side": {
+     "op": {
+      "summary": {
+       "n": 16,
+       "same": 11,
+       "near": 5,
+       "far": 0,
+       "worst": "neck down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "near",
+        "down 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1"
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 23,
+       "near": 10,
+       "far": 0,
+       "worst": "left shoulder down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "same",
+        ""
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "near",
+        "right 1"
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "same",
+        ""
+       ],
+       [
+        "left index",
+        "near",
+        "down 1"
+       ],
+       [
+        "right index",
+        "same",
+        ""
+       ],
+       [
+        "left thumb",
+        "same",
+        ""
+       ],
+       [
+        "right thumb",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "near",
+        "up 1"
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "near",
+        "up 1"
+       ],
+       [
+        "left foot index",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "right foot index",
+        "near",
+        "up 1, right 1"
+       ]
+      ]
+     }
+    }
+   }
+  },
+  {
+   "id": "T14",
+   "date": "2026-11-10 07:03",
+   "version": "0.2.4",
+   "title": "Character sheet as T13, camera 5 m (less perspective)",
+   "params": {
+    "xy": "sheet",
+    "distance": 5
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 (image + world) -> OpenPose 18",
+    "face": "MediaPipe Face Landmarker 478 -> OpenPose face 70"
+   },
+   "camera": {
+    "distance": 5,
+    "eye": "chest height",
+    "yaw": {
+     "front": 0,
+     "side": 90
+    }
+   },
+   "grid": {
+    "cols": 20,
+    "rows": 30
+   },
+   "measuredBy": "dev/zk_trial.js",
+   "verdict": "FAIL",
+   "why": "Seen: front - matches the drawing (largest offset 11 px, hands); face 70/70. Side - posture matches; the 4 off joints are all 1 cell vertical (neck / shoulders low, right hip / ankle high): the two pictures disagree on joint heights, one 3D body cannot match both. Best balance so far.",
+   "results": {
+    "front": {
+     "op": {
+      "summary": {
+       "n": 18,
+       "same": 17,
+       "near": 1,
+       "far": 0,
+       "worst": "left elbow down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 28,
+       "near": 5,
+       "far": 0,
+       "worst": "mouth left down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "near",
+        "down 1"
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "same",
+        ""
+       ],
+       [
+        "left index",
+        "same",
+        ""
+       ],
+       [
+        "right index",
+        "near",
+        "left 1"
+       ],
+       [
+        "left thumb",
+        "same",
+        ""
+       ],
+       [
+        "right thumb",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "near",
+        "right 1"
+       ],
+       [
+        "right foot index",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "face": {
+      "summary": {
+       "n": 70,
+       "same": 70,
+       "near": 0,
+       "far": 0,
+       "worst": "face 0 same"
+      },
+      "joints": [
+       [
+        "face 0",
+        "same",
+        ""
+       ],
+       [
+        "face 1",
+        "same",
+        ""
+       ],
+       [
+        "face 2",
+        "same",
+        ""
+       ],
+       [
+        "face 3",
+        "same",
+        ""
+       ],
+       [
+        "face 4",
+        "same",
+        ""
+       ],
+       [
+        "face 5",
+        "same",
+        ""
+       ],
+       [
+        "face 6",
+        "same",
+        ""
+       ],
+       [
+        "face 7",
+        "same",
+        ""
+       ],
+       [
+        "face 8",
+        "same",
+        ""
+       ],
+       [
+        "face 9",
+        "same",
+        ""
+       ],
+       [
+        "face 10",
+        "same",
+        ""
+       ],
+       [
+        "face 11",
+        "same",
+        ""
+       ],
+       [
+        "face 12",
+        "same",
+        ""
+       ],
+       [
+        "face 13",
+        "same",
+        ""
+       ],
+       [
+        "face 14",
+        "same",
+        ""
+       ],
+       [
+        "face 15",
+        "same",
+        ""
+       ],
+       [
+        "face 16",
+        "same",
+        ""
+       ],
+       [
+        "face 17",
+        "same",
+        ""
+       ],
+       [
+        "face 18",
+        "same",
+        ""
+       ],
+       [
+        "face 19",
+        "same",
+        ""
+       ],
+       [
+        "face 20",
+        "same",
+        ""
+       ],
+       [
+        "face 21",
+        "same",
+        ""
+       ],
+       [
+        "face 22",
+        "same",
+        ""
+       ],
+       [
+        "face 23",
+        "same",
+        ""
+       ],
+       [
+        "face 24",
+        "same",
+        ""
+       ],
+       [
+        "face 25",
+        "same",
+        ""
+       ],
+       [
+        "face 26",
+        "same",
+        ""
+       ],
+       [
+        "face 27",
+        "same",
+        ""
+       ],
+       [
+        "face 28",
+        "same",
+        ""
+       ],
+       [
+        "face 29",
+        "same",
+        ""
+       ],
+       [
+        "face 30",
+        "same",
+        ""
+       ],
+       [
+        "face 31",
+        "same",
+        ""
+       ],
+       [
+        "face 32",
+        "same",
+        ""
+       ],
+       [
+        "face 33",
+        "same",
+        ""
+       ],
+       [
+        "face 34",
+        "same",
+        ""
+       ],
+       [
+        "face 35",
+        "same",
+        ""
+       ],
+       [
+        "face 36",
+        "same",
+        ""
+       ],
+       [
+        "face 37",
+        "same",
+        ""
+       ],
+       [
+        "face 38",
+        "same",
+        ""
+       ],
+       [
+        "face 39",
+        "same",
+        ""
+       ],
+       [
+        "face 40",
+        "same",
+        ""
+       ],
+       [
+        "face 41",
+        "same",
+        ""
+       ],
+       [
+        "face 42",
+        "same",
+        ""
+       ],
+       [
+        "face 43",
+        "same",
+        ""
+       ],
+       [
+        "face 44",
+        "same",
+        ""
+       ],
+       [
+        "face 45",
+        "same",
+        ""
+       ],
+       [
+        "face 46",
+        "same",
+        ""
+       ],
+       [
+        "face 47",
+        "same",
+        ""
+       ],
+       [
+        "face 48",
+        "same",
+        ""
+       ],
+       [
+        "face 49",
+        "same",
+        ""
+       ],
+       [
+        "face 50",
+        "same",
+        ""
+       ],
+       [
+        "face 51",
+        "same",
+        ""
+       ],
+       [
+        "face 52",
+        "same",
+        ""
+       ],
+       [
+        "face 53",
+        "same",
+        ""
+       ],
+       [
+        "face 54",
+        "same",
+        ""
+       ],
+       [
+        "face 55",
+        "same",
+        ""
+       ],
+       [
+        "face 56",
+        "same",
+        ""
+       ],
+       [
+        "face 57",
+        "same",
+        ""
+       ],
+       [
+        "face 58",
+        "same",
+        ""
+       ],
+       [
+        "face 59",
+        "same",
+        ""
+       ],
+       [
+        "face 60",
+        "same",
+        ""
+       ],
+       [
+        "face 61",
+        "same",
+        ""
+       ],
+       [
+        "face 62",
+        "same",
+        ""
+       ],
+       [
+        "face 63",
+        "same",
+        ""
+       ],
+       [
+        "face 64",
+        "same",
+        ""
+       ],
+       [
+        "face 65",
+        "same",
+        ""
+       ],
+       [
+        "face 66",
+        "same",
+        ""
+       ],
+       [
+        "face 67",
+        "same",
+        ""
+       ],
+       [
+        "face 68",
+        "same",
+        ""
+       ],
+       [
+        "face 69",
+        "same",
+        ""
+       ]
+      ]
+     }
+    },
+    "side": {
+     "op": {
+      "summary": {
+       "n": 16,
+       "same": 12,
+       "near": 4,
+       "far": 0,
+       "worst": "neck down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "near",
+        "down 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 24,
+       "near": 9,
+       "far": 0,
+       "worst": "left shoulder down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "same",
+        ""
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "left index",
+        "near",
+        "down 1"
+       ],
+       [
+        "right index",
+        "near",
+        "down 1"
+       ],
+       [
+        "left thumb",
+        "same",
+        ""
+       ],
+       [
+        "right thumb",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "near",
+        "down 1"
+       ],
+       [
+        "right foot index",
+        "near",
+        "right 1"
+       ]
+      ]
+     }
+    }
+   }
+  },
+  {
+   "id": "T15",
+   "date": "2026-11-10 07:03",
+   "version": "0.2.4",
+   "title": "Character sheet, height = mean of front and side, camera 5 m",
+   "params": {
+    "xy": "sheet",
+    "distance": 5,
+    "blend": 0.5
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 (image + world) -> OpenPose 18",
+    "face": "MediaPipe Face Landmarker 478 -> OpenPose face 70"
+   },
+   "camera": {
+    "distance": 5,
+    "eye": "chest height",
+    "yaw": {
+     "front": 0,
+     "side": 90
+    }
+   },
+   "grid": {
+    "cols": 20,
+    "rows": 30
+   },
+   "measuredBy": "dev/zk_trial.js",
+   "verdict": "FAIL",
+   "why": "Seen: side - 15/16, neck closer. Front - shoulders visibly higher than the drawing, right ankle higher, face 64/70: the height disagreement is only moved from side to front. Not better than T14 overall.",
+   "results": {
+    "front": {
+     "op": {
+      "summary": {
+       "n": 18,
+       "same": 17,
+       "near": 1,
+       "far": 0,
+       "worst": "left wrist down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 27,
+       "near": 6,
+       "far": 0,
+       "worst": "left wrist down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "same",
+        ""
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "near",
+        "down 1"
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "near",
+        "up 1"
+       ],
+       [
+        "left index",
+        "same",
+        ""
+       ],
+       [
+        "right index",
+        "near",
+        "up 1, left 1"
+       ],
+       [
+        "left thumb",
+        "same",
+        ""
+       ],
+       [
+        "right thumb",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "near",
+        "right 1"
+       ],
+       [
+        "right foot index",
+        "near",
+        "up 1"
+       ]
+      ]
+     },
+     "face": {
+      "summary": {
+       "n": 70,
+       "same": 64,
+       "near": 6,
+       "far": 0,
+       "worst": "face 37 up 1"
+      },
+      "joints": [
+       [
+        "face 0",
+        "same",
+        ""
+       ],
+       [
+        "face 1",
+        "same",
+        ""
+       ],
+       [
+        "face 2",
+        "same",
+        ""
+       ],
+       [
+        "face 3",
+        "same",
+        ""
+       ],
+       [
+        "face 4",
+        "same",
+        ""
+       ],
+       [
+        "face 5",
+        "same",
+        ""
+       ],
+       [
+        "face 6",
+        "same",
+        ""
+       ],
+       [
+        "face 7",
+        "same",
+        ""
+       ],
+       [
+        "face 8",
+        "same",
+        ""
+       ],
+       [
+        "face 9",
+        "same",
+        ""
+       ],
+       [
+        "face 10",
+        "same",
+        ""
+       ],
+       [
+        "face 11",
+        "same",
+        ""
+       ],
+       [
+        "face 12",
+        "same",
+        ""
+       ],
+       [
+        "face 13",
+        "same",
+        ""
+       ],
+       [
+        "face 14",
+        "same",
+        ""
+       ],
+       [
+        "face 15",
+        "same",
+        ""
+       ],
+       [
+        "face 16",
+        "same",
+        ""
+       ],
+       [
+        "face 17",
+        "same",
+        ""
+       ],
+       [
+        "face 18",
+        "same",
+        ""
+       ],
+       [
+        "face 19",
+        "same",
+        ""
+       ],
+       [
+        "face 20",
+        "same",
+        ""
+       ],
+       [
+        "face 21",
+        "same",
+        ""
+       ],
+       [
+        "face 22",
+        "same",
+        ""
+       ],
+       [
+        "face 23",
+        "same",
+        ""
+       ],
+       [
+        "face 24",
+        "same",
+        ""
+       ],
+       [
+        "face 25",
+        "same",
+        ""
+       ],
+       [
+        "face 26",
+        "same",
+        ""
+       ],
+       [
+        "face 27",
+        "same",
+        ""
+       ],
+       [
+        "face 28",
+        "same",
+        ""
+       ],
+       [
+        "face 29",
+        "same",
+        ""
+       ],
+       [
+        "face 30",
+        "same",
+        ""
+       ],
+       [
+        "face 31",
+        "same",
+        ""
+       ],
+       [
+        "face 32",
+        "same",
+        ""
+       ],
+       [
+        "face 33",
+        "same",
+        ""
+       ],
+       [
+        "face 34",
+        "same",
+        ""
+       ],
+       [
+        "face 35",
+        "same",
+        ""
+       ],
+       [
+        "face 36",
+        "same",
+        ""
+       ],
+       [
+        "face 37",
+        "near",
+        "up 1"
+       ],
+       [
+        "face 38",
+        "near",
+        "up 1"
+       ],
+       [
+        "face 39",
+        "same",
+        ""
+       ],
+       [
+        "face 40",
+        "same",
+        ""
+       ],
+       [
+        "face 41",
+        "same",
+        ""
+       ],
+       [
+        "face 42",
+        "same",
+        ""
+       ],
+       [
+        "face 43",
+        "near",
+        "up 1"
+       ],
+       [
+        "face 44",
+        "near",
+        "up 1"
+       ],
+       [
+        "face 45",
+        "same",
+        ""
+       ],
+       [
+        "face 46",
+        "same",
+        ""
+       ],
+       [
+        "face 47",
+        "same",
+        ""
+       ],
+       [
+        "face 48",
+        "same",
+        ""
+       ],
+       [
+        "face 49",
+        "same",
+        ""
+       ],
+       [
+        "face 50",
+        "same",
+        ""
+       ],
+       [
+        "face 51",
+        "same",
+        ""
+       ],
+       [
+        "face 52",
+        "same",
+        ""
+       ],
+       [
+        "face 53",
+        "same",
+        ""
+       ],
+       [
+        "face 54",
+        "near",
+        "right 1"
+       ],
+       [
+        "face 55",
+        "same",
+        ""
+       ],
+       [
+        "face 56",
+        "same",
+        ""
+       ],
+       [
+        "face 57",
+        "same",
+        ""
+       ],
+       [
+        "face 58",
+        "same",
+        ""
+       ],
+       [
+        "face 59",
+        "same",
+        ""
+       ],
+       [
+        "face 60",
+        "same",
+        ""
+       ],
+       [
+        "face 61",
+        "same",
+        ""
+       ],
+       [
+        "face 62",
+        "same",
+        ""
+       ],
+       [
+        "face 63",
+        "same",
+        ""
+       ],
+       [
+        "face 64",
+        "same",
+        ""
+       ],
+       [
+        "face 65",
+        "same",
+        ""
+       ],
+       [
+        "face 66",
+        "same",
+        ""
+       ],
+       [
+        "face 67",
+        "same",
+        ""
+       ],
+       [
+        "face 68",
+        "near",
+        "left 1"
+       ],
+       [
+        "face 69",
+        "same",
+        ""
+       ]
+      ]
+     }
+    },
+    "side": {
+     "op": {
+      "summary": {
+       "n": 16,
+       "same": 15,
+       "near": 1,
+       "far": 0,
+       "worst": "right hip up 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 29,
+       "near": 4,
+       "far": 0,
+       "worst": "left pinky down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "same",
+        ""
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "same",
+        ""
+       ],
+       [
+        "left index",
+        "near",
+        "down 1"
+       ],
+       [
+        "right index",
+        "same",
+        ""
+       ],
+       [
+        "left thumb",
+        "same",
+        ""
+       ],
+       [
+        "right thumb",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "same",
+        ""
+       ],
+       [
+        "right foot index",
+        "near",
+        "up 1, right 1"
+       ]
+      ]
+     }
+    }
+   }
+  },
+  {
+   "id": "T16",
+   "date": "2026-11-10 09:36",
+   "version": "0.2.4",
+   "title": "Character sheet, side picture fitted to the front heights joint by joint (least squares), camera 5 m",
+   "params": {
+    "xy": "sheet",
+    "distance": 5,
+    "fit": "lsq"
+   },
+   "source": {
+    "body": "MediaPipe Pose 33 (image + world) -> OpenPose 18",
+    "face": "MediaPipe Face Landmarker 478 -> OpenPose face 70"
+   },
+   "camera": {
+    "distance": 5,
+    "eye": "chest height",
+    "yaw": {
+     "front": 0,
+     "side": 90
+    }
+   },
+   "grid": {
+    "cols": 20,
+    "rows": 30
+   },
+   "measuredBy": "dev/zk_trial.js",
+   "verdict": "FAIL",
+   "why": "Agreed by voice 2026-11-10 09:2x. Grid identical to T14; pictures (front + side, 07:4x) indistinguishable from T14. Why: the body's heights already come from front.png; only the depth scale changed (x 0.9944 vs 0.9810). After the best fit the two pictures still disagree joint by joint (px at 1536): left shoulder -31, right shoulder -16, left hip +24, right hip +31, right ankle -35 (hidden leg, visibility 0.62), left ankle +17. So the 1-cell vertical misses in the side view are the pictures' own disagreement, not something a process can remove without moving the front.",
+   "results": {
+    "front": {
+     "op": {
+      "summary": {
+       "n": 18,
+       "same": 17,
+       "near": 1,
+       "far": 0,
+       "worst": "left elbow down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 28,
+       "near": 5,
+       "far": 0,
+       "worst": "mouth left down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "near",
+        "down 1"
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "same",
+        ""
+       ],
+       [
+        "right shoulder",
+        "same",
+        ""
+       ],
+       [
+        "left elbow",
+        "near",
+        "down 1"
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "same",
+        ""
+       ],
+       [
+        "left index",
+        "same",
+        ""
+       ],
+       [
+        "right index",
+        "near",
+        "left 1"
+       ],
+       [
+        "left thumb",
+        "same",
+        ""
+       ],
+       [
+        "right thumb",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "near",
+        "right 1"
+       ],
+       [
+        "right foot index",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "face": {
+      "summary": {
+       "n": 70,
+       "same": 70,
+       "near": 0,
+       "far": 0,
+       "worst": "face 0 same"
+      },
+      "joints": [
+       [
+        "face 0",
+        "same",
+        ""
+       ],
+       [
+        "face 1",
+        "same",
+        ""
+       ],
+       [
+        "face 2",
+        "same",
+        ""
+       ],
+       [
+        "face 3",
+        "same",
+        ""
+       ],
+       [
+        "face 4",
+        "same",
+        ""
+       ],
+       [
+        "face 5",
+        "same",
+        ""
+       ],
+       [
+        "face 6",
+        "same",
+        ""
+       ],
+       [
+        "face 7",
+        "same",
+        ""
+       ],
+       [
+        "face 8",
+        "same",
+        ""
+       ],
+       [
+        "face 9",
+        "same",
+        ""
+       ],
+       [
+        "face 10",
+        "same",
+        ""
+       ],
+       [
+        "face 11",
+        "same",
+        ""
+       ],
+       [
+        "face 12",
+        "same",
+        ""
+       ],
+       [
+        "face 13",
+        "same",
+        ""
+       ],
+       [
+        "face 14",
+        "same",
+        ""
+       ],
+       [
+        "face 15",
+        "same",
+        ""
+       ],
+       [
+        "face 16",
+        "same",
+        ""
+       ],
+       [
+        "face 17",
+        "same",
+        ""
+       ],
+       [
+        "face 18",
+        "same",
+        ""
+       ],
+       [
+        "face 19",
+        "same",
+        ""
+       ],
+       [
+        "face 20",
+        "same",
+        ""
+       ],
+       [
+        "face 21",
+        "same",
+        ""
+       ],
+       [
+        "face 22",
+        "same",
+        ""
+       ],
+       [
+        "face 23",
+        "same",
+        ""
+       ],
+       [
+        "face 24",
+        "same",
+        ""
+       ],
+       [
+        "face 25",
+        "same",
+        ""
+       ],
+       [
+        "face 26",
+        "same",
+        ""
+       ],
+       [
+        "face 27",
+        "same",
+        ""
+       ],
+       [
+        "face 28",
+        "same",
+        ""
+       ],
+       [
+        "face 29",
+        "same",
+        ""
+       ],
+       [
+        "face 30",
+        "same",
+        ""
+       ],
+       [
+        "face 31",
+        "same",
+        ""
+       ],
+       [
+        "face 32",
+        "same",
+        ""
+       ],
+       [
+        "face 33",
+        "same",
+        ""
+       ],
+       [
+        "face 34",
+        "same",
+        ""
+       ],
+       [
+        "face 35",
+        "same",
+        ""
+       ],
+       [
+        "face 36",
+        "same",
+        ""
+       ],
+       [
+        "face 37",
+        "same",
+        ""
+       ],
+       [
+        "face 38",
+        "same",
+        ""
+       ],
+       [
+        "face 39",
+        "same",
+        ""
+       ],
+       [
+        "face 40",
+        "same",
+        ""
+       ],
+       [
+        "face 41",
+        "same",
+        ""
+       ],
+       [
+        "face 42",
+        "same",
+        ""
+       ],
+       [
+        "face 43",
+        "same",
+        ""
+       ],
+       [
+        "face 44",
+        "same",
+        ""
+       ],
+       [
+        "face 45",
+        "same",
+        ""
+       ],
+       [
+        "face 46",
+        "same",
+        ""
+       ],
+       [
+        "face 47",
+        "same",
+        ""
+       ],
+       [
+        "face 48",
+        "same",
+        ""
+       ],
+       [
+        "face 49",
+        "same",
+        ""
+       ],
+       [
+        "face 50",
+        "same",
+        ""
+       ],
+       [
+        "face 51",
+        "same",
+        ""
+       ],
+       [
+        "face 52",
+        "same",
+        ""
+       ],
+       [
+        "face 53",
+        "same",
+        ""
+       ],
+       [
+        "face 54",
+        "same",
+        ""
+       ],
+       [
+        "face 55",
+        "same",
+        ""
+       ],
+       [
+        "face 56",
+        "same",
+        ""
+       ],
+       [
+        "face 57",
+        "same",
+        ""
+       ],
+       [
+        "face 58",
+        "same",
+        ""
+       ],
+       [
+        "face 59",
+        "same",
+        ""
+       ],
+       [
+        "face 60",
+        "same",
+        ""
+       ],
+       [
+        "face 61",
+        "same",
+        ""
+       ],
+       [
+        "face 62",
+        "same",
+        ""
+       ],
+       [
+        "face 63",
+        "same",
+        ""
+       ],
+       [
+        "face 64",
+        "same",
+        ""
+       ],
+       [
+        "face 65",
+        "same",
+        ""
+       ],
+       [
+        "face 66",
+        "same",
+        ""
+       ],
+       [
+        "face 67",
+        "same",
+        ""
+       ],
+       [
+        "face 68",
+        "same",
+        ""
+       ],
+       [
+        "face 69",
+        "same",
+        ""
+       ]
+      ]
+     }
+    },
+    "side": {
+     "op": {
+      "summary": {
+       "n": 16,
+       "same": 12,
+       "near": 4,
+       "far": 0,
+       "worst": "neck down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "neck",
+        "near",
+        "down 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ]
+      ]
+     },
+     "mp": {
+      "summary": {
+       "n": 33,
+       "same": 24,
+       "near": 9,
+       "far": 0,
+       "worst": "left shoulder down 1"
+      },
+      "joints": [
+       [
+        "nose",
+        "same",
+        ""
+       ],
+       [
+        "left eye inner",
+        "same",
+        ""
+       ],
+       [
+        "left eye",
+        "same",
+        ""
+       ],
+       [
+        "left eye outer",
+        "same",
+        ""
+       ],
+       [
+        "right eye inner",
+        "same",
+        ""
+       ],
+       [
+        "right eye",
+        "same",
+        ""
+       ],
+       [
+        "right eye outer",
+        "same",
+        ""
+       ],
+       [
+        "left ear",
+        "same",
+        ""
+       ],
+       [
+        "right ear",
+        "same",
+        ""
+       ],
+       [
+        "mouth left",
+        "same",
+        ""
+       ],
+       [
+        "mouth right",
+        "same",
+        ""
+       ],
+       [
+        "left shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "right shoulder",
+        "near",
+        "down 1"
+       ],
+       [
+        "left elbow",
+        "same",
+        ""
+       ],
+       [
+        "right elbow",
+        "same",
+        ""
+       ],
+       [
+        "left wrist",
+        "same",
+        ""
+       ],
+       [
+        "right wrist",
+        "same",
+        ""
+       ],
+       [
+        "left pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "right pinky",
+        "near",
+        "down 1"
+       ],
+       [
+        "left index",
+        "near",
+        "down 1"
+       ],
+       [
+        "right index",
+        "near",
+        "down 1"
+       ],
+       [
+        "left thumb",
+        "same",
+        ""
+       ],
+       [
+        "right thumb",
+        "same",
+        ""
+       ],
+       [
+        "left hip",
+        "same",
+        ""
+       ],
+       [
+        "right hip",
+        "near",
+        "up 1"
+       ],
+       [
+        "left knee",
+        "same",
+        ""
+       ],
+       [
+        "right knee",
+        "same",
+        ""
+       ],
+       [
+        "left ankle",
+        "same",
+        ""
+       ],
+       [
+        "right ankle",
+        "same",
+        ""
+       ],
+       [
+        "left heel",
+        "same",
+        ""
+       ],
+       [
+        "right heel",
+        "same",
+        ""
+       ],
+       [
+        "left foot index",
+        "near",
+        "down 1, left 1"
+       ],
+       [
+        "right foot index",
+        "near",
+        "right 1"
+       ]
+      ]
+     }
+    }
+   },
+   "heightDisagreementPx": {
+    "note": "side.png joint height after the least-squares fit minus front.png joint height, pixels at 1536 high",
+    "nose": 4,
+    "left ear": 9,
+    "right ear": 7,
+    "left shoulder": -31,
+    "right shoulder": -16,
+    "left elbow": -1,
+    "right elbow": -4,
+    "left wrist": 12,
+    "right wrist": -21,
+    "left hip": 24,
+    "right hip": 31,
+    "left knee": 11,
+    "right knee": -6,
+    "left ankle": 17,
+    "right ankle": -35
+   }
+  }
+ ]
+}

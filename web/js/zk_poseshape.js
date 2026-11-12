@@ -20,3 +20,17 @@ export function shapePose(result, meta) {
   });
   return { frame: meta.frame, width: meta.width, height: meta.height, ms: Math.round(meta.ms), people };
 }
+
+// Exchange person 1 and 2 of one frame (MediaPipe does not keep who is who between frames); recorded in `swapped`.
+// An edited pose swaps its MediaPipe pose (raw) too, so edits stay with the person as shown.
+export function swapPose(pose) {
+  if (pose.people.length < 2) {
+    return { ...pose, people: pose.people.slice(), swapped: !!pose.swapped };
+  }
+  const people = [pose.people[1], pose.people[0], ...pose.people.slice(2)];
+  const out = { ...pose, people, swapped: !pose.swapped };
+  if (pose.raw) {
+    out.raw = swapPose(pose.raw);
+  }
+  return out;
+}

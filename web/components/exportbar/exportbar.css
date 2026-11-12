@@ -1,0 +1,4 @@
+/* component exportbar: Export, source camera, shot and character, Export range (from / to). Variables: theme/zk_theme.css */
+.zk-export, .zk-export-range { background: var(--zk-primary); border-color: var(--zk-primary-line); }
+.zk-field { display: flex; gap: var(--zk-gap-small); align-items: center; color: var(--zk-dim); }
+.zk-name { font-family: var(--zk-mono); color: var(--zk-fg); }

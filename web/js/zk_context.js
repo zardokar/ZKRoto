@@ -1,8 +1,9 @@
 // COMPONENT: shared context for the page - config, constants, DOM elements, state, log and status line.
 import { fmt } from "./zk_text.js";
 import { parseFps } from "./zk_frames.js";
+import { createBus } from "./zk_events.js";
 
-const ELEMENT_IDS = ["video", "overlay", "scrub", "frame", "total", "tc", "name", "file", "fps", "drop", "stage",
+const ELEMENT_IDS = ["video", "still", "overlay", "scrub", "frame", "total", "tc", "name", "file", "fps", "drop", "stage",
   "btnLoad", "btnCapture", "btnPose", "showPose", "status", "log"];
 
 function findElements(doc) {
@@ -19,7 +20,7 @@ function newState(cfg) {
     name: null, base: null, url: null,
     fpsNum: fps.num, fpsDen: fps.den,
     frame: 0, total: 0, shown: null, mediaTime: null,
-    lastCapture: null, lastPose: null,
+    lastCapture: null, lastPose: null, lastExport: null, pov: null,
   };
 }
 
@@ -52,5 +53,15 @@ export function createContext(cfg, k, doc) {
   const fps = function () {
     return state.fpsNum / state.fpsDen;
   };
-  return { cfg, k, el, state, t, log, status, fps };
+  // Run a UI action: errors go to the status line and the log, never up to the caller.
+  const run = async function (fn, ...args) {
+    try {
+      return await fn(...args);
+    } catch (e) {
+      status(e.message, "err");
+      log(t("error", { message: e.message }));
+      return null;
+    }
+  };
+  return { cfg, k, el, state, t, log, status, fps, run, bus: createBus() };
 }

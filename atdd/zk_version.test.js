@@ -20,7 +20,7 @@ function version() {
 
 const JSON_IMPORT = /from "([^"]+\.json)" with \{ type: "json" \}/g;
 
-// Every .js under web/js (any depth) plus every JSON file any of them imports, as "./<path from web>".
+// Every .js under web/js and web/components (any depth) plus every JSON file any of them imports, as "./<path>".
 function wanted() {
   const out = new Set();
   const walk = function (dir) {
@@ -37,8 +37,22 @@ function wanted() {
     }
   };
   walk(path.join(WEB, "js"));
+  walk(path.join(WEB, "components"));
   return [...out].sort();
 }
+
+const CSS_LINK = /<link rel="stylesheet" href="([^"?]+)\?v=([\d.]+)">/g;
+
+test("index.html loads the theme and the page layout CSS with ?v=<version>", function () {
+  const links = [...read(WEB, "index.html").matchAll(CSS_LINK)];
+  assert.deepStrictEqual(links.map(function (m) {
+    return m[1];
+  }), ["theme/zk_theme.css", "layout/zk_page.css"]);
+  for (const m of links) {
+    assert.strictEqual(m[2], version(), m[1]);
+    assert.ok(fs.existsSync(path.join(WEB, m[1])), m[1]);
+  }
+});
 
 test("import map covers every page module and both JSON files, each with ?v=<version>", function () {
   const m = read(WEB, "index.html").match(MAP);

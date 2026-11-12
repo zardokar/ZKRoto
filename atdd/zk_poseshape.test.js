@@ -50,3 +50,16 @@ test("fmt fills {name} slots and leaves unknown slots as they are", async functi
   assert.strictEqual(t.fmt("pose: {n} person(s), {ms} ms", { n: 1, ms: 56 }), "pose: 1 person(s), 56 ms");
   assert.strictEqual(t.fmt("keep {x}", {}), "keep {x}");
 });
+
+test("swapPose exchanges person 1 and 2 and records it; one person: unchanged, not recorded", async function () {
+  const p = await load("zk_poseshape.js");
+  const pose = { frame: 3, width: 2, height: 2, ms: 1, people: [{ image: [1] }, { image: [2] }] };
+  const once = p.swapPose(pose);
+  assert.deepStrictEqual(once.people, [{ image: [2] }, { image: [1] }]);
+  assert.strictEqual(once.swapped, true);
+  assert.strictEqual(p.swapPose(once).swapped, false);
+  assert.deepStrictEqual(pose.people[0], { image: [1] }, "input not changed");
+  const single = p.swapPose({ people: [{ image: [1] }] });
+  assert.deepStrictEqual(single.people, [{ image: [1] }]);
+  assert.strictEqual(single.swapped, false);
+});

@@ -1,0 +1,6 @@
+/* component povview: the POV canvas (letterboxed) and its label. Variables: theme/zk_theme.css */
+[data-component="povview"] { display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.zk-povview-canvas { position: absolute; max-width: 100%; max-height: 100%; border: 1px dashed var(--zk-line); cursor: grab; touch-action: none; }
+.zk-povview-info { position: absolute; top: var(--zk-gap); left: var(--zk-gap); right: var(--zk-gap); display: flex; justify-content: space-between; font-family: var(--zk-mono); color: var(--zk-dim); pointer-events: none; z-index: 1; }
+[data-person="1"] .zk-povview-person { color: var(--zk-person-1); }
+[data-person="2"] .zk-povview-person { color: var(--zk-person-2); }

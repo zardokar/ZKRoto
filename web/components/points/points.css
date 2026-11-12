@@ -1,0 +1,6 @@
+/* component points: the Points tab table. Variables: theme/zk_theme.css */
+.zk-points { border-collapse: collapse; font-family: var(--zk-mono); font-size: var(--zk-font-small); width: 100%; }
+.zk-points th { color: var(--zk-dim); text-align: right; border-bottom: 1px solid var(--zk-line); }
+.zk-points td { text-align: right; padding: 0 var(--zk-gap-small); white-space: nowrap; }
+.zk-points td:nth-child(2), .zk-points th:nth-child(2) { text-align: left; }
+[data-component="points"] { flex-direction: column; align-items: stretch; }

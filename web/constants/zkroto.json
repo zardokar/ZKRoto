@@ -1,11 +1,123 @@
 {
   "app": "ZKRoto",
-  "version": "0.1.3",
+  "version": "0.3.0",
   "consoleTag": "[ZKRoto]",
   "colors": {
     "people": [
       "#4fa3ff",
       "#ff8a3d"
+    ],
+    "openpose": [
+      [
+        255,
+        0,
+        0
+      ],
+      [
+        255,
+        85,
+        0
+      ],
+      [
+        255,
+        170,
+        0
+      ],
+      [
+        255,
+        255,
+        0
+      ],
+      [
+        170,
+        255,
+        0
+      ],
+      [
+        85,
+        255,
+        0
+      ],
+      [
+        0,
+        255,
+        0
+      ],
+      [
+        0,
+        255,
+        85
+      ],
+      [
+        0,
+        255,
+        170
+      ],
+      [
+        0,
+        255,
+        255
+      ],
+      [
+        0,
+        170,
+        255
+      ],
+      [
+        0,
+        85,
+        255
+      ],
+      [
+        0,
+        0,
+        255
+      ],
+      [
+        85,
+        0,
+        255
+      ],
+      [
+        170,
+        0,
+        255
+      ],
+      [
+        255,
+        0,
+        255
+      ],
+      [
+        255,
+        0,
+        170
+      ],
+      [
+        255,
+        0,
+        85
+      ]
+    ],
+    "sheet": {
+      "background": "#000000",
+      "left": "#4fa3ff",
+      "right": "#ff8a3d",
+      "center": "#e6e6e6",
+      "label": "#9aa0aa",
+      "tileBorder": "#2e323a"
+    },
+    "faded": 0.3,
+    "minimap": {
+      "background": "#101216",
+      "source": "#9aa0aa",
+      "eye": "#5ccf86",
+      "cone": "#5ccf86"
+    },
+    "face": [
+      255,
+      255,
+      255
     ]
   },
   "text": {
@@ -29,7 +141,41 @@
     "poseLog": "pose frame {frame}: {n} person(s)",
     "selftest": "selftest: {ok}/{total} ok",
     "error": "error: {message}",
-    "time": "t {seconds} s"
+    "time": "t {seconds} s",
+    "exported": "exported {prefix} f{frame}: {parts}",
+    "exportLog": "export frame {frame}: {count} file(s) -> input\\{app}\\{folder}\\",
+    "exportFailed": "export failed: HTTP {status} {message}",
+    "nothingToExport": "nothing to export: tick source camera or switch to POV / Split",
+    "noPerson": "no person {n} in this frame",
+    "swapped": "swapped person 1 and 2 in frame {frame}",
+    "customWarn": "{width} x {height} is {percent} % away from 1 MP",
+    "povLabel": "POV {width} x {height} - {framing}",
+    "personLabel": "person {n}",
+    "noPose": "no pose yet: press Pose (P)",
+    "badPoint": "point {index} does not exist (MediaPipe points 0 - 32)",
+    "otherClip": "{file} belongs to clip {clip}: its edits are not used for this clip",
+    "badEdits": "{file} is not a ZKRoto edits file: its edits are not used",
+    "editOn": "edit points: drag a point of the chosen person; Alt+click = back to MediaPipe; E = done",
+    "editOff": "edit points off",
+    "edited": "frame {frame}: point {name} moved",
+    "editReset": "frame {frame}: point {name} back to MediaPipe",
+    "frameReset": "frame {frame}: every point back to MediaPipe",
+    "exportBusy": "an Export is still running",
+    "rangeBad": "frame range {from} - {to} is not allowed: whole frames, 0 to {last}, from not after to",
+    "rangePose": "range: pose {i} / {n} (frame {frame})",
+    "rangeExport": "range: export {i} / {n} (frame {frame})",
+    "rangeDone": "range {from} - {to}: {n} frame(s) exported, {missing} without the person",
+    "rangeStopped": "range {from} - {to} stopped: {n} frame(s) exported",
+    "rangeMissing": "frames without the person: {frames}",
+    "noShot": "enter a shot name (letters A-Z, digits, -)",
+    "reservedShot": "shot name {shot} is not allowed, choose another",
+    "faceMissing": "face model missing: put face_landmarker.task in custom_nodes\\{app}\\third-party\\mediapipe\\models\\ (body only)",
+    "faceReady": "MediaPipe Face ready ({delegate})",
+    "faceLog": "face frame {frame}: {n} of {people} found",
+    "loadedStill": "loaded still {name} {width}x{height} (1 frame)",
+    "sideFound": "side picture {name}: POV depth now comes from it (x / y from: front + side pictures)",
+    "sideNone": "no side picture {name} - POV as before",
+    "sideNoPose": "side picture {name}: no person found - POV as before"
   },
   "ui": {
     "title": "ZKRoto",
@@ -38,7 +184,7 @@
     "orFile": "or",
     "fps": "fps",
     "poseOverlay": "pose overlay",
-    "drop": "Load a video from ComfyUI input\\ or drop an mp4 here",
+    "drop": "Load a video or a still (front.png + side.png) from ComfyUI input\\ or drop a file here",
     "back30": "« 30",
     "back1": "‹ 1",
     "frameLabel": "frame",
@@ -46,6 +192,300 @@
     "fwd30": "30 »",
     "capture": "Capture (C)",
     "pose": "Pose (P)",
-    "tcEmpty": "00:00:00:00"
-  }
+    "tcEmpty": "00:00:00:00",
+    "person": "person",
+    "swap": "Swap",
+    "view": "view",
+    "source": "Source",
+    "pov": "POV",
+    "split": "Split",
+    "nextViewHint": "V = next view",
+    "camera": "Camera",
+    "points": "Points",
+    "reset": "Reset",
+    "front": "Front",
+    "back": "Back",
+    "left": "Left",
+    "right": "Right",
+    "top": "Top",
+    "yaw": "Yaw (around the person)",
+    "eyeHeight": "Eye height above the floor",
+    "distance": "Distance to the target",
+    "fov": "Field of view (vertical)",
+    "roll": "Roll (head tilt)",
+    "lookAt": "Look at",
+    "hips": "hips",
+    "chest": "chest",
+    "head": "head",
+    "output": "Output",
+    "portrait": "Portrait",
+    "landscape": "Landscape",
+    "custom": "Custom",
+    "fit": "fit",
+    "true": "true camera",
+    "margins": "margin % top / bottom / sides",
+    "layers": "Layers",
+    "op": "OpenPose 18",
+    "mp": "MediaPipe 33",
+    "threshold": "Hide joints with visibility below",
+    "topView": "top view",
+    "export": "Export (Ctrl+E)",
+    "srcCamera": "source camera",
+    "editPoints": "Edit (E)",
+    "resetFrame": "Reset frame",
+    "exportRange": "Export range",
+    "stopRange": "Stop range",
+    "rangeFrom": "from",
+    "rangeTo": "to",
+    "rangeAll": "all",
+    "shot": "shot",
+    "character": "character",
+    "shotPlaceholder": "clip name",
+    "characterPlaceholder": "e.g. FRA-007",
+    "pointIndex": "#",
+    "pointName": "joint",
+    "pointVis": "vis",
+    "srcX": "src x",
+    "srcY": "src y",
+    "povX": "pov x",
+    "povY": "pov y",
+    "face": "Face",
+    "depth": "Depth from MediaPipe (x)",
+    "xyFrom": "x / y from",
+    "world": "MediaPipe 3D",
+    "image": "the image",
+    "sheet": "front + side pictures"
+  },
+  "mpConnections": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      13,
+      15
+    ],
+    [
+      15,
+      17
+    ],
+    [
+      15,
+      19
+    ],
+    [
+      15,
+      21
+    ],
+    [
+      17,
+      19
+    ],
+    [
+      12,
+      14
+    ],
+    [
+      14,
+      16
+    ],
+    [
+      16,
+      18
+    ],
+    [
+      16,
+      20
+    ],
+    [
+      16,
+      22
+    ],
+    [
+      18,
+      20
+    ],
+    [
+      11,
+      23
+    ],
+    [
+      12,
+      24
+    ],
+    [
+      23,
+      24
+    ],
+    [
+      23,
+      25
+    ],
+    [
+      24,
+      26
+    ],
+    [
+      25,
+      27
+    ],
+    [
+      26,
+      28
+    ],
+    [
+      27,
+      29
+    ],
+    [
+      28,
+      30
+    ],
+    [
+      29,
+      31
+    ],
+    [
+      30,
+      32
+    ],
+    [
+      27,
+      31
+    ],
+    [
+      28,
+      32
+    ]
+  ],
+  "mpNames": [
+    "nose",
+    "left eye inner",
+    "left eye",
+    "left eye outer",
+    "right eye inner",
+    "right eye",
+    "right eye outer",
+    "left ear",
+    "right ear",
+    "mouth left",
+    "mouth right",
+    "left shoulder",
+    "right shoulder",
+    "left elbow",
+    "right elbow",
+    "left wrist",
+    "right wrist",
+    "left pinky",
+    "right pinky",
+    "left index",
+    "right index",
+    "left thumb",
+    "right thumb",
+    "left hip",
+    "right hip",
+    "left knee",
+    "right knee",
+    "left ankle",
+    "right ankle",
+    "left heel",
+    "right heel",
+    "left foot index",
+    "right foot index"
+  ],
+  "mpSides": [
+    "c",
+    "l",
+    "l",
+    "l",
+    "r",
+    "r",
+    "r",
+    "l",
+    "r",
+    "l",
+    "r",
+    "l",
+    "r",
+    "l",
+    "r",
+    "l",
+    "r",
+    "l",
+    "r",
+    "l",
+    "r",
+    "l",
+    "r",
+    "l",
+    "r",
+    "l",
+    "r",
+    "l",
+    "r",
+    "l",
+    "r",
+    "l",
+    "r"
+  ],
+  "opNames": [
+    "nose",
+    "neck",
+    "right shoulder",
+    "right elbow",
+    "right wrist",
+    "left shoulder",
+    "left elbow",
+    "left wrist",
+    "right hip",
+    "right knee",
+    "right ankle",
+    "left hip",
+    "left knee",
+    "left ankle",
+    "right eye",
+    "left eye",
+    "right ear",
+    "left ear"
+  ]
 }

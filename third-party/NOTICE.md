@@ -22,3 +22,11 @@
   https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/latest/pose_landmarker_full.task
 - Model card: https://storage.googleapis.com/mediapipe-assets/Model%20Card%20BlazePose%20GHUM%203D.pdf (check the terms there; used only to read poses, not part of any output image)
 - Copied into `mediapipe/models/` on 2026-11-07 at the user's request (downloaded from the URL above, unchanged); sha256 `4eaa5eb7a98365221087693fcc286334cf0858e2eb6e15b506aa4a7ecdcec4ad`, 9,398,198 bytes.
+
+## mediapipe/models/ - MediaPipe Face Landmarker model (ZKRoto 0.2.1, face layer)
+- `face_landmarker.task` (float16, version 1) from Google's official bucket:
+  https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task
+- License: Apache-2.0 (MediaPipe models); model card: https://storage.googleapis.com/mediapipe-assets/MediaPipe%20BlazeFace%20Model%20Card%20(Short%20Range).pdf and the Face Mesh V2 card on the same site.
+- sha256 `64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff`, 3,758,596 bytes (checked 2026-11-09 in Claude's test copy).
+- Optional: without it ZKRoto works with the body only and says so once in the log. The user puts it into `third-party\mediapipe\models\` himself (no automatic download).
+- Seen 2026-11-09: it finds the face of a front or 3/4 view; a full side profile (FRA-007 `side.png`) is not found.

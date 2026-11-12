@@ -84,3 +84,24 @@ test("nameFromUrl and nameFromInput keep only the file name", async function () 
   assert.strictEqual(f.nameFromInput("sub\\clip.mp4"), "clip.mp4");
   assert.strictEqual(f.nameFromInput("clip.mp4"), "clip.mp4");
 });
+
+test("isStill: png / jpg / webp are stills, videos are not (0.2.5)", async function () {
+  const F = await load();
+  for (const n of ["front.png", "a/B.JPG", "x.jpeg", "y.webp", "/api/x/front.png?v=1"]) {
+    assert.strictEqual(F.isStill(n), true, n);
+  }
+  for (const n of ["clip.mp4", "a/b.mov", "png"]) {
+    assert.strictEqual(F.isStill(n), false, n);
+  }
+});
+
+test("sideName: the last whole word 'front' in the file name becomes 'side', same case (user choice B)", async function () {
+  const F = await load();
+  assert.strictEqual(F.sideName("front.png"), "side.png");
+  assert.strictEqual(F.sideName("ZKRoto/fra007/FRA007_Front.png"), "ZKRoto/fra007/FRA007_Side.png");
+  assert.strictEqual(F.sideName("a\\FRONT_v2.jpg"), "a\\SIDE_v2.jpg");
+  assert.strictEqual(F.sideName("front_frontal.png"), "side_frontal.png");
+  assert.strictEqual(F.sideName("front/pose.png"), null, "a folder named front does not count");
+  assert.strictEqual(F.sideName("frontal.png"), null);
+  assert.strictEqual(F.sideName("side.png"), null);
+});

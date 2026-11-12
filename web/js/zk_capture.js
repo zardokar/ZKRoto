@@ -1,5 +1,6 @@
-// COMPONENT: save the shown frame as PNG into ComfyUI input\<app>\<video>\ through /api/upload/image.
+// COMPONENT: save the shown frame as PNG into ComfyUI input\<app>\capture\<video>\ through /api/upload/image.
 import { captureName } from "./zk_frames.js";
+import { captureSubfolder } from "./zk_naming.js";
 
 const UPLOAD_URL = "/api/upload/image";
 const PNG = "image/png";
@@ -29,7 +30,7 @@ export function createCapture(ctx, video) {
       c.toBlob(res, PNG);
     });
     const filename = captureName(state.base, state.frame, cfg.frameDigits);
-    const resp = await upload(ctx, blob, filename, `${k.app}/${state.base}`);
+    const resp = await upload(ctx, blob, filename, captureSubfolder(k.app, cfg.export.captureFolder, state.base));
     state.lastCapture = {
       frame: state.frame, shown: state.shown, mediaTime: state.mediaTime,
       name: resp.name, subfolder: resp.subfolder, type: resp.type,

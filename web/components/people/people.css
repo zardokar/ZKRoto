@@ -1,0 +1,7 @@
+/* component people: person buttons in the person colours, Swap. Variables: theme/zk_theme.css */
+.zk-people-label { color: var(--zk-dim); }
+.zk-person-1 { color: var(--zk-person-1); border-color: var(--zk-person-1); }
+.zk-person-2 { color: var(--zk-person-2); border-color: var(--zk-person-2); }
+.zk-person-1[aria-pressed="true"] { background: var(--zk-person-1); color: var(--zk-black); }
+.zk-person-2[aria-pressed="true"] { background: var(--zk-person-2); color: var(--zk-black); }
+.zk-person.zk-missing { opacity: var(--zk-missing); }

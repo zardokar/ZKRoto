@@ -1,0 +1,36 @@
+/* ZKRoto page layout: base controls, the page frame (header, stage, panel, footer slots) and the three views.
+   Uses only the variables of theme/zk_theme.css. Where each component sits is set in config.layout. */
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--zk-bg); color: var(--zk-fg); font: var(--zk-font); display: flex; flex-direction: column; height: 100vh; }
+input, button, select { background: var(--zk-control); color: var(--zk-fg); border: 1px solid var(--zk-line); border-radius: var(--zk-radius); padding: var(--zk-pad-control); font: inherit; }
+button { cursor: pointer; }
+button:hover { border-color: var(--zk-acc); }
+button[aria-pressed="true"] { background: var(--zk-pressed); border-color: var(--zk-primary-line); }
+button.primary { background: var(--zk-primary); border-color: var(--zk-primary-line); }
+[hidden] { display: none !important; }
+header { display: flex; gap: var(--zk-gap); align-items: center; padding: var(--zk-pad); background: var(--zk-panel); border-bottom: 1px solid var(--zk-line); flex-wrap: wrap; }
+header b { font-size: var(--zk-font-title); margin-right: 6px; }
+.zk-slot { display: flex; gap: var(--zk-gap); align-items: center; flex-wrap: wrap; }
+.zk-host { display: flex; gap: var(--zk-gap-small); align-items: center; flex-wrap: wrap; }
+#main { flex: 1; display: flex; min-height: 0; }
+#stage { flex: 1; position: relative; overflow: hidden; display: flex; background: var(--zk-black); min-width: 0; }
+#srcpane { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; min-width: 0; }
+#srcpane video, #srcpane img, #srcpane canvas { position: absolute; max-width: 100%; max-height: 100%; }
+#overlay { pointer-events: none; }
+#overlay.zk-editing { pointer-events: auto; cursor: crosshair; touch-action: none; }
+#drop { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--zk-dim); font-size: 15px; }
+#stage > .zk-slot { flex: 1; min-width: 0; align-items: stretch; }
+#stage > .zk-slot > .zk-host { flex: 1; min-width: 0; position: relative; }
+#panel { width: var(--zk-panel-width); background: var(--zk-panel); border-left: 1px solid var(--zk-line); overflow: auto; padding: var(--zk-gap); flex-direction: column; align-items: stretch; flex-wrap: nowrap; }
+#panel > .zk-host { width: 100%; }
+body[data-view="source"] #stage > .zk-slot, body[data-view="source"] #panel { display: none; }
+body[data-view="pov"] #srcpane { display: none; }
+body[data-view="split"] #srcpane { border-right: 1px solid var(--zk-line); }
+footer { padding: 6px 12px; background: var(--zk-panel); border-top: 1px solid var(--zk-line); display: flex; flex-direction: column; gap: 6px; }
+#scrub { width: 100%; }
+.row { display: flex; gap: var(--zk-gap); align-items: center; flex-wrap: wrap; }
+.mono { font-family: var(--zk-mono); }
+#status { color: var(--zk-dim); }
+#status.ok { color: var(--zk-ok); }
+#status.err { color: var(--zk-err); }
+#log { max-height: var(--zk-log-height); overflow: auto; color: var(--zk-dim); font-size: var(--zk-font-small); white-space: pre-wrap; }

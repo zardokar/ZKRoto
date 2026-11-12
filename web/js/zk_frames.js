@@ -5,6 +5,8 @@ const URL_PREFIX = /^(blob:|https?:|\/)/;
 const UNSAFE_RUN = /[^\w.-]+/g;
 const EXTENSION = /\.[^.]+$/;
 const VIEW_API = "/api/view?type=input";
+const STILL = /\.(png|jpe?g|webp)$/i;
+const FRONT_WORD = /front(?![a-z])(?!.*front(?![a-z]))/i;
 
 export function parseFps(str) {
   const [a, b = "1"] = String(str).split("/");
@@ -59,4 +61,23 @@ export function nameFromUrl(url) {
 
 export function nameFromInput(name) {
   return name.replace(/\\/g, "/").split("/").pop();
+}
+
+export function isStill(name) {
+  return STILL.test(String(name).split("?")[0]);
+}
+
+// Character sheet partner (user choice B, 2026-11-10): the same name with the last "front" in the file name
+// replaced by "side", same case style (front.png -> side.png, FRA007_Front.png -> FRA007_Side.png); null if none.
+export function sideName(name) {
+  const s = String(name);
+  const cut = Math.max(s.lastIndexOf("/"), s.lastIndexOf("\\")) + 1;
+  const file = s.slice(cut);
+  const m = file.match(FRONT_WORD);
+  if (!m) {
+    return null;
+  }
+  const w = m[0];
+  const side = w === w.toUpperCase() ? "SIDE" : w[0] === w[0].toUpperCase() ? "Side" : "side";
+  return s.slice(0, cut) + file.slice(0, m.index) + side + file.slice(m.index + w.length);
 }

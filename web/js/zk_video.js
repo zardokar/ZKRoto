@@ -1,4 +1,5 @@
-// COMPONENT: the <video> element - load, frame-exact seek (serialized), frame canvas, fps grid.
+// COMPONENT: the <video> element - load, frame-exact seek (serialized), frame canvas, fps grid;
+// a still picture (png / jpg / webp, 0.2.5) shows in <img id="still"> as a one-frame clip.
 import * as F from "./zk_frames.js";
 
 export function createVideo(ctx, hooks) {
@@ -48,24 +49,48 @@ export function createVideo(ctx, hooks) {
     el.total.textContent = String(state.total - 1);
   }
 
-  async function load(src) {
-    const s = source(src);
-    ctx.status(t("loading", { name: s.name }));
-    hooks.onClear();
+  function show(still) {
+    state.still = still;
+    video.style.display = still ? "none" : "";
+    el.still.style.display = still ? "" : "none";
+  }
+
+  async function loadStill(s) {
+    el.still.src = s.url;
+    await el.still.decode();
+    video.removeAttribute("src");
+    show(true);
+    state.total = 1;
+    el.scrub.max = "0";
+    el.total.textContent = "0";
+    return { width: el.still.naturalWidth, height: el.still.naturalHeight };
+  }
+
+  async function loadVideo(s) {
+    show(false);
     video.src = s.url;
     await once("loadedmetadata");
     if (video.readyState < 2) {
       await once("loadeddata");
     }
+    setTotal();
+    return { width: video.videoWidth, height: video.videoHeight };
+  }
+
+  async function load(src) {
+    const s = source(src);
+    ctx.status(t("loading", { name: s.name }));
+    hooks.onClear();
+    const size = F.isStill(s.name) ? await loadStill(s) : await loadVideo(s);
     state.name = s.name;
     state.url = s.url;
     state.base = F.safeBase(s.name);
-    setTotal();
     el.drop.style.display = "none";
-    hooks.onSize(video.videoWidth, video.videoHeight);
+    hooks.onSize(size.width, size.height);
     el.name.value = src instanceof File ? "" : String(src);
-    ctx.log(t("loaded", { name: s.name, width: video.videoWidth, height: video.videoHeight,
-      seconds: video.duration.toFixed(3), total: state.total, fps: ctx.fps().toFixed(3) }));
+    ctx.log(state.still ? t("loadedStill", { name: s.name, width: size.width, height: size.height })
+      : t("loaded", { name: s.name, width: size.width, height: size.height,
+        seconds: video.duration.toFixed(3), total: state.total, fps: ctx.fps().toFixed(3) }));
     await seek(0);
     ctx.status(t("ready"), "ok");
   }
@@ -103,13 +128,13 @@ export function createVideo(ctx, hooks) {
       throw new Error(t("noVideo"));
     }
     n = F.clampFrame(n, state.total);
-    if (!video.paused) {
+    if (!state.still && !video.paused) {
       video.pause();
     }
-    const mt = await presentAt(F.seekTime(n, ctx.fps()));
+    const mt = state.still ? 0 : await presentAt(F.seekTime(n, ctx.fps()));
     state.frame = n;
     state.mediaTime = mt;
-    state.shown = F.shownFrame(mt, ctx.fps(), state.total);
+    state.shown = state.still ? 0 : F.shownFrame(mt, ctx.fps(), state.total);
     el.scrub.value = String(n);
     el.frame.value = String(n);
     el.tc.textContent = t("time", { seconds: mt.toFixed(3) });
@@ -137,10 +162,11 @@ export function createVideo(ctx, hooks) {
   }
 
   function frameCanvas() {
+    const src = state.still ? el.still : video;
     const c = document.createElement("canvas");
-    c.width = video.videoWidth;
-    c.height = video.videoHeight;
-    c.getContext("2d", { willReadFrequently: true }).drawImage(video, 0, 0, c.width, c.height);
+    c.width = state.still ? el.still.naturalWidth : video.videoWidth;
+    c.height = state.still ? el.still.naturalHeight : video.videoHeight;
+    c.getContext("2d", { willReadFrequently: true }).drawImage(src, 0, 0, c.width, c.height);
     return c;
   }
 
@@ -149,7 +175,7 @@ export function createVideo(ctx, hooks) {
     state.fpsNum = f.num;
     state.fpsDen = f.den;
     el.fps.value = `${state.fpsNum}/${state.fpsDen}`;
-    if (state.url) {
+    if (state.url && !state.still) {
       setTotal();
       await seek(state.frame);
     }

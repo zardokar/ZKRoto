@@ -1,0 +1,32 @@
+/* ZKRoto theme: every colour, size, space and font of the page as CSS variables. Change the look here only. */
+:root {
+  --zk-bg: #16181c;
+  --zk-panel: #1f2228;
+  --zk-line: #2e323a;
+  --zk-fg: #e6e6e6;
+  --zk-dim: #9aa0aa;
+  --zk-acc: #4fa3ff;
+  --zk-ok: #5ccf86;
+  --zk-err: #ff6b6b;
+  --zk-warn: #ffcc66;
+  --zk-black: #000000;
+  --zk-control: #2a2e36;
+  --zk-primary: #21466e;
+  --zk-primary-line: #2f6bab;
+  --zk-pressed: #21466e;
+  --zk-person-1: #4fa3ff;
+  --zk-person-2: #ff8a3d;
+  --zk-missing: 0.35;
+  --zk-font: 13px/1.4 system-ui, "Segoe UI", sans-serif;
+  --zk-font-small: 12px;
+  --zk-font-title: 14px;
+  --zk-mono: ui-monospace, Consolas, monospace;
+  --zk-gap: 8px;
+  --zk-gap-small: 4px;
+  --zk-pad: 8px 12px;
+  --zk-pad-control: 4px 8px;
+  --zk-radius: 4px;
+  --zk-panel-width: 340px;
+  --zk-log-height: 84px;
+  --zk-minimap-height: 150px;
+}

@@ -14,24 +14,74 @@ function camel(name) {
   });
 }
 
+// A 2D context whose every method does nothing (drawing is tested elsewhere with a recording context).
+const NO_OP_CONTEXT = new Proxy({}, {
+  get: function () {
+    return function () {
+      return null;
+    };
+  },
+  set: function () {
+    return true;
+  },
+});
+
+function classList(el) {
+  const names = new Set();
+  return {
+    add: function (n) {
+      names.add(n);
+    },
+    remove: function (n) {
+      names.delete(n);
+    },
+    toggle: function (n, on) {
+      if (on === undefined ? !names.has(n) : on) {
+        names.add(n);
+      } else {
+        names.delete(n);
+      }
+      el.classNames = [...names];
+    },
+    contains: function (n) {
+      return names.has(n);
+    },
+  };
+}
+
 function makeElement(tag) {
   const el = {
-    tag, textContent: "", className: "", value: "", placeholder: "", checked: false, paused: true,
+    tag, textContent: "", className: "", value: "", placeholder: "", checked: false, paused: true, hidden: false,
     width: 0, height: 0, videoWidth: 0, videoHeight: 0, readyState: 0, style: {}, dataset: {}, options: [], children: [],
+    attributes: {}, listeners: {},
   };
+  el.classList = classList(el);
   el.appendChild = function (child) {
     el.children.push(child);
     if (child.tag === "option") {
       el.options.push(child);
     }
+    return child;
   };
-  el.addEventListener = function () {
+  el.append = function (...nodes) {
+    nodes.forEach(el.appendChild);
+  };
+  el.setAttribute = function (name, value) {
+    el.attributes[name] = String(value);
+  };
+  el.getAttribute = function (name) {
+    return name in el.attributes ? el.attributes[name] : null;
+  };
+  el.addEventListener = function (name, fn) {
+    (el.listeners[name] = el.listeners[name] || []).push(fn);
+  };
+  el.removeEventListener = function () {
     return null;
   };
-  el.removeEventListener = el.addEventListener;
-  el.pause = el.addEventListener;
+  el.pause = el.removeEventListener;
+  el.setPointerCapture = el.removeEventListener;
   el.getContext = function () {
-    return { clearRect: el.addEventListener };
+    return NO_OP_CONTEXT;
   };
   return el;
 }
@@ -61,10 +111,14 @@ function fromHtml() {
   return nodes;
 }
 
+const DATA_SELECTOR = /^\[data-([\w-]+)(?:="([^"]*)")?\]$/;
+
+// Only the selectors the page uses: [data-key] and [data-key="value"].
 function byAttribute(nodes, selector) {
-  const key = selector.slice(6, -1);
+  const m = selector.match(DATA_SELECTOR);
+  const key = camel(m[1]);
   return nodes.filter(function (n) {
-    return n.dataset[key] !== undefined;
+    return n.dataset[key] !== undefined && (m[2] === undefined || n.dataset[key] === m[2]);
   });
 }
 
@@ -80,6 +134,12 @@ function install() {
     querySelectorAll: function (selector) {
       return byAttribute(nodes, selector);
     },
+    querySelector: function (selector) {
+      return byAttribute(nodes, selector)[0] || null;
+    },
+    head: makeElement("head"),
+    body: makeElement("body"),
+    activeElement: null,
     createElement: makeElement,
     addEventListener: function () {
       return null;

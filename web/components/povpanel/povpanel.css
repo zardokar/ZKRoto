@@ -1,0 +1,15 @@
+/* component povpanel: the Camera tab. Variables: theme/zk_theme.css */
+[data-component="povpanel"] { flex-direction: column; align-items: stretch; gap: var(--zk-gap); }
+.zk-row { display: flex; gap: var(--zk-gap-small); align-items: center; flex-wrap: wrap; }
+.zk-panel-top { justify-content: flex-end; }
+.zk-group .zk-choice { flex: 1; }
+.zk-group-label { min-width: 60px; color: var(--zk-dim); }
+.zk-slider-row { flex-direction: column; align-items: stretch; gap: 2px; }
+.zk-slider-head, .zk-slider-ends { display: flex; justify-content: space-between; align-items: center; }
+.zk-slider-ends { color: var(--zk-dim); font-size: var(--zk-font-small); }
+.zk-slider { width: 100%; padding: 0; }
+.zk-num { width: 72px; font-family: var(--zk-mono); }
+.zk-margins .zk-num { width: 52px; }
+.zk-margins > span { width: 100%; }
+.zk-warn { color: var(--zk-warn); font-size: var(--zk-font-small); }
+.zk-look span, .zk-threshold span, .zk-margins > span, .zk-layers > span { color: var(--zk-dim); }

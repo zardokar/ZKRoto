@@ -1,0 +1,4 @@
+/* component minimap: top view. Variables: theme/zk_theme.css */
+.zk-minimap-title { color: var(--zk-dim); font-size: var(--zk-font-small); }
+.zk-minimap-canvas { width: 100%; height: var(--zk-minimap-height); border: 1px solid var(--zk-line); border-radius: var(--zk-radius); }
+[data-component="minimap"] { flex-direction: column; align-items: stretch; }

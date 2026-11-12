@@ -1,0 +1,3 @@
+/* component views: Source | POV | Split. Variables: theme/zk_theme.css */
+.zk-views-label { color: var(--zk-dim); }
+.zk-views-hint { color: var(--zk-dim); font-size: var(--zk-font-small); }

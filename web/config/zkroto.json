@@ -50,6 +50,12 @@
     "lineWidthDivisor": 400,
     "pointScale": 1.6
   },
+  "edit": {
+    "pickRadius": 12,
+    "handleScale": 1.8,
+    "ringColor": "#ffffff",
+    "ringShadow": "#111111"
+  },
   "testPattern": {
     "x0": 20,
     "step": 76,
@@ -69,5 +75,205 @@
       150
     ],
     "randomFrames": 20
+  },
+  "pov": {
+    "camera": {
+      "yaw": 0,
+      "eyeHeight": 1.55,
+      "distance": 1.2,
+      "fov": 60,
+      "roll": 0,
+      "lookAt": "chest"
+    },
+    "ranges": {
+      "yaw": [
+        -180,
+        180,
+        1
+      ],
+      "eyeHeight": [
+        0.2,
+        2.2,
+        0.01
+      ],
+      "distance": [
+        0.3,
+        5,
+        0.01
+      ],
+      "fov": [
+        20,
+        100,
+        1
+      ],
+      "roll": [
+        -45,
+        45,
+        1
+      ],
+      "depth": [
+        0.05,
+        1,
+        0.05
+      ]
+    },
+    "lookAt": [
+      "hips",
+      "chest",
+      "head"
+    ],
+    "presets": {
+      "front": {
+        "yaw": 0,
+        "eyeHeight": 1.55
+      },
+      "back": {
+        "yaw": 180,
+        "eyeHeight": 1.55
+      },
+      "left": {
+        "yaw": 90,
+        "eyeHeight": 1.55
+      },
+      "right": {
+        "yaw": -90,
+        "eyeHeight": 1.55
+      },
+      "top": {
+        "yaw": 0,
+        "eyeHeight": 2.2
+      }
+    },
+    "outModes": [
+      "portrait",
+      "landscape",
+      "custom"
+    ],
+    "outMode": "portrait",
+    "portrait": [
+      832,
+      1216
+    ],
+    "custom": {
+      "size": [
+        1024,
+        1024
+      ],
+      "step": 64,
+      "min": 64,
+      "max": 4096,
+      "targetPixels": 1048576,
+      "warnFraction": 0.15
+    },
+    "framings": [
+      "fit",
+      "true"
+    ],
+    "framing": "fit",
+    "margins": {
+      "top": 0.1,
+      "bottom": 0.09,
+      "sides": 0.05
+    },
+    "threshold": 0.3,
+    "nearClip": 0.05,
+    "orbit": {
+      "yawPerPx": 0.5,
+      "heightPerPx": 0.005,
+      "distancePerWheel": 0.001
+    },
+    "views": [
+      "source",
+      "pov",
+      "split"
+    ],
+    "view": "source",
+    "person": 0,
+    "layers": {
+      "op": true,
+      "mp": true,
+      "face": true
+    },
+    "marginMax": 0.45,
+    "depth": 0.25,
+    "xy": "world",
+    "xyFrom": [
+      "world",
+      "image",
+      "sheet"
+    ]
+  },
+  "openpose": {
+    "stickWidth": 4,
+    "jointRadius": 4,
+    "refShortSide": 512,
+    "limbShade": 0.6,
+    "faceRadius": 3
+  },
+  "sheet": {
+    "columns": 8,
+    "tileWidth": 200,
+    "labelHeight": 22,
+    "gap": 4,
+    "lineWidth": 2,
+    "pointRadius": 2,
+    "font": "12px monospace"
+  },
+  "export": {
+    "route": "/zkroto/export",
+    "shotRoute": "/zkroto/shot",
+    "sheetRoute": "/zkroto/sheetdata",
+    "srcCamera": true,
+    "captureFolder": "capture"
+  },
+  "minimap": {
+    "metresAcross": 7,
+    "personRadius": 5,
+    "eyeRadius": 5,
+    "coneLength": 0.6
+  },
+  "layout": {
+    "slots": {
+      "header": [
+        "people",
+        "views"
+      ],
+      "stage": [
+        "povview"
+      ],
+      "panel": [
+        "tabs",
+        "povpanel",
+        "minimap",
+        "points"
+      ],
+      "footer": [
+        "exportbar"
+      ]
+    },
+    "tabs": {
+      "camera": [
+        "povpanel",
+        "minimap"
+      ],
+      "points": [
+        "points"
+      ]
+    },
+    "tab": "camera"
+  },
+  "face": {
+    "model": "models/face_landmarker.task",
+    "delegates": [
+      "GPU",
+      "CPU"
+    ],
+    "runningMode": "IMAGE",
+    "numFaces": 1,
+    "minFaceDetectionConfidence": 0.3,
+    "minFacePresenceConfidence": 0.3,
+    "cropScale": 0.9,
+    "cropPixels": 384,
+    "meshPointRadius": 1.2
   }
 }
