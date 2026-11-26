@@ -1,22 +1,19 @@
-// COMPONENT exportbar: Export (Ctrl+E), the "source camera" checkbox, the two name fields (shot, character) and
-// Export range: frames from / to (empty = whole clip); the button turns into Stop while a range runs.
+// COMPONENT exportbar (Roto panel, Export tab; wf_modes round 1, Koh OK 2026-11-26 17:54): label | value rows for
+// shot, character, source camera (themed switch, z-ui Never: a browser checkbox) and frames from / to (empty = whole
+// clip), then Export range | Export, 50:50 with the main action right (z-ui B1). Export range turns into Stop.
 import { EVENTS } from "../../js/zk_events.js";
 import { el, button, setValue } from "../../js/zk_dom.js";
 
-function field(labelText, placeholder, onInput, size) {
-  const input = el("input", { className: "zk-name", attrs: { placeholder, size: size || 12 },
-    on: onInput ? { input: onInput } : {} });
-  const label = el("label", { className: "zk-field" });
-  label.append(el("span", { text: labelText }), input);
-  return { label, input };
+function row(host, labelText, ...value) {
+  host.append(el("span", { className: "zk-exp-label", text: labelText }), ...value);
 }
 
-const RANGE_SIZE = 5;
+function input(placeholder, aria, onInput) {
+  return el("input", { className: "zk-name", attrs: { placeholder, "aria-label": aria }, on: onInput ? { input: onInput } : {} });
+}
 
-function rangeParts(ctx, parts) {
+function rangeButton(ctx, parts, from, to) {
   const { k } = ctx;
-  const from = field(k.ui.rangeFrom, k.ui.rangeAll, null, RANGE_SIZE);
-  const to = field(k.ui.rangeTo, k.ui.rangeAll, null, RANGE_SIZE);
   let running = false;
   const btn = button(k.ui.exportRange, async function () {
     if (running) {
@@ -25,36 +22,42 @@ function rangeParts(ctx, parts) {
     }
     running = true;
     btn.textContent = k.ui.stopRange;
-    await ctx.run(parts.zk.exportRange, { from: from.input.value.trim(), to: to.input.value.trim() });
+    await ctx.run(parts.zk.exportRange, { from: from.value.trim(), to: to.value.trim() });
     running = false;
     btn.textContent = k.ui.exportRange;
   }, "zk-export-range");
-  return [btn, from.label, to.label];
+  return btn;
 }
 
 export function mount(host, ctx, parts) {
   const { k, bus, state } = ctx;
-  host.append(button(k.ui.export, function () {
-    ctx.run(parts.zk.exportPose);
-  }, "zk-export"));
-  const src = el("input", { attrs: { type: "checkbox" }, on: { change: function (e) {
-    parts.pov.options({ srcCamera: e.target.checked });
-  } } });
-  const srcLabel = el("label", { className: "zk-field" });
-  srcLabel.append(src, el("span", { text: k.ui.srcCamera }));
-  const shot = field(k.ui.shot, k.ui.shotPlaceholder, function (e) {
+  const shot = input(k.ui.shotPlaceholder, k.ui.shot, function (e) {
     parts.pov.options({ names: { shot: e.target.value } });
   });
-  const character = field(k.ui.character, k.ui.characterPlaceholder, function (e) {
+  const character = input(k.ui.characterPlaceholder, k.ui.character, function (e) {
     parts.pov.options({ names: { character: e.target.value } });
   });
-  host.append(srcLabel, shot.label, character.label);
-  host.append(...rangeParts(ctx, parts));
-
+  const src = el("button", { className: "zk-switch", attrs: { type: "button", role: "switch", "aria-label": k.ui.srcCamera },
+    on: { click: function () {
+      parts.pov.options({ srcCamera: !state.pov.srcCamera });
+    } } });
+  const from = input(k.ui.rangeAll, k.ui.rangeFrom);
+  const to = input(k.ui.rangeAll, k.ui.rangeTo);
+  const pair = el("div", { className: "zk-exp-pair" });
+  pair.append(from, to);
+  const acts = el("div", { className: "zk-exp-acts" });
+  acts.append(rangeButton(ctx, parts, from, to), button(k.ui.export, function () {
+    ctx.run(parts.zk.exportPose);
+  }, "zk-export"));
+  row(host, k.ui.shot, shot);
+  row(host, k.ui.character, character);
+  row(host, k.ui.srcCamera, src);
+  row(host, k.ui.frames, pair);
+  host.append(acts);
   function update() {
-    src.checked = state.pov.srcCamera;
-    setValue(shot.input, state.pov.names.shot);
-    setValue(character.input, state.pov.names.character);
+    src.setAttribute("aria-checked", String(!!state.pov.srcCamera));
+    setValue(shot, state.pov.names.shot);
+    setValue(character, state.pov.names.character);
   }
   bus.on(EVENTS.pov, update);
   update();

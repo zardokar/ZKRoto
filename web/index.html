@@ -10,41 +10,53 @@
 <body>
 <header>
   <b data-text="title"></b>
-  <input id="name" class="mono" size="34" data-placeholder="namePlaceholder">
-  <button id="btnLoad" data-text="load"></button>
-  <label><span data-text="orFile"></span> <input id="file" type="file" accept="video/*,image/*"></label>
-  <label><span data-text="fps"></span> <select id="fps"></select></label>
-  <label><input id="showPose" type="checkbox" checked> <span data-text="poseOverlay"></span></label>
+  <div class="zk-slot" data-slot="modeswitch"></div>
+  <div class="zk-load">
+    <input id="name" class="mono" size="34" data-placeholder="namePlaceholder">
+    <button id="btnLoad" class="zk-req-btn" data-icon="go" data-tip-key="loadTip"></button>
+    <button id="btnOpen" class="zk-req-btn" data-icon="open" data-tip-key="openTip"></button>
+    <input id="file" type="file" accept="video/*,image/*" hidden>
+  </div>
+  <span class="zk-statuswrap" data-tip-key="logTip">
+    <button id="status" type="button" class="zk-status" aria-expanded="false"></button>
+    <div id="log" class="mono zk-logdrawer" hidden></div>
+  </span>
   <div class="zk-slot" data-slot="header"></div>
+  <input id="showPose" type="checkbox" checked hidden>
 </header>
 <div id="main">
-  <div id="stage">
-    <div id="srcpane">
-      <div id="drop" data-text="drop"></div>
-      <video id="video" muted playsinline preload="auto"></video>
-      <img id="still" alt="" style="display: none">
-      <canvas id="overlay"></canvas>
+  <nav class="zk-slot zk-toolslot" data-slot="tools"></nav>
+  <div id="stagecol">
+    <div id="stage">
+      <div id="srcpane">
+        <div id="drop" data-text="drop"></div>
+        <video id="video" muted playsinline preload="auto"></video>
+        <img id="still" alt="" style="display: none">
+        <canvas id="overlay"></canvas>
+        <canvas id="pen"></canvas>
+      </div>
+      <div class="zk-slot" data-slot="stage"></div>
+      <div class="zk-overlayslot" data-slot="overlay"></div>
     </div>
-    <div class="zk-slot" data-slot="stage"></div>
+    <footer id="framebar">
+      <input id="scrub" type="range" min="0" max="0" value="0">
+      <div class="row">
+        <button data-step="-30" class="zk-req-btn" data-icon="b30" data-tip-key="back30Tip"></button>
+        <button data-step="-1" class="zk-req-btn" data-icon="back" data-tip-key="back1Tip"></button>
+        <input id="frame" class="mono" size="6" value="0"><span class="mono zk-total">/ <span id="total">0</span></span>
+        <button data-step="1" class="zk-req-btn" data-icon="next" data-tip-key="fwd1Tip"></button>
+        <button data-step="30" class="zk-req-btn" data-icon="f30" data-tip-key="fwd30Tip"></button>
+        <select id="fps" hidden></select>
+        <span class="zk-slot" data-slot="fps"></span>
+        <span class="mono" id="tc" data-text="tcEmpty"></span>
+        <button id="btnPose" class="primary" data-zk-only="roto" data-text="pose"></button>
+        <button id="btnCapture" class="zk-req-btn" data-icon="camera" data-tip-key="capture"></button>
+        <span class="zk-slot" data-slot="footer"></span>
+      </div>
+    </footer>
   </div>
   <aside id="panel" class="zk-slot" data-slot="panel"></aside>
 </div>
-<footer>
-  <input id="scrub" type="range" min="0" max="0" value="0">
-  <div class="row">
-    <button data-step="-30" data-text="back30"></button>
-    <button data-step="-1" data-text="back1"></button>
-    <span class="mono"><span data-text="frameLabel"></span> <input id="frame" class="mono" size="6" value="0"> / <span id="total">0</span></span>
-    <button data-step="1" data-text="fwd1"></button>
-    <button data-step="30" data-text="fwd30"></button>
-    <span class="mono" id="tc" data-text="tcEmpty"></span>
-    <button id="btnCapture" class="primary" data-text="capture"></button>
-    <button id="btnPose" data-text="pose"></button>
-    <span class="zk-slot" data-slot="footer"></span>
-    <span id="status"></span>
-  </div>
-  <div id="log" class="mono"></div>
-</footer>
 <script type="importmap">
 {
   "imports": {
@@ -55,6 +67,39 @@
     "./components/povpanel/povpanel.js": "./components/povpanel/povpanel.js?v=0.3.0",
     "./components/povpanel/povpanel_fields.js": "./components/povpanel/povpanel_fields.js?v=0.3.0",
     "./components/povview/povview.js": "./components/povview/povview.js?v=0.3.0",
+    "./components/penbar/penbar.js": "./components/penbar/penbar.js?v=0.3.0",
+    "./components/zoombar/zoombar.js": "./components/zoombar/zoombar.js?v=0.3.0",
+    "./components/reqbar/reqbar.js": "./components/reqbar/reqbar.js?v=0.3.0",
+    "./components/compare/compare.js": "./components/compare/compare.js?v=0.3.0",
+    "./components/compare/compare_input.js": "./components/compare/compare_input.js?v=0.3.0",
+    "./components/reqbar/reqbar_words.js": "./components/reqbar/reqbar_words.js?v=0.3.0",
+    "./components/apibar/apibar.js": "./components/apibar/apibar.js?v=0.3.0",
+    "./components/apibar/apibar_key.js": "./components/apibar/apibar_key.js?v=0.3.0",
+    "./components/apibar/apibar_err.js": "./components/apibar/apibar_err.js?v=0.3.0",
+    "./components/modeswitch/modeswitch.js": "./components/modeswitch/modeswitch.js?v=0.3.0",
+    "./components/rototools/rototools.js": "./components/rototools/rototools.js?v=0.3.0",
+    "./components/fpsbox/fpsbox.js": "./components/fpsbox/fpsbox.js?v=0.3.0",
+    "./js/zk_mode.js": "./js/zk_mode.js?v=0.3.0",
+    "./js/zk_modeview.js": "./js/zk_modeview.js?v=0.3.0",
+    "./js/zk_svgpathd.js": "./js/zk_svgpathd.js?v=0.3.0",
+    "./js/zk_svgimport.js": "./js/zk_svgimport.js?v=0.3.0",
+    "./js/zk_svgcolour.js": "./js/zk_svgcolour.js?v=0.3.0",
+    "./js/zk_claudeerr.js": "./js/zk_claudeerr.js?v=0.3.0",
+    "./js/zk_claudeapi.js": "./js/zk_claudeapi.js?v=0.3.0",
+    "./js/zk_aibrief.js": "./js/zk_aibrief.js?v=0.3.0",
+    "./js/zk_modelstore.js": "./js/zk_modelstore.js?v=0.3.0",
+    "./js/zk_modelorder.js": "./js/zk_modelorder.js?v=0.3.0",
+    "./js/zk_reqrecipe.js": "./js/zk_reqrecipe.js?v=0.3.0",
+    "./js/zk_hairsplit.js": "./js/zk_hairsplit.js?v=0.3.0",
+    "./js/zk_hairpixels.js": "./js/zk_hairpixels.js?v=0.3.0",
+    "./js/zk_comfyrun.js": "./js/zk_comfyrun.js?v=0.3.0",
+    "./js/zk_aimodels.js": "./js/zk_aimodels.js?v=0.3.0",
+    "./js/zk_aisend.js": "./js/zk_aisend.js?v=0.3.0",
+    "./js/zk_aiparts.js": "./js/zk_aiparts.js?v=0.3.0",
+    "./js/zk_reqicons.js": "./js/zk_reqicons.js?v=0.3.0",
+    "./components/colorbox/colorbox.js": "./components/colorbox/colorbox.js?v=0.3.0",
+    "./components/picker/picker.js": "./components/picker/picker.js?v=0.3.0",
+    "./components/picker/picker_wheel.js": "./components/picker/picker_wheel.js?v=0.3.0",
     "./components/registry.js": "./components/registry.js?v=0.3.0",
     "./components/tabs/tabs.js": "./components/tabs/tabs.js?v=0.3.0",
     "./components/views/views.js": "./components/views/views.js?v=0.3.0",
@@ -88,6 +133,19 @@
     "./js/zk_povstate.js": "./js/zk_povstate.js?v=0.3.0",
     "./js/zk_edits.js": "./js/zk_edits.js?v=0.3.0",
     "./js/zk_editstore.js": "./js/zk_editstore.js?v=0.3.0",
+    "./js/zk_penbody.js": "./js/zk_penbody.js?v=0.3.0",
+    "./js/zk_pen.js": "./js/zk_pen.js?v=0.3.0",
+    "./js/zk_pencursor.js": "./js/zk_pencursor.js?v=0.3.0",
+    "./js/zk_pendoc.js": "./js/zk_pendoc.js?v=0.3.0",
+    "./js/zk_pendraw.js": "./js/zk_pendraw.js?v=0.3.0",
+    "./js/zk_penhit.js": "./js/zk_penhit.js?v=0.3.0",
+    "./js/zk_penicons.js": "./js/zk_penicons.js?v=0.3.0",
+    "./js/zk_penpath.js": "./js/zk_penpath.js?v=0.3.0",
+    "./js/zk_penkeys.js": "./js/zk_penkeys.js?v=0.3.0",
+    "./js/zk_penmouse.js": "./js/zk_penmouse.js?v=0.3.0",
+    "./js/zk_pensvg.js": "./js/zk_pensvg.js?v=0.3.0",
+    "./js/zk_pentools.js": "./js/zk_pentools.js?v=0.3.0",
+    "./js/zk_penview.js": "./js/zk_penview.js?v=0.3.0",
     "./js/zk_pointedit.js": "./js/zk_pointedit.js?v=0.3.0",
     "./js/zk_range.js": "./js/zk_range.js?v=0.3.0",
     "./js/zk_render.js": "./js/zk_render.js?v=0.3.0",
@@ -97,7 +155,25 @@
     "./js/zk_text.js": "./js/zk_text.js?v=0.3.0",
     "./js/zk_ui.js": "./js/zk_ui.js?v=0.3.0",
     "./js/zk_video.js": "./js/zk_video.js?v=0.3.0",
+    "./js/zk_view.js": "./js/zk_view.js?v=0.3.0",
+    "./js/zk_pencurve.js": "./js/zk_pencurve.js?v=0.3.0",
+    "./js/zk_pensplit.js": "./js/zk_pensplit.js?v=0.3.0",
+    "./js/zk_penselect.js": "./js/zk_penselect.js?v=0.3.0",
+    "./js/zk_penhistory.js": "./js/zk_penhistory.js?v=0.3.0",
+    "./js/zk_penbind.js": "./js/zk_penbind.js?v=0.3.0",
+    "./js/zk_requester.js": "./js/zk_requester.js?v=0.3.0",
+    "./js/zk_compareview.js": "./js/zk_compareview.js?v=0.3.0",
+    "./js/zk_reqmake.js": "./js/zk_reqmake.js?v=0.3.0",
+    "./js/zk_pentransform.js": "./js/zk_pentransform.js?v=0.3.0",
+    "./js/zk_transform.js": "./js/zk_transform.js?v=0.3.0",
+    "./js/zk_penstyle.js": "./js/zk_penstyle.js?v=0.3.0",
+    "./js/zk_pencolor.js": "./js/zk_pencolor.js?v=0.3.0",
+    "./js/zk_penact.js": "./js/zk_penact.js?v=0.3.0",
+    "./js/zk_pencore.js": "./js/zk_pencore.js?v=0.3.0",
+    "./js/zk_hsv.js": "./js/zk_hsv.js?v=0.3.0",
+    "./js/zk_wheel.js": "./js/zk_wheel.js?v=0.3.0",
     "./config/zkroto.json": "./config/zkroto.json?v=0.3.0",
+    "./constants/cursors.json": "./constants/cursors.json?v=0.3.0",
     "./constants/zkroto.json": "./constants/zkroto.json?v=0.3.0"
   }
 }

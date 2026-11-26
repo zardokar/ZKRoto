@@ -1,0 +1,17 @@
+/* COMPONENT colorbox: Fill / Stroke box (canvas.css .cv-colorbox / .cv-box / .cv-mini). The stroke square is a
+   hollow ring; the front square has an outline (its border already shows the colour). Colours from the theme. */
+[data-component="colorbox"] { position: relative; display: block; flex: 0 0 auto; margin-top: var(--zk-gap); margin-bottom: var(--zk-gap); width: var(--zk-colorbox-width); height: var(--zk-colorbox-height); margin-left: auto; margin-right: auto; }
+.zk-cbox { position: absolute; width: var(--zk-cbox-size); height: var(--zk-cbox-size); padding: 0; border-radius: var(--zk-radius); border: 1px solid var(--zk-line); }
+.zk-cbox-fill { left: 0; top: 6px; z-index: 2; }
+.zk-cbox-stroke { left: var(--zk-cbox-offset); top: 22px; z-index: 1; border-width: var(--zk-cbox-ring); }
+.zk-cbox.zk-front { z-index: 3; outline: 2px solid var(--zk-acc); outline-offset: 1px; }
+.zk-none { background-image: linear-gradient(45deg, transparent 44%, var(--zk-none-mark) 44%, var(--zk-none-mark) 56%, transparent 56%); }
+.zk-cmini { position: absolute; padding: 0; border: 0; background: none; color: var(--zk-dim); width: var(--zk-cmini-size); height: var(--zk-cmini-size); display: flex; align-items: center; justify-content: center; }
+.zk-cmini:hover { color: var(--zk-acc); }
+.zk-cmini svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.zk-cswap { right: 0; top: 2px; }
+.zk-cnone { left: 0; bottom: 2px; border: 1px solid var(--zk-dim); border-radius: 50%; background-image: linear-gradient(45deg, transparent 42%, var(--zk-none-mark) 42%, var(--zk-none-mark) 58%, transparent 58%); }
+.zk-cbox[data-tip]:hover::after, .zk-cmini[data-tip]:hover::after { content: attr(data-tip); position: absolute; left: calc(var(--zk-cbox-tip-x) - var(--zk-sq-x, 0px)); top: 50%; transform: translateY(-50%); white-space: nowrap; padding: var(--zk-pad-control); border-radius: var(--zk-radius); background: var(--zk-panel); border: 1px solid var(--zk-line); color: var(--zk-fg); font-size: var(--zk-font-small); pointer-events: none; z-index: 5; }
+/* Tips start at the left bar's edge, like the tool tips, so no tip covers another square (P7): each square says its x. */
+.zk-cbox-stroke { --zk-sq-x: var(--zk-cbox-offset); }
+.zk-cswap { --zk-sq-x: calc(var(--zk-colorbox-width) - var(--zk-cmini-size)); }

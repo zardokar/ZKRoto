@@ -7,7 +7,7 @@ const fs = require("fs");
 const path = require("path");
 
 const LIMITS = { maxLines: 200, maxCommentLines: 3, allowedDeps: ["electron"] };
-const SKIP_DIRS = new Set(["node_modules", ".git", ".temp", "pack", "_to_delete", ".dropzone", "arch"]);
+const SKIP_DIRS = new Set(["node_modules", ".git", ".temp", "pack", "_to_delete", ".dropzone", "arch", "outhtm", "aimd"]);
 const LF_EXT = new Set([".js", ".json", ".md"]);
 const CRLF_EXT = new Set([".bat", ".html", ".css"]);
 const ONE_LINE_FN = /\bfunction\b[^{]*\)\s*\{[^}\n]*\S[^}\n]*\}/;

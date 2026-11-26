@@ -1,0 +1,25 @@
+/* COMPONENT picker: colour box (canvas.css .cv-picker / .cv-ring / .cv-wheelsvg / .cv-knob). Base display none, shown
+   with :not([hidden]) (canvas rule: author display beats [hidden]). Ring mask uses closest-side (canvas bug fix). */
+[data-component="picker"] { position: absolute; left: calc(100% + var(--zk-gap-small)); bottom: var(--zk-gap); z-index: 9; width: var(--zk-picker-width); display: none; flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: var(--zk-gap); padding: var(--zk-gap); border-radius: var(--zk-tool-radius); background: var(--zk-panel); border: 1px solid var(--zk-line); user-select: none; }
+[data-component="picker"]:not([hidden]) { display: flex; }
+.zk-pickhead { display: flex; align-items: center; gap: var(--zk-gap-small); }
+.zk-picktitle { flex: 1; font-weight: 700; }
+.zk-pickbtn { position: relative; width: 26px; height: 26px; padding: 0; display: flex; align-items: center; justify-content: center; }
+.zk-pickbtn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.zk-pickico { width: 16px; height: 16px; }
+.zk-pickbtn[data-tip]:hover::after { content: attr(data-tip); position: absolute; right: 0; bottom: calc(100% + var(--zk-gap-small)); white-space: nowrap; padding: var(--zk-pad-control); border-radius: var(--zk-radius); background: var(--zk-panel); border: 1px solid var(--zk-line); color: var(--zk-fg); font-size: var(--zk-font-small); pointer-events: none; z-index: 5; }
+.zk-hsv { font-size: var(--zk-font-small); color: var(--zk-dim); }
+.zk-wheelwrap { position: relative; width: var(--zk-wheel-size); height: var(--zk-wheel-size); align-self: center; }
+.zk-ring { position: absolute; inset: 0; border-radius: 50%; background: var(--zk-hue-ring); -webkit-mask: radial-gradient(circle closest-side, transparent 73%, var(--zk-black) 74%); mask: radial-gradient(circle closest-side, transparent 73%, var(--zk-black) 74%); }
+.zk-wheelsvg { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
+.zk-hitpad { pointer-events: all; }
+.zk-knob { fill: none; stroke: var(--zk-knob-dark); stroke-width: 5; }
+.zk-knob-in { fill: none; stroke: var(--zk-knob-light); stroke-width: 2.5; }
+.zk-oprow { display: flex; align-items: center; gap: var(--zk-gap); font-size: var(--zk-font-small); color: var(--zk-dim); }
+.zk-oprow input[type=range] { flex: 1; padding: 0; accent-color: var(--zk-acc); }
+.zk-opval { min-width: 38px; text-align: right; }
+.zk-pickfoot { display: flex; align-items: center; gap: var(--zk-gap); }
+.zk-nowbox { width: 20px; height: 20px; border-radius: 3px; border: 1px solid var(--zk-line); }
+.zk-hexwrap { display: flex; align-items: center; gap: 3px; color: var(--zk-dim); }
+.zk-hexwrap input { width: 82px; }
+.zk-hexwrap input.zk-bad { border-color: var(--zk-err); }

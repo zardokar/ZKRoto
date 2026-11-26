@@ -1,0 +1,3 @@
+/* COMPONENT modeswitch: two tool buttons (.zk-req-btn look, reqbar.css); the chosen one filled (z-ui: chosen = filled). */
+[data-component="modeswitch"] { gap: var(--zk-gap-small); }
+.zk-mode-btn[aria-pressed="true"] { background: var(--zk-pressed); border-color: var(--zk-fg); }

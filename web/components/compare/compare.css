@@ -1,0 +1,24 @@
+/* COMPONENT compare: panel over the stage (wf_zkreq_3). Side by side = two panes; wipe = before over after,
+   clipped at the handle (rgthree Image Comparer). Pictures keep their pixels (no smoothing when zoomed in). */
+.zk-overlayslot { position: absolute; inset: 0; pointer-events: none; z-index: 20; }
+[data-component="compare"] { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: stretch; background: var(--zk-compare-bg); pointer-events: auto; }
+[data-component="compare"][hidden] { display: none; }
+.zk-cmp-bar { display: flex; align-items: center; gap: var(--zk-gap-small); padding: var(--zk-pad); background: var(--zk-compare-bar); border-bottom: 1px solid var(--zk-line); }
+.zk-cmp-status { font-size: var(--zk-font-small); color: var(--zk-fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zk-cmp-gap { flex: 1; }
+.zk-cmp-btn { position: relative; width: var(--zk-tool-size); height: var(--zk-tool-size); padding: 0; display: flex; align-items: center; justify-content: center; border-radius: var(--zk-tool-radius); box-shadow: var(--zk-tool-shadow); transition: transform 100ms ease-out, box-shadow 100ms ease-out; }
+.zk-cmp-btn:hover { transform: translateY(1px); box-shadow: var(--zk-tool-shadow-hover); }
+.zk-cmp-btn:active { transform: translateY(3px); box-shadow: var(--zk-tool-shadow-press); }
+.zk-cmp-btn[aria-pressed="true"] { background: var(--zk-acc); border-color: var(--zk-acc); color: var(--zk-on-acc); }
+.zk-cmp-btn:focus-visible { outline: 2px solid var(--zk-acc); outline-offset: 2px; }
+.zk-cmp-btn[data-tip]:hover::after, .zk-cmp-btn[data-tip]:focus-visible::after { content: attr(data-tip); position: absolute; right: 0; top: calc(100% + var(--zk-gap-small)); white-space: nowrap; padding: var(--zk-pad-control); border-radius: var(--zk-radius); background: var(--zk-panel); border: 1px solid var(--zk-line); color: var(--zk-fg); font-size: var(--zk-font-small); pointer-events: none; z-index: 5; }
+.zk-cmp-box { position: relative; flex: 1; overflow: hidden; cursor: grab; touch-action: none; }
+.zk-cmp-box:active { cursor: grabbing; }
+.zk-cmp-before, .zk-cmp-after { position: absolute; top: 0; bottom: 0; overflow: hidden; }
+[data-mode="side"] .zk-cmp-before { left: 0; width: 50%; border-right: 1px solid var(--zk-line); }
+[data-mode="side"] .zk-cmp-after { left: 50%; width: 50%; }
+[data-mode="wipe"] .zk-cmp-before, [data-mode="wipe"] .zk-cmp-after { left: 0; width: 100%; }
+.zk-cmp-img { position: absolute; left: 0; top: 0; transform-origin: 0 0; max-width: none; user-select: none; image-rendering: pixelated; }
+.zk-cmp-handle { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--zk-wipe-line); cursor: ew-resize; }
+.zk-cmp-handle::after { content: ""; position: absolute; top: 50%; left: 50%; width: var(--zk-wipe-knob-size); height: var(--zk-wipe-knob-size); transform: translate(-50%, -50%); border-radius: 50%; background: var(--zk-wipe-line); border: 2px solid var(--zk-wipe-knob-ink); }
+[data-mode="side"] .zk-cmp-handle { display: none; }

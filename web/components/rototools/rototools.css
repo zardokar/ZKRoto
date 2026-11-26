@@ -1,0 +1,4 @@
+/* COMPONENT rototools: vertical like penbar (.zk-tool look and tips from penbar.css). */
+[data-component="rototools"] { flex-direction: column; flex-wrap: nowrap; gap: var(--zk-gap-small); width: var(--zk-toolbar-width); padding: var(--zk-gap); }
+[data-component="rototools"] .zk-tool:disabled { opacity: var(--zk-missing); cursor: default; transform: none; box-shadow: var(--zk-tool-shadow); } /* Reset frame until E */
+[data-component="rototools"] .zk-tool:disabled:hover { border-color: var(--zk-line); }

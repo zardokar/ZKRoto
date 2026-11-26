@@ -151,7 +151,7 @@
     "customWarn": "{width} x {height} is {percent} % away from 1 MP",
     "povLabel": "POV {width} x {height} - {framing}",
     "personLabel": "person {n}",
-    "noPose": "no pose yet: press Pose (P)",
+    "noPose": "no pose yet: press Pose (O)",
     "badPoint": "point {index} does not exist (MediaPipe points 0 - 32)",
     "otherClip": "{file} belongs to clip {clip}: its edits are not used for this clip",
     "badEdits": "{file} is not a ZKRoto edits file: its edits are not used",
@@ -161,6 +161,13 @@
     "editReset": "frame {frame}: point {name} back to MediaPipe",
     "frameReset": "frame {frame}: every point back to MediaPipe",
     "exportBusy": "an Export is still running",
+    "reqNoPicture": "load a picture first",
+    "reqNothing": "nothing drawn: draw the area with the pen first",
+    "reqFailed": "request not written: {message}",
+    "reqSent": "request {id} written - tell Claude in chat: zk req",
+    "reqSentLog": "request {id} -> input\\{folder}",
+    "svgSaved": "shapes saved as {name}",
+    "compareStatus": "{id} · \"{prompt}\" · seed {seed} · {i} / {n}",
     "rangeBad": "frame range {from} - {to} is not allowed: whole frames, 0 to {last}, from not after to",
     "rangePose": "range: pose {i} / {n} (frame {frame})",
     "rangeExport": "range: export {i} / {n} (frame {frame})",
@@ -175,7 +182,21 @@
     "loadedStill": "loaded still {name} {width}x{height} (1 frame)",
     "sideFound": "side picture {name}: POV depth now comes from it (x / y from: front + side pictures)",
     "sideNone": "no side picture {name} - POV as before",
-    "sideNoPose": "side picture {name}: no person found - POV as before"
+    "sideNoPose": "side picture {name}: no person found - POV as before",
+    "aiChecked": "list checked {time}",
+    "aiStageClaude": "asking Claude",
+    "aiStageComfy": "ComfyUI {pct}",
+    "aiStageSave": "saving the answer",
+    "aiDone": "answer ready for {id} - see Compare",
+    "aiFailed": "{title}: {message}",
+    "aiImported": "{n} shapes imported from {name} ({skipped} left out)",
+    "aiImportNone": "no shapes in {name}",
+    "aiImportBad": "not imported: {message}",
+    "aiModelsFailed": "model list: {message}",
+    "aiStopped": "stopped",
+    "aiRecipe": "Claude: {prompt} (tint {tint}, denoise {denoise}) - {note}",
+    "aiHairFallback": "Hair split not used ({message}) - the whole mark is coloured",
+    "aiKeyBad": "the key has a space or a letter a key never has - nothing saved"
   },
   "ui": {
     "title": "ZKRoto",
@@ -191,7 +212,7 @@
     "fwd1": "1 ›",
     "fwd30": "30 »",
     "capture": "Capture (C)",
-    "pose": "Pose (P)",
+    "pose": "Pose (O)",
     "tcEmpty": "00:00:00:00",
     "person": "person",
     "swap": "Swap",
@@ -199,8 +220,21 @@
     "source": "Source",
     "pov": "POV",
     "split": "Split",
-    "nextViewHint": "V = next view",
-    "camera": "Camera",
+    "nextViewHint": "W = next view",
+    "camera": "POV",
+    "exportTab": "Export",
+    "frames": "frames",
+    "modeMask": "Mask",
+    "modeRoto": "Roto",
+    "loadTip": "Load by name (Enter)",
+    "openTip": "Open a file",
+    "back30Tip": "Back 30 frames",
+    "back1Tip": "Back 1 frame",
+    "fwd1Tip": "Next frame",
+    "fwd30Tip": "Next 30 frames",
+    "poseOverlayTip": "Pose overlay",
+    "logTip": "Log (Esc closes)",
+    "fpsTip": "Frame rate (fps)",
     "points": "Points",
     "reset": "Reset",
     "front": "Front",
@@ -254,7 +288,133 @@
     "xyFrom": "x / y from",
     "world": "MediaPipe 3D",
     "image": "the image",
-    "sheet": "front + side pictures"
+    "sheet": "front + side pictures",
+    "penTools": {
+      "select": {
+        "label": "Move path",
+        "key": "V"
+      },
+      "point": {
+        "label": "Move point",
+        "key": "A"
+      },
+      "pen": {
+        "label": "Pen",
+        "key": "P"
+      },
+      "zoom": {
+        "label": "Zoom",
+        "key": "Z"
+      },
+      "eyedrop": {
+        "label": "Eyedropper",
+        "key": "I"
+      }
+    },
+    "zoomFit": "Fit",
+    "zoomTips": {
+      "fit": "Fit the picture (0)",
+      "out": "Zoom out",
+      "in": "Zoom in"
+    },
+    "color": {
+      "fillTip": "Fill colour - click to pick",
+      "strokeTip": "Stroke colour - click to pick",
+      "swap": "Swap fill and stroke (X)",
+      "none": "No colour for the front square (/)",
+      "pickFill": "Fill colour",
+      "pickStroke": "Stroke colour",
+      "eye": "Pick from the picture (I)",
+      "close": "Close",
+      "opacity": "Opacity"
+    },
+    "reqTips": {
+      "svg": "Export the shapes as SVG",
+      "send": "Send to Claude (mask + picture)",
+      "compare": "Compare answers",
+      "side": "Side by side",
+      "wipe": "Wipe",
+      "back": "Previous answer",
+      "next": "Next answer",
+      "close": "Close (Esc)",
+      "wipeHandle": "Drag or use the arrow keys",
+      "import": "Import shapes (SVG)",
+      "words": "What should change? Enter = send",
+      "wordsPlaceholder": "e.g. red hair, keep the curls"
+    },
+    "apiTips": {
+      "model": "Claude model",
+      "refresh": "Check the model list now",
+      "key": "Claude API key",
+      "save": "Save the key",
+      "delete": "Delete the key",
+      "show": "Show / hide the key",
+      "close": "Close (Esc)",
+      "retry": "Try again",
+      "getKey": "Get a key (platform.claude.com)"
+    },
+    "api": {
+      "keyHere": "kept in this browser only",
+      "keyTitle": "Claude API key",
+      "noKeyTitle": "No key yet - Send waits for it",
+      "noKey": "no key",
+      "keyPlaceholder": "sk-ant-...",
+      "getKey": "get a key",
+      "noModels": "no list yet"
+    },
+    "aiErr": {
+      "credit": {
+        "title": "Out of credit",
+        "detail": "credit balance too low (400)",
+        "action": "Top up"
+      },
+      "billing": {
+        "title": "Payment problem",
+        "detail": "billing error (402)",
+        "action": "Billing"
+      },
+      "auth": {
+        "title": "Key rejected",
+        "detail": "authentication error (401)"
+      },
+      "rate": {
+        "title": "Too many requests",
+        "detail": "rate limit (429): tries again by itself"
+      },
+      "spend": {
+        "title": "Spend limit reached",
+        "detail": "spend limit (429), no auto retry",
+        "action": "Billing"
+      },
+      "busy": {
+        "title": "Claude busy",
+        "detail": "overloaded / server error / timeout (5xx)"
+      },
+      "toolarge": {
+        "title": "Picture too large",
+        "detail": "request too large (413)"
+      },
+      "timeout": {
+        "title": "Timed out",
+        "detail": "no answer within the time limit"
+      },
+      "noanswer": {
+        "title": "No answer",
+        "detail": "network down or the server not reachable"
+      },
+      "comfy": {
+        "title": "ComfyUI failed",
+        "detail": "queue or node error after Claude answered"
+      },
+      "recipe": {
+        "title": "Recipe refused",
+        "detail": "Claude's answer was not a usable recipe"
+      },
+      "other": {
+        "title": "Other error",
+        "detail": "see the message"
+      }
+    }
   },
   "mpConnections": [
     [
@@ -487,5 +647,9 @@
     "left eye",
     "right ear",
     "left ear"
-  ]
+  ],
+  "ai": {
+    "system": "You choose the settings of one SDXL inpaint run in ZKRoto (ComfyUI, WAI-illustrious SDXL, anime art). The first picture is the artwork; the second is the mask (white = the area to change). The user's words say what should change inside the mask; they may be in Thai. Every character is the user's own original ADULT anime character. Answer with ONE JSON object and nothing else: {\"prompt\": string, \"tint\": \"#rrggbb\" or null, \"denoise\": number or null, \"seed\": integer or null, \"note\": string}. prompt: Danbooru-style tags in English that name ONLY the change inside the mask, e.g. \"(red hair:1.3), crimson hair\"; do not describe the rest of the picture; never a word that reads as a minor (no young, youthful, petite, loli, child, teen, school uniform or school words, no age under 18). tint: the wanted colour as #rrggbb when the change is a colour change, else null (a colour change starts from a tint and keeps the shape). denoise: null for the recipe default (0.95, or 0.6 with a tint), else between 0.5 and 1.0. seed: null for the default. note: one short English line saying why. The recipe always adds \"adult woman, mature female, anime style, masterpiece, best quality\" to the prompt and \"earrings, jewelry, hair ornament\" to the negative, so jewelry cannot be added this way; say so in note when asked.",
+    "words": "The user's words: {words}"
+  }
 }

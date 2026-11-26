@@ -1,0 +1,1918 @@
+[
+  {
+    "input": {
+      "id": "req_20261124_233343",
+      "width": 896,
+      "height": 1152,
+      "prompt": "(red hair:1.3), crimson hair",
+      "seed": 23,
+      "tint": "#b0182a",
+      "hairMask": true
+    },
+    "prompt": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "waiIllustriousSDXL_v170.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261124_233343/src.png"
+        }
+      },
+      "3": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261124_233343/mask.png",
+          "channel": "red"
+        }
+      },
+      "4": {
+        "class_type": "INPAINT_ExpandMask",
+        "inputs": {
+          "mask": [
+            "3",
+            0
+          ],
+          "grow": 4,
+          "blur": 6,
+          "blur_type": "gaussian"
+        }
+      },
+      "5": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "2",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": 1024,
+          "height": 1320,
+          "crop": "disabled"
+        }
+      },
+      "6": {
+        "class_type": "MaskToImage",
+        "inputs": {
+          "mask": [
+            "4",
+            0
+          ]
+        }
+      },
+      "7": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "6",
+            0
+          ],
+          "upscale_method": "bilinear",
+          "width": 1024,
+          "height": 1320,
+          "crop": "disabled"
+        }
+      },
+      "8": {
+        "class_type": "ImageToMask",
+        "inputs": {
+          "image": [
+            "7",
+            0
+          ],
+          "channel": "red"
+        }
+      },
+      "9": {
+        "class_type": "DifferentialDiffusion",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ]
+        }
+      },
+      "10": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "(red hair:1.3), crimson hair, adult woman, mature female, anime style, masterpiece, best quality"
+        }
+      },
+      "11": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "loli, child, young, lowres, bad anatomy, blurry, watermark, text, paint stroke, earrings, jewelry, hair ornament"
+        }
+      },
+      "12": {
+        "class_type": "InpaintModelConditioning",
+        "inputs": {
+          "positive": [
+            "21",
+            0
+          ],
+          "negative": [
+            "21",
+            1
+          ],
+          "vae": [
+            "1",
+            2
+          ],
+          "pixels": [
+            "32",
+            0
+          ],
+          "mask": [
+            "8",
+            0
+          ],
+          "noise_mask": true
+        }
+      },
+      "13": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "9",
+            0
+          ],
+          "seed": 23,
+          "steps": 30,
+          "cfg": 5,
+          "sampler_name": "dpmpp_2m_sde",
+          "scheduler": "karras",
+          "positive": [
+            "12",
+            0
+          ],
+          "negative": [
+            "12",
+            1
+          ],
+          "latent_image": [
+            "12",
+            2
+          ],
+          "denoise": 0.6
+        }
+      },
+      "14": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "13",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "15": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "14",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": 896,
+          "height": 1152,
+          "crop": "disabled"
+        }
+      },
+      "16": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "2",
+            0
+          ],
+          "source": [
+            "15",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "mask": [
+            "43",
+            0
+          ]
+        }
+      },
+      "17": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "16",
+            0
+          ],
+          "filename_prefix": "ZKRoto_req/req_20261124_233343_s23"
+        }
+      },
+      "18": {
+        "class_type": "ControlNetLoader",
+        "inputs": {
+          "control_net_name": "diffusion_pytorch_model_promax.safetensors"
+        }
+      },
+      "19": {
+        "class_type": "SetUnionControlNetType",
+        "inputs": {
+          "control_net": [
+            "18",
+            0
+          ],
+          "type": "canny/lineart/anime_lineart/mlsd"
+        }
+      },
+      "20": {
+        "class_type": "AnimeLineArtPreprocessor",
+        "inputs": {
+          "image": [
+            "5",
+            0
+          ],
+          "resolution": 1024
+        }
+      },
+      "21": {
+        "class_type": "ControlNetApplyAdvanced",
+        "inputs": {
+          "positive": [
+            "10",
+            0
+          ],
+          "negative": [
+            "11",
+            0
+          ],
+          "control_net": [
+            "19",
+            0
+          ],
+          "image": [
+            "20",
+            0
+          ],
+          "strength": 0.8,
+          "start_percent": 0,
+          "end_percent": 0.8
+        }
+      },
+      "30": {
+        "class_type": "EmptyImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1320,
+          "batch_size": 1,
+          "color": 11540522
+        }
+      },
+      "31": {
+        "class_type": "ImageBlend",
+        "inputs": {
+          "image1": [
+            "5",
+            0
+          ],
+          "image2": [
+            "30",
+            0
+          ],
+          "blend_factor": 0.55,
+          "blend_mode": "normal"
+        }
+      },
+      "32": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "5",
+            0
+          ],
+          "source": [
+            "31",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "mask": [
+            "47",
+            0
+          ]
+        }
+      },
+      "40": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261124_233343/hair.png",
+          "channel": "red"
+        }
+      },
+      "41": {
+        "class_type": "INPAINT_ExpandMask",
+        "inputs": {
+          "mask": [
+            "40",
+            0
+          ],
+          "grow": 1,
+          "blur": 2,
+          "blur_type": "gaussian"
+        }
+      },
+      "43": {
+        "class_type": "MaskComposite",
+        "inputs": {
+          "destination": [
+            "4",
+            0
+          ],
+          "source": [
+            "41",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "operation": "multiply"
+        }
+      },
+      "45": {
+        "class_type": "MaskToImage",
+        "inputs": {
+          "mask": [
+            "43",
+            0
+          ]
+        }
+      },
+      "46": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "45",
+            0
+          ],
+          "upscale_method": "bilinear",
+          "width": 1024,
+          "height": 1320,
+          "crop": "disabled"
+        }
+      },
+      "47": {
+        "class_type": "ImageToMask",
+        "inputs": {
+          "image": [
+            "46",
+            0
+          ],
+          "channel": "red"
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "id": "req_20261125_210000",
+      "width": 1024,
+      "height": 1024,
+      "prompt": "blue eyes",
+      "seed": 7
+    },
+    "prompt": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "waiIllustriousSDXL_v170.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261125_210000/src.png"
+        }
+      },
+      "3": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261125_210000/mask.png",
+          "channel": "red"
+        }
+      },
+      "4": {
+        "class_type": "INPAINT_ExpandMask",
+        "inputs": {
+          "mask": [
+            "3",
+            0
+          ],
+          "grow": 4,
+          "blur": 6,
+          "blur_type": "gaussian"
+        }
+      },
+      "9": {
+        "class_type": "DifferentialDiffusion",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ]
+        }
+      },
+      "10": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "blue eyes, adult woman, mature female, anime style, masterpiece, best quality"
+        }
+      },
+      "11": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "loli, child, young, lowres, bad anatomy, blurry, watermark, text, paint stroke, earrings, jewelry, hair ornament"
+        }
+      },
+      "12": {
+        "class_type": "InpaintModelConditioning",
+        "inputs": {
+          "positive": [
+            "21",
+            0
+          ],
+          "negative": [
+            "21",
+            1
+          ],
+          "vae": [
+            "1",
+            2
+          ],
+          "pixels": [
+            "2",
+            0
+          ],
+          "mask": [
+            "4",
+            0
+          ],
+          "noise_mask": true
+        }
+      },
+      "13": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "9",
+            0
+          ],
+          "seed": 7,
+          "steps": 30,
+          "cfg": 5,
+          "sampler_name": "dpmpp_2m_sde",
+          "scheduler": "karras",
+          "positive": [
+            "12",
+            0
+          ],
+          "negative": [
+            "12",
+            1
+          ],
+          "latent_image": [
+            "12",
+            2
+          ],
+          "denoise": 0.95
+        }
+      },
+      "14": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "13",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "16": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "2",
+            0
+          ],
+          "source": [
+            "14",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "mask": [
+            "4",
+            0
+          ]
+        }
+      },
+      "17": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "16",
+            0
+          ],
+          "filename_prefix": "ZKRoto_req/req_20261125_210000_s7"
+        }
+      },
+      "18": {
+        "class_type": "ControlNetLoader",
+        "inputs": {
+          "control_net_name": "diffusion_pytorch_model_promax.safetensors"
+        }
+      },
+      "19": {
+        "class_type": "SetUnionControlNetType",
+        "inputs": {
+          "control_net": [
+            "18",
+            0
+          ],
+          "type": "canny/lineart/anime_lineart/mlsd"
+        }
+      },
+      "20": {
+        "class_type": "AnimeLineArtPreprocessor",
+        "inputs": {
+          "image": [
+            "2",
+            0
+          ],
+          "resolution": 1024
+        }
+      },
+      "21": {
+        "class_type": "ControlNetApplyAdvanced",
+        "inputs": {
+          "positive": [
+            "10",
+            0
+          ],
+          "negative": [
+            "11",
+            0
+          ],
+          "control_net": [
+            "19",
+            0
+          ],
+          "image": [
+            "20",
+            0
+          ],
+          "strength": 0.8,
+          "start_percent": 0,
+          "end_percent": 0.8
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "id": "req_20261125_210001",
+      "width": 500,
+      "height": 700,
+      "prompt": "short hair",
+      "seed": 1,
+      "keepShape": false,
+      "denoise": 0.8
+    },
+    "prompt": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "waiIllustriousSDXL_v170.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261125_210001/src.png"
+        }
+      },
+      "3": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261125_210001/mask.png",
+          "channel": "red"
+        }
+      },
+      "4": {
+        "class_type": "INPAINT_ExpandMask",
+        "inputs": {
+          "mask": [
+            "3",
+            0
+          ],
+          "grow": 4,
+          "blur": 6,
+          "blur_type": "gaussian"
+        }
+      },
+      "5": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "2",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": 1024,
+          "height": 1432,
+          "crop": "disabled"
+        }
+      },
+      "6": {
+        "class_type": "MaskToImage",
+        "inputs": {
+          "mask": [
+            "4",
+            0
+          ]
+        }
+      },
+      "7": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "6",
+            0
+          ],
+          "upscale_method": "bilinear",
+          "width": 1024,
+          "height": 1432,
+          "crop": "disabled"
+        }
+      },
+      "8": {
+        "class_type": "ImageToMask",
+        "inputs": {
+          "image": [
+            "7",
+            0
+          ],
+          "channel": "red"
+        }
+      },
+      "9": {
+        "class_type": "DifferentialDiffusion",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ]
+        }
+      },
+      "10": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "short hair, adult woman, mature female, anime style, masterpiece, best quality"
+        }
+      },
+      "11": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "loli, child, young, lowres, bad anatomy, blurry, watermark, text, paint stroke, earrings, jewelry, hair ornament"
+        }
+      },
+      "12": {
+        "class_type": "InpaintModelConditioning",
+        "inputs": {
+          "positive": [
+            "10",
+            0
+          ],
+          "negative": [
+            "11",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ],
+          "pixels": [
+            "5",
+            0
+          ],
+          "mask": [
+            "8",
+            0
+          ],
+          "noise_mask": true
+        }
+      },
+      "13": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "9",
+            0
+          ],
+          "seed": 1,
+          "steps": 30,
+          "cfg": 5,
+          "sampler_name": "dpmpp_2m_sde",
+          "scheduler": "karras",
+          "positive": [
+            "12",
+            0
+          ],
+          "negative": [
+            "12",
+            1
+          ],
+          "latent_image": [
+            "12",
+            2
+          ],
+          "denoise": 0.8
+        }
+      },
+      "14": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "13",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "15": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "14",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": 500,
+          "height": 700,
+          "crop": "disabled"
+        }
+      },
+      "16": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "2",
+            0
+          ],
+          "source": [
+            "15",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "mask": [
+            "4",
+            0
+          ]
+        }
+      },
+      "17": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "16",
+            0
+          ],
+          "filename_prefix": "ZKRoto_req/req_20261125_210001_s1"
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "id": "req_20261124_233343",
+      "width": 1024,
+      "height": 1536,
+      "prompt": "(red hair:1.3), crimson hair",
+      "seed": 23,
+      "tint": "#b0182a",
+      "hairMask": false
+    },
+    "prompt": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "waiIllustriousSDXL_v170.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261124_233343/src.png"
+        }
+      },
+      "3": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261124_233343/mask.png",
+          "channel": "red"
+        }
+      },
+      "4": {
+        "class_type": "INPAINT_ExpandMask",
+        "inputs": {
+          "mask": [
+            "3",
+            0
+          ],
+          "grow": 4,
+          "blur": 6,
+          "blur_type": "gaussian"
+        }
+      },
+      "9": {
+        "class_type": "DifferentialDiffusion",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ]
+        }
+      },
+      "10": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "(red hair:1.3), crimson hair, adult woman, mature female, anime style, masterpiece, best quality"
+        }
+      },
+      "11": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "loli, child, young, lowres, bad anatomy, blurry, watermark, text, paint stroke, earrings, jewelry, hair ornament"
+        }
+      },
+      "12": {
+        "class_type": "InpaintModelConditioning",
+        "inputs": {
+          "positive": [
+            "21",
+            0
+          ],
+          "negative": [
+            "21",
+            1
+          ],
+          "vae": [
+            "1",
+            2
+          ],
+          "pixels": [
+            "32",
+            0
+          ],
+          "mask": [
+            "4",
+            0
+          ],
+          "noise_mask": true
+        }
+      },
+      "13": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "9",
+            0
+          ],
+          "seed": 23,
+          "steps": 30,
+          "cfg": 5,
+          "sampler_name": "dpmpp_2m_sde",
+          "scheduler": "karras",
+          "positive": [
+            "12",
+            0
+          ],
+          "negative": [
+            "12",
+            1
+          ],
+          "latent_image": [
+            "12",
+            2
+          ],
+          "denoise": 0.6
+        }
+      },
+      "14": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "13",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "16": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "2",
+            0
+          ],
+          "source": [
+            "14",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "mask": [
+            "4",
+            0
+          ]
+        }
+      },
+      "17": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "16",
+            0
+          ],
+          "filename_prefix": "ZKRoto_req/req_20261124_233343_s23"
+        }
+      },
+      "18": {
+        "class_type": "ControlNetLoader",
+        "inputs": {
+          "control_net_name": "diffusion_pytorch_model_promax.safetensors"
+        }
+      },
+      "19": {
+        "class_type": "SetUnionControlNetType",
+        "inputs": {
+          "control_net": [
+            "18",
+            0
+          ],
+          "type": "canny/lineart/anime_lineart/mlsd"
+        }
+      },
+      "20": {
+        "class_type": "AnimeLineArtPreprocessor",
+        "inputs": {
+          "image": [
+            "2",
+            0
+          ],
+          "resolution": 1024
+        }
+      },
+      "21": {
+        "class_type": "ControlNetApplyAdvanced",
+        "inputs": {
+          "positive": [
+            "10",
+            0
+          ],
+          "negative": [
+            "11",
+            0
+          ],
+          "control_net": [
+            "19",
+            0
+          ],
+          "image": [
+            "20",
+            0
+          ],
+          "strength": 0.8,
+          "start_percent": 0,
+          "end_percent": 0.8
+        }
+      },
+      "30": {
+        "class_type": "EmptyImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1536,
+          "batch_size": 1,
+          "color": 11540522
+        }
+      },
+      "31": {
+        "class_type": "ImageBlend",
+        "inputs": {
+          "image1": [
+            "2",
+            0
+          ],
+          "image2": [
+            "30",
+            0
+          ],
+          "blend_factor": 0.55,
+          "blend_mode": "normal"
+        }
+      },
+      "32": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "2",
+            0
+          ],
+          "source": [
+            "31",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "mask": [
+            "4",
+            0
+          ]
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "id": "req_20261125_210001",
+      "width": 500,
+      "height": 700,
+      "prompt": "(red hair:1.3)",
+      "seed": 1,
+      "tint": "#b0182a",
+      "hairMask": true
+    },
+    "prompt": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "waiIllustriousSDXL_v170.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261125_210001/src.png"
+        }
+      },
+      "3": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261125_210001/mask.png",
+          "channel": "red"
+        }
+      },
+      "4": {
+        "class_type": "INPAINT_ExpandMask",
+        "inputs": {
+          "mask": [
+            "3",
+            0
+          ],
+          "grow": 4,
+          "blur": 6,
+          "blur_type": "gaussian"
+        }
+      },
+      "5": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "2",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": 1024,
+          "height": 1432,
+          "crop": "disabled"
+        }
+      },
+      "6": {
+        "class_type": "MaskToImage",
+        "inputs": {
+          "mask": [
+            "4",
+            0
+          ]
+        }
+      },
+      "7": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "6",
+            0
+          ],
+          "upscale_method": "bilinear",
+          "width": 1024,
+          "height": 1432,
+          "crop": "disabled"
+        }
+      },
+      "8": {
+        "class_type": "ImageToMask",
+        "inputs": {
+          "image": [
+            "7",
+            0
+          ],
+          "channel": "red"
+        }
+      },
+      "9": {
+        "class_type": "DifferentialDiffusion",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ]
+        }
+      },
+      "10": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "(red hair:1.3), adult woman, mature female, anime style, masterpiece, best quality"
+        }
+      },
+      "11": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "loli, child, young, lowres, bad anatomy, blurry, watermark, text, paint stroke, earrings, jewelry, hair ornament"
+        }
+      },
+      "12": {
+        "class_type": "InpaintModelConditioning",
+        "inputs": {
+          "positive": [
+            "21",
+            0
+          ],
+          "negative": [
+            "21",
+            1
+          ],
+          "vae": [
+            "1",
+            2
+          ],
+          "pixels": [
+            "32",
+            0
+          ],
+          "mask": [
+            "8",
+            0
+          ],
+          "noise_mask": true
+        }
+      },
+      "13": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "9",
+            0
+          ],
+          "seed": 1,
+          "steps": 30,
+          "cfg": 5,
+          "sampler_name": "dpmpp_2m_sde",
+          "scheduler": "karras",
+          "positive": [
+            "12",
+            0
+          ],
+          "negative": [
+            "12",
+            1
+          ],
+          "latent_image": [
+            "12",
+            2
+          ],
+          "denoise": 0.6
+        }
+      },
+      "14": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "13",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "15": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "14",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": 500,
+          "height": 700,
+          "crop": "disabled"
+        }
+      },
+      "16": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "2",
+            0
+          ],
+          "source": [
+            "15",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "mask": [
+            "43",
+            0
+          ]
+        }
+      },
+      "17": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "16",
+            0
+          ],
+          "filename_prefix": "ZKRoto_req/req_20261125_210001_s1"
+        }
+      },
+      "18": {
+        "class_type": "ControlNetLoader",
+        "inputs": {
+          "control_net_name": "diffusion_pytorch_model_promax.safetensors"
+        }
+      },
+      "19": {
+        "class_type": "SetUnionControlNetType",
+        "inputs": {
+          "control_net": [
+            "18",
+            0
+          ],
+          "type": "canny/lineart/anime_lineart/mlsd"
+        }
+      },
+      "20": {
+        "class_type": "AnimeLineArtPreprocessor",
+        "inputs": {
+          "image": [
+            "5",
+            0
+          ],
+          "resolution": 1024
+        }
+      },
+      "21": {
+        "class_type": "ControlNetApplyAdvanced",
+        "inputs": {
+          "positive": [
+            "10",
+            0
+          ],
+          "negative": [
+            "11",
+            0
+          ],
+          "control_net": [
+            "19",
+            0
+          ],
+          "image": [
+            "20",
+            0
+          ],
+          "strength": 0.8,
+          "start_percent": 0,
+          "end_percent": 0.8
+        }
+      },
+      "30": {
+        "class_type": "EmptyImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1432,
+          "batch_size": 1,
+          "color": 11540522
+        }
+      },
+      "31": {
+        "class_type": "ImageBlend",
+        "inputs": {
+          "image1": [
+            "5",
+            0
+          ],
+          "image2": [
+            "30",
+            0
+          ],
+          "blend_factor": 0.55,
+          "blend_mode": "normal"
+        }
+      },
+      "32": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "5",
+            0
+          ],
+          "source": [
+            "31",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "mask": [
+            "47",
+            0
+          ]
+        }
+      },
+      "40": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261125_210001/hair.png",
+          "channel": "red"
+        }
+      },
+      "41": {
+        "class_type": "INPAINT_ExpandMask",
+        "inputs": {
+          "mask": [
+            "40",
+            0
+          ],
+          "grow": 1,
+          "blur": 2,
+          "blur_type": "gaussian"
+        }
+      },
+      "43": {
+        "class_type": "MaskComposite",
+        "inputs": {
+          "destination": [
+            "4",
+            0
+          ],
+          "source": [
+            "41",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "operation": "multiply"
+        }
+      },
+      "45": {
+        "class_type": "MaskToImage",
+        "inputs": {
+          "mask": [
+            "43",
+            0
+          ]
+        }
+      },
+      "46": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "45",
+            0
+          ],
+          "upscale_method": "bilinear",
+          "width": 1024,
+          "height": 1432,
+          "crop": "disabled"
+        }
+      },
+      "47": {
+        "class_type": "ImageToMask",
+        "inputs": {
+          "image": [
+            "46",
+            0
+          ],
+          "channel": "red"
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "id": "req_20261126_000635",
+      "width": 896,
+      "height": 1152,
+      "prompt": "(red hair:1.3)",
+      "seed": 23,
+      "tint": "#d42a3e",
+      "hairMask": true,
+      "hairSam": true
+    },
+    "prompt": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "waiIllustriousSDXL_v170.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261126_000635/src.png"
+        }
+      },
+      "3": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261126_000635/mask.png",
+          "channel": "red"
+        }
+      },
+      "4": {
+        "class_type": "INPAINT_ExpandMask",
+        "inputs": {
+          "mask": [
+            "3",
+            0
+          ],
+          "grow": 4,
+          "blur": 6,
+          "blur_type": "gaussian"
+        }
+      },
+      "5": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "2",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": 1024,
+          "height": 1320,
+          "crop": "disabled"
+        }
+      },
+      "6": {
+        "class_type": "MaskToImage",
+        "inputs": {
+          "mask": [
+            "4",
+            0
+          ]
+        }
+      },
+      "7": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "6",
+            0
+          ],
+          "upscale_method": "bilinear",
+          "width": 1024,
+          "height": 1320,
+          "crop": "disabled"
+        }
+      },
+      "8": {
+        "class_type": "ImageToMask",
+        "inputs": {
+          "image": [
+            "7",
+            0
+          ],
+          "channel": "red"
+        }
+      },
+      "9": {
+        "class_type": "DifferentialDiffusion",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ]
+        }
+      },
+      "10": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "(red hair:1.3), adult woman, mature female, anime style, masterpiece, best quality"
+        }
+      },
+      "11": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "loli, child, young, lowres, bad anatomy, blurry, watermark, text, paint stroke, earrings, jewelry, hair ornament"
+        }
+      },
+      "12": {
+        "class_type": "InpaintModelConditioning",
+        "inputs": {
+          "positive": [
+            "21",
+            0
+          ],
+          "negative": [
+            "21",
+            1
+          ],
+          "vae": [
+            "1",
+            2
+          ],
+          "pixels": [
+            "32",
+            0
+          ],
+          "mask": [
+            "8",
+            0
+          ],
+          "noise_mask": true
+        }
+      },
+      "13": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "9",
+            0
+          ],
+          "seed": 23,
+          "steps": 30,
+          "cfg": 5,
+          "sampler_name": "dpmpp_2m_sde",
+          "scheduler": "karras",
+          "positive": [
+            "12",
+            0
+          ],
+          "negative": [
+            "12",
+            1
+          ],
+          "latent_image": [
+            "12",
+            2
+          ],
+          "denoise": 0.6
+        }
+      },
+      "14": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "13",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "15": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "14",
+            0
+          ],
+          "upscale_method": "lanczos",
+          "width": 896,
+          "height": 1152,
+          "crop": "disabled"
+        }
+      },
+      "16": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "2",
+            0
+          ],
+          "source": [
+            "15",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "mask": [
+            "43",
+            0
+          ]
+        }
+      },
+      "17": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "16",
+            0
+          ],
+          "filename_prefix": "ZKRoto_req/req_20261126_000635_s23"
+        }
+      },
+      "18": {
+        "class_type": "ControlNetLoader",
+        "inputs": {
+          "control_net_name": "diffusion_pytorch_model_promax.safetensors"
+        }
+      },
+      "19": {
+        "class_type": "SetUnionControlNetType",
+        "inputs": {
+          "control_net": [
+            "18",
+            0
+          ],
+          "type": "canny/lineart/anime_lineart/mlsd"
+        }
+      },
+      "20": {
+        "class_type": "AnimeLineArtPreprocessor",
+        "inputs": {
+          "image": [
+            "5",
+            0
+          ],
+          "resolution": 1024
+        }
+      },
+      "21": {
+        "class_type": "ControlNetApplyAdvanced",
+        "inputs": {
+          "positive": [
+            "10",
+            0
+          ],
+          "negative": [
+            "11",
+            0
+          ],
+          "control_net": [
+            "19",
+            0
+          ],
+          "image": [
+            "20",
+            0
+          ],
+          "strength": 0.8,
+          "start_percent": 0,
+          "end_percent": 0.8
+        }
+      },
+      "30": {
+        "class_type": "EmptyImage",
+        "inputs": {
+          "width": 1024,
+          "height": 1320,
+          "batch_size": 1,
+          "color": 13904446
+        }
+      },
+      "31": {
+        "class_type": "ImageBlend",
+        "inputs": {
+          "image1": [
+            "5",
+            0
+          ],
+          "image2": [
+            "30",
+            0
+          ],
+          "blend_factor": 0.55,
+          "blend_mode": "normal"
+        }
+      },
+      "32": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "5",
+            0
+          ],
+          "source": [
+            "31",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "mask": [
+            "47",
+            0
+          ]
+        }
+      },
+      "40": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "image": "ZKRoto/req/req_20261126_000635/hair.png",
+          "channel": "red"
+        }
+      },
+      "41": {
+        "class_type": "INPAINT_ExpandMask",
+        "inputs": {
+          "mask": [
+            "52",
+            0
+          ],
+          "grow": 1,
+          "blur": 2,
+          "blur_type": "gaussian"
+        }
+      },
+      "43": {
+        "class_type": "MaskComposite",
+        "inputs": {
+          "destination": [
+            "4",
+            0
+          ],
+          "source": [
+            "41",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "operation": "multiply"
+        }
+      },
+      "45": {
+        "class_type": "MaskToImage",
+        "inputs": {
+          "mask": [
+            "43",
+            0
+          ]
+        }
+      },
+      "46": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": [
+            "45",
+            0
+          ],
+          "upscale_method": "bilinear",
+          "width": 1024,
+          "height": 1320,
+          "crop": "disabled"
+        }
+      },
+      "47": {
+        "class_type": "ImageToMask",
+        "inputs": {
+          "image": [
+            "46",
+            0
+          ],
+          "channel": "red"
+        }
+      },
+      "50": {
+        "class_type": "SAMLoader",
+        "inputs": {
+          "model_name": "sam_vit_b_01ec64.pth",
+          "device_mode": "AUTO"
+        }
+      },
+      "51": {
+        "class_type": "MaskToSEGS",
+        "inputs": {
+          "mask": [
+            "40",
+            0
+          ],
+          "combined": true,
+          "crop_factor": 3,
+          "bbox_fill": false,
+          "drop_size": 10,
+          "contour_fill": false
+        }
+      },
+      "52": {
+        "class_type": "SAMDetectorCombined",
+        "inputs": {
+          "sam_model": [
+            "50",
+            0
+          ],
+          "segs": [
+            "51",
+            0
+          ],
+          "image": [
+            "2",
+            0
+          ],
+          "detection_hint": "mask-points",
+          "dilation": 0,
+          "threshold": 0.93,
+          "bbox_expansion": 0,
+          "mask_hint_threshold": 0.7,
+          "mask_hint_use_negative": "False"
+        }
+      }
+    }
+  }
+]

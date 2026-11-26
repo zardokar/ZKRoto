@@ -10,7 +10,8 @@ The page sets `window.zk` while its modules evaluate, as 0.1.1 did: `config/zkro
 | `zk.capture()` | save the shown frame as PNG to `input\ZKRoto\capture\<video>\<video>_f000123.png` (0.2: own `capture` folder); `{frame, path, width, height, bytes, ...}` |
 | `zk.pose()` | pose engine (MediaPipe Pose Landmarker) on the shown frame, then the face engine on each person's head (0.2.1, if its model is there); `{frame, ms, people: [{image: [[x, y, z, vis] x33], world: [[x, y, z] x33], face: {image: [[x, y, z] x478], size: [w, h]} or null}]}` |
 | `zk.info()` | current state, incl. `version`, `still` (a picture, one frame) and `side` (side picture name or null) |
-| `zk.setFps("30000/1001")` | change the frame grid; returns `zk.info()` |
+| `zk.setFps("30000/1001")` | change the frame grid; returns `zk.info()`; announces `zk:fps` (the frame bar's rate box follows) |
+| `zk.mode("mask" \| "roto")` | the page mode (wireframe wf_modes round 1, Koh OK 2026-11-26 17:54): a still opens Mask, a video opens Roto, this call or the switch after the title changes it; no argument = the current mode (`null` before a file). The other mode's work is kept, only hidden. Leaving Roto ends point editing; Roto runs on the Zoom tool and lets only 0, Space and Z through to the pen; Mask ignores O, W, E and Ctrl+E; C and the arrows need a video |
 | `zk.selftest([n...])` | only for `zkroto_test_2997.mp4` (frame number drawn as 16 bit squares); `{total, ok, bad, rows}` |
 | `zk.readBits()` | the frame number read from the shown frame of the test video |
 | `zk.lastPose` | the last `zk.pose()` result, `null` after a seek |
@@ -30,6 +31,15 @@ The page sets `window.zk` while its modules evaluate, as 0.1.1 did: `config/zkro
 | `zk.resetPoint(i)` / `zk.resetFrame()` | Point i / every point of the shown frame back to MediaPipe (file saved) |
 | `zk.edits()` | The edits document of the shot folder `{version, clip, frames: {frame: {person: {i: [x, y]}}}}` (0..1) |
 | `zk.stopRange()` | Stop a running range after the current frame (nothing is written when stopped during the pose pass) |
+| `zk.penTool("select" \| "point" \| "pen" \| "zoom")` | Pen tool (work for 0.4.0, canvas module keys): V move path (start tool), A move point, P pen, Z zoom; no argument = the current tool. Enter / NumpadEnter keeps an open line, Esc drops it (none open: clears the choice), Delete / Backspace removes the chosen path (while drawing: the open line), Ctrl+Z / Ctrl+Y one point back / forward while drawing, 0 fits the view, Space held pans, wheel zooms at the mouse with any tool. Keys are read by `e.code`, ignored in fields and in point edit mode (E) except 0. Cursor per tool and per what is under the mouse (`constants/cursors.json`) |
+| `zk.penDoc()` | The pen document `{version, seq, paths: [{id, kind, closed, points: [{x, y, cx1?, cy1?, cx2?, cy2?}], fill, stroke, stroke_width}]}` in picture pixels (not saved yet) |
+| `zk.sendRequest()` | Send to Claude (header group, paper plane): every shape you can see becomes `mask.png` (white on black, picture size); with the shown picture `src.png`, `shapes.svg` and `req.json` it goes to `POST /zkroto/request` -> `input\ZKRoto\req\req_YYYYMMDD_HHMMSS\`; then tell Claude in chat ("zk req ..."); `{id, folder, shapes}` or `null` (no picture / nothing drawn) |
+| `zk.exportSvg()` | The shapes as `<picture>_shapes.svg` (browser download); returns the name |
+| `zk.importSvg(text, name)` | Import (2026-11-25, Koh: "เอาออกได้แต่เอาเข้าไม่ได้"): the `<path>`s of an .svg (also dropped on the stage) ADDED onto the picture as one undo step, viewBox scaled to the picture, group / path transforms applied, M L H V C S Q T Z (Q / T as cubics), arcs and paths in defs / clipPath / mask left out, one path per subpath, fill / stroke inherited from groups (CSS classes are not read); files over `ai.importMaxBytes` refused; returns the number added. A tapered strand comes back as its filled body. A dropped .svg is always imported as shapes, never loaded as the base picture. Parser `js/zk_svgimport.js` + `js/zk_svgpathd.js` + `js/zk_svgcolour.js` |
+| `zk.aiSend(words)` | Send through the Claude API (wf_zkapi_3, Koh OK 2026-11-25 21:21): writes the request folder, asks Claude (model from the bar, key from this browser) for a recipe `{prompt, tint, denoise, seed, note}`, builds the zk req graph (`js/zk_reqrecipe.js`, same as the ZComfy script), queues ComfyUI, waits (websocket progress), writes the answer with Koh's words, Claude's words and the added adult words (`POST /zkroto/answer`). No key -> `zk:needkey`. Errors -> `zk:aierr` (kinds: credit, billing, auth, rate, spend, busy, toolarge, timeout = our time limit, noanswer = network or Esc, comfy, recipe, other). Retry after a ComfyUI error reuses the recipe Claude already gave (no second paid call). Esc while busy stops only our run (checked after every step; ComfyUI: our prompt is taken out of the queue, or interrupted with `{prompt_id}` when it is the one running - whether ComfyUI 0.44.0 honours `prompt_id` was not checked, so a short window remains if our job ends at that moment). Pictures go to Claude as JPEG, at most `ai.imageMaxSide` px. The key lives in localStorage: any script served on 127.0.0.1:8188 (other custom nodes) can read it (Koh's choice 2026-11-25). Minor-word check (`zk_aibrief.js`): word starts, phrases, and `ai.minorJoined` stems inside the text with spaces taken out and digits read as letters; ages under 18 as numbers (`ai.minorAges`), and `1` read as both i and l; it is a fixed list, so the system text also tells Claude the words to avoid. It errs on the safe side: babydoll, baby blue, kidney, infantry, young woman, petite, gothic lolita, school uniform are refused too. Interrupt: the queue check and the interrupt are two calls, so if our job ends between them another session's job could be hit (only fixable in ComfyUI). Import limits: `ai.importMaxShapes` shapes; the file is read whole before the size check; CSS classes / `<style>` and `preserveAspectRatio` are not read (a viewBox of another shape is stretched) |
+| `zk.requests()` | Every answer Claude wrote (`GET /zkroto/requests`), newest request first: `[{key, id, n, prompt, seed, src, result, req}]`; Compare (header group) shows them side by side or as a wipe |
+
+Routes for requests (`zk_request.py`, 2026-11-24): `POST /zkroto/request` (the page), `GET /zkroto/requests` (the list), `POST /zkroto/answer` `{id, png, answer}` (Claude: `result_<n>.png` + `resp.json` in the same folder).
 
 Query string of the page: `?video=<name in input\>&frame=<n>&fps=30000/1001`.
 
@@ -51,7 +61,16 @@ Re-skinnable layout (design doc 1.11): logic apart from looks, one folder per co
 | `js/zk_sheetlayout.js` | logical | grid of the MediaPipe sheet |
 | `js/zk_povstate.js` | logical | POV settings: defaults, clamps, presets, orbit, views, options |
 | `js/zk_pov.js` | logical | one person -> both layers for the source or the POV camera |
-| `js/zk_events.js` | logical | event bus (`zk:pov`, `zk:pose`) |
+| `js/zk_events.js` | logical | event bus (`zk:pov`, `zk:pose`, ..., `zk:ai` {stage, progress}, `zk:aierr`, `zk:needkey`, `zk:models`, `zk:mode` {mode, source}, `zk:source` {still}, `zk:fps` {value}) |
+| `js/zk_mode.js` | logical | the page mode: still -> mask, video -> roto, set by hand; `rotoPenKey` (the pen keys Roto lets through) |
+| `js/zk_svgimport.js`, `js/zk_svgpathd.js`, `js/zk_svgcolour.js` | logical | .svg -> pen path specs (import); colours and opacity |
+| `js/zk_claudeerr.js` | logical | a failed Claude call -> one error kind + action (https://platform.claude.com/docs/en/api/errors) |
+| `js/zk_claudeapi.js` | facade | `POST /v1/messages`, `GET /v1/models` with the browser-access header, own time limit |
+| `js/zk_aibrief.js` | logical | the brief to Claude (picture, mask, words) and the checked recipe (minor words refused) |
+| `js/zk_modelstore.js` | logical | key, model list (once a day) and chosen model in localStorage |
+| `js/zk_reqrecipe.js` | logical | the zk req ComfyUI graph (copy of ZComfy `scripts/zkreq/zk_req_prompt.js`, parity fixture in atdd) |
+| `js/zk_comfyrun.js` | facade | queue, wait, read output, answer, stop only our prompt |
+| `js/zk_aimodels.js`, `js/zk_aisend.js`, `js/zk_aiparts.js` | facade | the bar's key + list; the Send flow; building both |
 | `js/zk_skeleton.js` | draw | OpenPose 18 / MediaPipe 33 on any 2D context |
 | `js/zk_render.js` | draw | off-screen OpenPose PNG and MediaPipe sheet |
 | `js/zk_exporter.js` | service | Export: files, `POST /zkroto/export`, sheets |
@@ -69,9 +88,10 @@ Re-skinnable layout (design doc 1.11): logic apart from looks, one folder per co
 | `js/zk_facefit.js` | logical | face mesh into the body's world (own shape, torso scale, image position, nose depth); face direction, head centre |
 | `js/zk_overlay.js` | component | draws the pose over the video (chosen person solid, other faded) |
 | `js/zk_selftest.js` | component | selftest on the test video |
-| `js/zk_ui.js` | component | buttons, slider, keys (C, P, V, Ctrl+E, arrows), drag and drop |
+| `js/zk_ui.js` | component | buttons, slider, keys (C, O, W, E, Ctrl+E, arrows; gated by mode and source), status line -> log drawer (Esc closes), drag and drop |
 | `js/zk_main.js` | entry | context, API, layout, `window.zk`, query string |
-| `components/<name>/<name>.js + .css` | component | `people`, `views`, `tabs`, `povview`, `povpanel` (+ `povpanel_fields.js`), `minimap`, `points`, `exportbar`; each exports `mount(host, ctx, parts)` |
+| `js/zk_modeview.js` | component | body `data-zk-mode` / `data-zk-source` for the CSS; Roto forces the Zoom tool and Mask gets its tool back; leaving Roto ends point editing, leaving Mask closes the colour picker |
+| `components/<name>/<name>.js + .css` | component | `people`, `views`, `tabs`, `povview`, `povpanel` (+ `povpanel_fields.js`), `minimap`, `points`, `exportbar` (Roto panel, Export tab), `modeswitch` (Mask / Roto), `rototools` (Move point E, Zoom Z, Reset frame), `fpsbox` (frame rate list), `zoombar` (left bar, while Z is on); each exports `mount(host, ctx, parts)`; `apibar` (+ `apibar_key.js`, `apibar_err.js`: model list, refresh, key panel, error box; the Mask group of the one header row) and `reqbar_words.js` (word box of Send) |
 | `components/registry.js` | layout | the components the layout can place |
 | `theme/zk_theme.css` | theme | every colour, size, space and font as CSS variables |
 | `layout/zk_page.css` | layout | page frame, slots, the three views (variables only) |

@@ -30,3 +30,7 @@
 - sha256 `64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff`, 3,758,596 bytes (checked 2026-11-09 in Claude's test copy).
 - Optional: without it ZKRoto works with the body only and says so once in the log. The user puts it into `third-party\mediapipe\models\` himself (no automatic download).
 - Seen 2026-11-09: it finds the face of a front or 3/4 view; a full side profile (FRA-007 `side.png`) is not found.
+
+## web/constants/cursors.json - pen tool cursors (2026-11-24, work for 0.4.0)
+- Copied unchanged from Koh's canvas module `E:\LocalLLMAdvisorClaudeProject\pipeline\module\canvas\constants\cursors.json` (his own project).
+- Where the icon drawings come from and their licence are not recorded in the canvas module files read on 2026-11-24 (docs, js, config, constants). Ask Koh before any public release.

@@ -2,9 +2,10 @@
 import { fmt } from "./zk_text.js";
 import { parseFps } from "./zk_frames.js";
 import { createBus } from "./zk_events.js";
+import { icon } from "./zk_reqicons.js";
 
-const ELEMENT_IDS = ["video", "still", "overlay", "scrub", "frame", "total", "tc", "name", "file", "fps", "drop", "stage",
-  "btnLoad", "btnCapture", "btnPose", "showPose", "status", "log"];
+const ELEMENT_IDS = ["video", "still", "overlay", "pen", "srcpane", "scrub", "frame", "total", "tc", "name", "file", "fps", "drop", "stage",
+  "btnLoad", "btnOpen", "btnCapture", "btnPose", "showPose", "status", "log"];
 
 function findElements(doc) {
   const el = {};
@@ -32,6 +33,12 @@ function applyTexts(doc, ui) {
   doc.querySelectorAll("[data-placeholder]").forEach(function (node) {
     node.placeholder = ui[node.dataset.placeholder];
   });
+  doc.querySelectorAll("[data-tip-key]").forEach(function (node) {
+    node.dataset.tip = ui[node.dataset.tipKey];
+  });
+  doc.querySelectorAll("[data-icon]").forEach(function (node) {
+    node.innerHTML = icon(node.dataset.icon);
+  });
 }
 
 export function createContext(cfg, k, doc) {
@@ -48,7 +55,10 @@ export function createContext(cfg, k, doc) {
   };
   const status = function (msg, cls) {
     el.status.textContent = msg;
-    el.status.className = cls || "";
+    el.status.classList.remove("ok", "err");
+    if (cls) {
+      el.status.classList.add(cls);
+    }
   };
   const fps = function () {
     return state.fpsNum / state.fpsDen;

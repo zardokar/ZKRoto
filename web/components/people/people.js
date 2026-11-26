@@ -1,13 +1,12 @@
-// COMPONENT people: person buttons 1 (blue) / 2 (orange), Swap, Edit (E) point editing and Reset frame (edit mode).
-// Shows which person POV and Export use.
+// COMPONENT people (Roto): person buttons 1 (blue) / 2 (orange) and Swap; shows which person POV and Export use.
+// Move point (E) and Reset frame live in the Roto left bar (rototools, ui_policy L1, Koh 2026-11-26 17:54).
 import { EVENTS } from "../../js/zk_events.js";
-import { el, button, pressed } from "../../js/zk_dom.js";
+import { button, pressed } from "../../js/zk_dom.js";
 
 const PERSONS = [0, 1];
 
 export function mount(host, ctx, parts) {
   const { k, bus, state } = ctx;
-  host.append(el("span", { className: "zk-people-label", text: k.ui.person }));
   const buttons = PERSONS.map(function (i) {
     const b = button(String(i + 1), function () {
       parts.pov.person(i);
@@ -18,22 +17,12 @@ export function mount(host, ctx, parts) {
   host.append(button(k.ui.swap, function () {
     ctx.run(parts.pov.swap);
   }, "zk-swap"));
-  const edit = button(k.ui.editPoints, function () {
-    parts.zk.editMode();
-  }, "zk-edit");
-  const reset = button(k.ui.resetFrame, function () {
-    ctx.run(parts.zk.resetFrame);
-  }, "zk-reset-frame");
-  host.append(edit, reset);
-
   function update() {
     const pose = state.lastPose;
     buttons.forEach(function (b, i) {
       pressed(b, state.pov.person === i);
       b.classList.toggle("zk-missing", !pose || !pose.people[i]);
     });
-    pressed(edit, !!state.editMode);
-    reset.hidden = !state.editMode;
   }
   bus.on(EVENTS.pov, update);
   bus.on(EVENTS.pose, update);

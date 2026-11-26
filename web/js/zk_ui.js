@@ -1,4 +1,5 @@
-// COMPONENT: page controls - buttons, fps list, slider, frame box, keys (C, P, V, E, Ctrl+E, arrows), drag and drop.
+// COMPONENT: page controls - buttons, fps list, slider, frame box, keys (C, O = pose, W = view, E, Ctrl+E, arrows;
+// P / V / A belong to the pen tool from 0.4.0, Koh 2026-11-24), drag and drop.
 // Calls the API only.
 const TEXT_INPUT_EXEMPT = ["range", "checkbox"];
 
@@ -34,13 +35,25 @@ function quiet(promise) {
 
 function bindButtons(ctx, api) {
   const { el } = ctx;
+  // After Load the keys belong to the picture again (V A P Z ...), not to the name box (Koh 13:58: V did nothing).
   el.btnLoad.onclick = function () {
+    if (el.name.blur) {
+      el.name.blur();
+    }
     quiet(guarded(ctx, api.load)(el.name.value.trim()));
   };
   el.name.onkeydown = function (e) {
     if (e.key === "Enter") {
       el.btnLoad.click();
     }
+  };
+  el.btnOpen.onclick = function () {
+    el.file.click();
+  };
+  // The status line opens the log drawer under it (wf_modes round 1); Esc or a second press closes it (L5).
+  el.status.onclick = function () {
+    el.log.hidden = !el.log.hidden;
+    el.status.setAttribute("aria-expanded", String(!el.log.hidden));
   };
   el.file.onchange = function (e) {
     const f = e.target.files[0];
@@ -83,7 +96,11 @@ function bindDrop(ctx, api) {
   stage.ondrop = function (e) {
     e.preventDefault();
     const f = e.dataTransfer.files[0];
-    if (f) {
+    if (f && /\.svg$/i.test(f.name)) {
+      quiet(f.text().then(function (text) {
+        return api.importSvg(text, f.name);
+      }));
+    } else if (f) {
       quiet(guarded(ctx, api.load)(f));
     }
   };
@@ -92,8 +109,22 @@ function bindDrop(ctx, api) {
 // Ctrl+E = Export (also while typing a name, never on key repeat); single keys only outside text fields.
 // Letters by e.code (the key's place), so they also work with the Thai keyboard layout.
 export function onKey(ctx, api, e) {
+  if (e.key === "Escape" && ctx.el && !ctx.el.log.hidden) {
+    ctx.el.log.hidden = true;
+    ctx.el.status.setAttribute("aria-expanded", "false");
+    return;
+  }
+  // With modes (zk_modeview.js): no page keys before a file; Roto work keys only in Roto; frame keys only with a video.
+  const mode = ctx.modeNow ? ctx.modeNow() : "any";
+  const video = ctx.sourceNow ? ctx.sourceNow() === "video" : true;
+  if (mode === null) {
+    return;
+  }
   if (e.code === "KeyE" && (e.ctrlKey || e.metaKey)) {
     e.preventDefault();
+    if (mode === "mask") {
+      return;
+    }
     if (!e.repeat) {
       quiet(guarded(ctx, api.exportPose)());
     }
@@ -106,6 +137,12 @@ export function onKey(ctx, api, e) {
   if (e.ctrlKey || e.metaKey || e.altKey) {
     return;
   }
+  if (mode === "mask" && ["KeyO", "KeyW", "KeyE"].includes(e.code)) {
+    return;
+  }
+  if (!video && ["KeyC", "ArrowLeft", "ArrowRight"].includes(e.code || e.key)) {
+    return;
+  }
   const big = e.shiftKey ? ctx.cfg.bigStep : 1;
   if (e.key === "ArrowRight") {
     e.preventDefault();
@@ -115,9 +152,9 @@ export function onKey(ctx, api, e) {
     api.step(-big);
   } else if (e.code === "KeyC") {
     quiet(guarded(ctx, api.capture)());
-  } else if (e.code === "KeyP") {
+  } else if (e.code === "KeyO") {
     quiet(guarded(ctx, api.pose)());
-  } else if (e.code === "KeyV") {
+  } else if (e.code === "KeyW") {
     api.view();
   } else if (e.code === "KeyE") {
     api.editMode();

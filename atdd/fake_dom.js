@@ -56,6 +56,9 @@ function makeElement(tag) {
     attributes: {}, listeners: {},
   };
   el.classList = classList(el);
+  el.style.setProperty = function (name, value) {
+    el.style[name] = String(value);
+  };
   el.appendChild = function (child) {
     el.children.push(child);
     if (child.tag === "option") {
@@ -64,6 +67,10 @@ function makeElement(tag) {
     return child;
   };
   el.append = function (...nodes) {
+    nodes.forEach(el.appendChild);
+  };
+  el.replaceChildren = function (...nodes) {
+    el.children = [];
     nodes.forEach(el.appendChild);
   };
   el.setAttribute = function (name, value) {
@@ -141,11 +148,17 @@ function install() {
     body: makeElement("body"),
     activeElement: null,
     createElement: makeElement,
+    createElementNS: function (ns, tag) {
+      return makeElement(tag);
+    },
     addEventListener: function () {
       return null;
     },
   };
   globalThis.window = globalThis;
+  globalThis.addEventListener = function () {
+    return null;
+  };
   globalThis.location = { pathname: "/zkroto/index.html", search: "" };
   globalThis.fetch = function () {
     return new Promise(function () {

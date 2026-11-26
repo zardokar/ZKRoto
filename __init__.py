@@ -6,7 +6,8 @@ mp4 from ComfyUI's input folder (or a local file), steps frame by frame,
 captures frames as PNG into input/ZKRoto/capture/<video>/ via /upload/image, runs
 MediaPipe Pose on a frame (library in third-party/, served at /zkroto_lib/), and
 exports the pose of a frame (OpenPose 18 PNG + JSON, MediaPipe 33 JSON, sheets,
-our records) into input/ZKRoto/<shot>_<character>/ through POST /zkroto/export.
+our records) into input/ZKRoto/<shot>_<character>/ through POST /zkroto/export, and writes requests to Claude
+(mask, picture, shapes) into input/ZKRoto/req/<id>/ through POST /zkroto/request.
 
 This module adds no nodes.
 """
@@ -19,6 +20,7 @@ from aiohttp import web
 from server import PromptServer
 
 from .zk_export import read_json, sheet_data, write_files
+from .zk_request import list_requests, write_answer, write_request
 
 APP = "ZKRoto"          # display name; captures go to input/<APP>/
 SLUG = "zkroto"         # URL: /<SLUG>/ page, /<SLUG>_lib/ third-party files
@@ -99,6 +101,31 @@ async def _zkroto_sheetdata(request):
     except ValueError as e:
         return _bad(e)
     return web.json_response({"frames": frames})
+
+
+# A request to Claude (Koh 2026-11-24): one folder input/ZKRoto/req/<id>/ (rules and tests: zk_request.py).
+@_routes.post(f"/{SLUG}/request")
+async def _zkroto_request(request):
+    try:
+        rel = write_request(_root(), await request.json())
+    except (ValueError, TypeError, AttributeError) as e:
+        return _bad(e)
+    return web.json_response({"folder": f"{APP}/{rel}"})
+
+
+# Claude's answer to a request: result_<n>.png + resp.json in the same folder (zk_request.write_answer).
+@_routes.post(f"/{SLUG}/answer")
+async def _zkroto_answer(request):
+    try:
+        entry = write_answer(_root(), await request.json())
+    except (ValueError, TypeError, AttributeError) as e:
+        return _bad(e)
+    return web.json_response(entry)
+
+
+@_routes.get(f"/{SLUG}/requests")
+async def _zkroto_requests(request):
+    return web.json_response({"requests": list_requests(_root())})
 
 
 _routes.static(f"/{SLUG}_lib", _lib)

@@ -1,0 +1,52 @@
+/* COMPONENT apibar: in the one header row (wf_modes round 1, Koh OK 2026-11-26 17:54), the Mask group before reqbar:
+   same button class and gap as reqbar; the model list is as wide as two buttons + one gap. The gap box matched the
+   old row 2 divider (wf_zkapi_3); with no row 2 it is not shown, so model, refresh and key sit 4 apart as drawn.
+   Popovers drop under the bar and never move the stage (L5). Colours and sizes from the theme only. */
+[data-component="apibar"] { margin-left: auto; gap: var(--zk-gap-small); position: relative; flex-wrap: nowrap; }
+.zk-api-model { width: calc(var(--zk-tool-size) * 2 + var(--zk-gap-small)); height: var(--zk-tool-size); padding: 0 var(--zk-gap-small) 0 var(--zk-gap); display: flex; align-items: center; gap: var(--zk-gap-small); border-radius: var(--zk-tool-radius); box-shadow: var(--zk-tool-shadow); font-size: var(--zk-font-small); transition: transform 100ms ease-out, box-shadow 100ms ease-out; }
+.zk-api-model:hover { transform: translateY(1px); box-shadow: var(--zk-tool-shadow-hover); }
+.zk-api-model:active { transform: translateY(3px); box-shadow: var(--zk-tool-shadow-press); }
+.zk-api-model.zk-dim { opacity: 0.45; }
+[data-component="apibar"] .zk-req-btn.zk-dim { opacity: 0.45; }
+.zk-api-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
+.zk-api-chevron { display: flex; flex: none; color: var(--zk-dim); }
+.zk-api-gap { display: none; }
+.zk-api-keydot { position: absolute; bottom: 3px; right: 3px; width: 6px; height: 6px; border-radius: 6px; background: var(--zk-ok); }
+.zk-api-pop { position: absolute; right: 0; z-index: 20; background: var(--zk-panel); border: 1px solid var(--zk-line); border-radius: var(--zk-radius); box-shadow: var(--zk-tool-shadow); }
+.zk-api-list { left: 0; right: 0; top: calc(100% + var(--zk-gap-small)); padding: var(--zk-gap-small); } /* spans the bar: model left .. key right (live 2026-11-26: min-width 200 ran past the window) */
+.zk-api-item { padding: var(--zk-pad-control); border-radius: var(--zk-radius); cursor: pointer; white-space: nowrap; }
+.zk-api-item:hover, .zk-api-item.zk-api-at { background: var(--zk-control); }
+.zk-api-item[aria-selected="true"] { background: var(--zk-primary); }
+.zk-api-sep { margin: var(--zk-gap-small) 0; border-top: 1px solid var(--zk-line); } /* new set | older models (Koh 2026-11-26 00:0x) */
+.zk-api-checked { margin-top: var(--zk-gap-small); padding: var(--zk-pad-control); border-top: 1px solid var(--zk-line); color: var(--zk-dim); font-size: var(--zk-font-small); }
+/* Key panel (wf_zkapi_5, Koh OK 22:14): X, save and trash in the key's column (D1): the panel reaches the window
+   edge, its padding = the page side margin. One emphasis: save when a key is typed. Caret at the key centre. */
+.zk-api-keypanel { top: calc(100% + var(--zk-gap)); right: calc(-1 * var(--zk-page-side)); width: var(--zk-api-panel-width); padding: var(--zk-page-side); border-right: none; border-radius: var(--zk-radius) 0 0 var(--zk-radius); display: flex; flex-direction: column; gap: var(--zk-gap); }
+.zk-api-keypanel::before { content: ""; position: absolute; top: -6px; right: calc(var(--zk-page-side) + var(--zk-tool-size) / 2 - 5px); width: 10px; height: 10px; background: var(--zk-panel); border-left: 1px solid var(--zk-line); border-top: 1px solid var(--zk-line); transform: rotate(45deg); }
+.zk-api-head { height: var(--zk-tool-size); display: flex; align-items: center; justify-content: space-between; gap: var(--zk-gap); }
+.zk-api-title { font-weight: 600; }
+.zk-api-warnhead .zk-api-title { color: var(--zk-warn); display: flex; align-items: center; gap: var(--zk-gap-small); }
+.zk-api-warnhead .zk-api-title::before { content: ""; width: 8px; height: 8px; border-radius: 8px; background: var(--zk-warn); }
+.zk-api-pop .zk-api-close { width: var(--zk-tool-size); height: var(--zk-tool-size); background: none; box-shadow: none; color: var(--zk-dim); }
+.zk-api-row { display: flex; gap: var(--zk-gap); align-items: center; }
+.zk-api-field { position: relative; flex: 1; min-width: 0; }
+.zk-api-keyinput { width: 100%; height: var(--zk-tool-size); padding-right: var(--zk-tool-size); font-family: var(--zk-mono); border: 2px solid var(--zk-line); }
+.zk-api-keyinput:focus { outline: none; border-color: var(--zk-acc); }
+.zk-api-field .zk-api-eye { position: absolute; right: var(--zk-gap-small); top: var(--zk-gap-small); width: var(--zk-api-small); height: var(--zk-api-small); background: none; box-shadow: none; color: var(--zk-dim); }
+.zk-api-save { color: var(--zk-dim); }
+.zk-api-save.zk-api-ready { background: var(--zk-acc); color: var(--zk-bg); }
+.zk-api-foot { display: flex; align-items: center; justify-content: space-between; min-height: 24px; color: var(--zk-dim); font-size: var(--zk-font-small); }
+.zk-api-foottext { display: flex; gap: var(--zk-gap); align-items: center; flex-wrap: wrap; }
+.zk-api-foot .zk-api-delete { width: var(--zk-tool-size); height: 24px; background: none; box-shadow: none; color: var(--zk-err); }
+.zk-api-pop > .zk-api-errclose { position: absolute; top: var(--zk-gap-small); right: var(--zk-gap-small); box-shadow: none; }
+.zk-api-small { width: var(--zk-api-small); height: var(--zk-api-small); }
+.zk-api-masked { font-family: var(--zk-mono); color: var(--zk-fg); }
+.zk-api-getkey, .zk-api-link { display: inline-flex; gap: var(--zk-gap-small); align-items: center; background: none; border: none; color: var(--zk-acc); padding: 0; font-size: var(--zk-font-small); }
+.zk-api-getkey:focus-visible, .zk-api-link:focus-visible { outline: 2px solid var(--zk-acc); outline-offset: 2px; }
+.zk-api-getkey svg, .zk-api-ext svg { width: 14px; height: 14px; }
+.zk-api-err { top: calc(100% + var(--zk-tool-size) + var(--zk-gap) * 2); width: var(--zk-api-panel-width); padding: var(--zk-gap); padding-right: calc(var(--zk-api-small) + var(--zk-gap)); display: flex; gap: var(--zk-gap); align-items: center; border-color: var(--zk-err); background: var(--zk-api-err-bg); }
+.zk-api-err.zk-api-warnbox { border-color: var(--zk-warn); background: var(--zk-api-warn-bg); }
+.zk-api-errtext { flex: 1; min-width: 0; }
+.zk-api-errtitle { font-weight: 600; }
+.zk-api-errdetail { color: var(--zk-dim); font-size: var(--zk-font-small); overflow-wrap: anywhere; }
+.zk-api-err .zk-api-link { border: 1px solid var(--zk-line); border-radius: var(--zk-radius); padding: var(--zk-pad-control); color: var(--zk-fg); background: var(--zk-control); }

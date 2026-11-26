@@ -232,11 +232,24 @@
     "eyeRadius": 5,
     "coneLength": 0.6
   },
+  "request": {
+    "pollMs": 10000,
+    "toastMs": 3000,
+    "wipeStep": 0.02,
+    "zoomStep": 1.25,
+    "zoomMin": 0.05,
+    "zoomMax": 32
+  },
   "layout": {
     "slots": {
+      "modeswitch": [
+        "modeswitch"
+      ],
       "header": [
-        "people",
-        "views"
+        "apibar",
+        "reqbar",
+        "views",
+        "people"
       ],
       "stage": [
         "povview"
@@ -245,19 +258,53 @@
         "tabs",
         "povpanel",
         "minimap",
-        "points"
-      ],
-      "footer": [
+        "points",
         "exportbar"
+      ],
+      "footer": [],
+      "fps": [
+        "fpsbox"
+      ],
+      "overlay": [
+        "compare"
+      ],
+      "tools": [
+        "penbar",
+        "colorbox",
+        "picker",
+        "rototools",
+        "zoombar"
       ]
+    },
+    "modes": {
+      "penbar": "mask",
+      "colorbox": "mask",
+      "picker": "mask",
+      "reqbar": "mask",
+      "apibar": "mask",
+      "compare": "mask",
+      "people": "roto",
+      "views": "roto",
+      "tabs": "roto",
+      "povpanel": "roto",
+      "minimap": "roto",
+      "points": "roto",
+      "exportbar": "roto",
+      "povview": "roto",
+      "rototools": "roto"
     },
     "tabs": {
       "camera": [
-        "povpanel",
+        "povpanel"
+      ],
+      "top": [
         "minimap"
       ],
       "points": [
         "points"
+      ],
+      "exportTab": [
+        "exportbar"
       ]
     },
     "tab": "camera"
@@ -275,5 +322,148 @@
     "cropScale": 0.9,
     "cropPixels": 384,
     "meshPointRadius": 1.2
+  },
+  "pen": {
+    "tools": [
+      "select",
+      "point",
+      "pen",
+      "zoom",
+      "eyedrop"
+    ],
+    "hitTolPx": 6,
+    "hitTolPointPx": 11,
+    "bezierDragPx": 4,
+    "zoomClick": 1.6,
+    "zoomWheel": 1.12,
+    "zoomStep": 1.25,
+    "historyMax": 50,
+    "zoomMin": 0.05,
+    "zoomMax": 40,
+    "fill": "#8a8a92",
+    "stroke": "none",
+    "strokeWidth": 2,
+    "guideColor": "#6f8fbf",
+    "guideWidthPx": 1.2,
+    "guideDashPx": 5,
+    "guideGapPx": 4,
+    "pointSizePx": 5,
+    "pointStrokePx": 1.6,
+    "pointFill": "#ffffff",
+    "pointStroke": "#000000",
+    "armWidthPx": 1.2,
+    "armHaloPx": 3.2,
+    "transformHitPx": 8,
+    "transformRotatePx": 28,
+    "transformHandlePx": 5,
+    "transformSnapDegrees": 15,
+    "transformMinSize": 0.01
+  },
+  "ai": {
+    "apiUrl": "https://api.anthropic.com/v1",
+    "version": "2023-06-01",
+    "timeoutMs": 120000,
+    "maxTokens": 1024,
+    "modelsPageSize": 100,
+    "preferModel": "sonnet",
+    "modelOrder": ["fable", "opus", "sonnet", "haiku"],
+    "modelPrefix": "Claude ",
+    "defaultSeed": 23,
+    "denoise": [
+      0.5,
+      1.0
+    ],
+    "maxPrompt": 400,
+    "retryMax": 2,
+    "pollMs": 1000,
+    "comfyTimeoutMs": 600000,
+    "links": {
+      "billing": "https://platform.claude.com/settings/billing",
+      "keys": "https://platform.claude.com/settings/keys"
+    },
+    "fallbackModel": "claude-sonnet-5-5",
+    "stopCheckMs": 500,
+    "maxWaitS": 60,
+    "importMaxBytes": 5000000,
+    "importMaxShapes": 5000,
+    "imageMaxSide": 1568,
+    "hairMinGap": 40,
+    "hairMinEta": 0.75,
+    "hairMinShare": 0.52,
+    "hairMaxShare": 0.97,
+    "hairLoadMs": 10000,
+    "hairSam": false,
+    "samModel": "sam_vit_b_01ec64.pth",
+    "minorStems": [
+      "young",
+      "youth",
+      "petite",
+      "loli",
+      "shota",
+      "child",
+      "kid",
+      "teen",
+      "tween",
+      "toddler",
+      "infant",
+      "baby",
+      "babies",
+      "minor",
+      "underage",
+      "schoolgirl",
+      "schoolboy",
+      "juvenile",
+      "adolescen",
+      "kindergart",
+      "preteen",
+      "pre teen",
+      "elementary",
+      "middleschool",
+      "jailbait",
+      "pubescen",
+      "prepubesc",
+      "thirteen",
+      "fourteen",
+      "fifteen",
+      "sixteen",
+      "seventeen",
+      "serafuku"
+    ],
+    "minorAges": [
+      "\\b(?:[1-9]|1[0-7])\\s*(?:yo|y/o|yrs?|years?[\\s-]*old)\\b",
+      "\\bage[sd]?\\s*(?:[1-9]|1[0-7])\\b"
+    ],
+    "minorJoined": [
+      "loli",
+      "shota",
+      "child",
+      "toddler",
+      "underage",
+      "jailbait",
+      "preteen",
+      "schoolgirl",
+      "schoolboy",
+      "kindergart",
+      "prepubesc",
+      "thirteen",
+      "fourteen",
+      "fifteen",
+      "sixteen",
+      "seventeen",
+      "serafuku"
+    ],
+    "minorPhrases": [
+      "school uniform",
+      "young girl",
+      "little girl",
+      "young boy",
+      "little boy",
+      "middle school",
+      "school girl",
+      "school boy",
+      "grade school",
+      "small girl",
+      "small boy"
+    ]
   }
 }

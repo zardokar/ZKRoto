@@ -111,14 +111,35 @@ class Writes(unittest.TestCase):
         with self.assertRaises(ValueError):
             zx.write_files(self.root, FOLDER, files)
 
+    def _dir_link(self, target, link):
+        # A symlink; on Windows without the symlink right (WinError 1314, Koh's all_test 2026-11-26) a junction,
+        # which needs no admin right and which os.path.realpath resolves the same way.
+        try:
+            os.symlink(target, link, target_is_directory=True)
+            return
+        except OSError:
+            if os.name != "nt":
+                raise
+        try:
+            import _winapi
+            _winapi.CreateJunction(target, link)
+        except (ImportError, OSError) as e:
+            self.skipTest(f"no symlink or junction allowed here: {e}")
+
     def test_symlinked_shot_folder_is_refused(self):
         outside = tempfile.mkdtemp()
+        link = os.path.join(self.root, FOLDER)
         try:
-            os.symlink(outside, os.path.join(self.root, FOLDER))
+            self._dir_link(outside, link)
             with self.assertRaises(ValueError):
                 zx.write_files(self.root, FOLDER, [js("zkroto", FOLDER + "_shot.json")])
             self.assertEqual(os.listdir(outside), [])
         finally:
+            if os.path.lexists(link):
+                try:
+                    os.rmdir(link)  # a junction or a Windows directory link: removes the link only
+                except OSError:
+                    os.unlink(link)  # a POSIX symlink
             shutil.rmtree(outside)
 
     def test_os_error_becomes_value_error_and_leaves_no_temp_file(self):

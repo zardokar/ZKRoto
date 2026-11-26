@@ -19,14 +19,70 @@
   --zk-missing: 0.35;
   --zk-font: 13px/1.4 system-ui, "Segoe UI", sans-serif;
   --zk-font-small: 12px;
+  --zk-font-tiny: 11px; /* the zoom % in a 36 px column */
+  --zk-chevron-size: 14px;
+  --zk-chevron-stroke: 2;
+  --zk-zoom-pct-height: 16px; /* on the 4 px grid */
   --zk-font-title: 14px;
   --zk-mono: ui-monospace, Consolas, monospace;
   --zk-gap: 8px;
   --zk-gap-small: 4px;
-  --zk-pad: 8px 12px;
+  --zk-gap-mid: 12px;
+  --zk-gap-group: 16px;
+  --zk-name-width: 240px;
+  --zk-name-min-width: 144px; /* below ~930 px the name field gives way after the status line */
+  --zk-status-min-width: 64px;
+  --zk-frame-width: 64px;
+  --zk-fps-width: 76px;
+  --zk-log-width: 480px;
+  --zk-log-drawer-height: 40vh;
+  --zk-exp-label-width: 88px;
+  --zk-switch-width: 48px;
+  --zk-text-btn-width: 64px; /* header text buttons: Swap, Source, POV, Split (wf_modes round 1) */
+  --zk-main-btn-width: 80px; /* Pose (O): the main button of the frame row */
+  --zk-knob: 16px;
+  --zk-page-side: 8px; /* the page side margin; the key panel reaches the window edge by it (wf_zkapi_5) */
+  --zk-pad: 8px var(--zk-page-side);
   --zk-pad-control: 4px 8px;
   --zk-radius: 4px;
   --zk-panel-width: 340px;
   --zk-log-height: 84px;
   --zk-minimap-height: 150px;
+  --zk-on-acc: #ffffff;
+  --zk-tool-size: 36px;
+  --zk-toolbar-width: 52px;
+  --zk-icon-size: 20px;
+  --zk-font-key: 11px;
+  --zk-tool-radius: 8px;
+  --zk-tool-shadow: 0 2px 0 #000000;
+  --zk-tool-shadow-hover: 0 1px 0 #000000;
+  --zk-tool-shadow-press: inset 0 2px 3px #000000;
+  --zk-zoom-label-width: 46px;
+  --zk-colorbox-width: 40px;
+  --zk-colorbox-height: 60px;
+  --zk-cbox-tip-x: calc(var(--zk-toolbar-width) - (var(--zk-toolbar-width) - var(--zk-colorbox-width)) / 2); /* left bar edge, from the colour box left */
+  --zk-cbox-size: 24px;
+  --zk-cbox-ring: 6px;
+  --zk-cbox-offset: 14px; /* the stroke square sits this far right of the fill square */
+  --zk-cmini-size: 16px; /* swap / no colour buttons of the colour box */
+  --zk-none-mark: #e0726c;
+  --zk-picker-width: 244px;
+  --zk-wheel-size: 224px;
+  --zk-hue-ring: conic-gradient(from 0deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+  --zk-knob-dark: #000000;
+  --zk-knob-light: #ffffff;
+  --zk-req-dot-size: 14px;
+  --zk-compare-bar: rgba(20, 22, 26, 0.92);
+  --zk-compare-bg: #000000;
+  --zk-wipe-line: #ffffff;
+  --zk-wipe-knob-size: 22px;
+  --zk-wipe-knob-ink: #222222;
+  --zk-api-small: 28px;
+  --zk-api-panel-width: 340px;
+  --zk-api-err-bg: #2a1a1c;
+  --zk-api-warn-bg: #2a261a;
+  --zk-ring-claude: #4fa3ff;
+  --zk-ring-comfy: #5ccf86;
+  --zk-ring-width: 2.5px;
+  --zk-req-words-width: 460px;
 }

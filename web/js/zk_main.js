@@ -3,18 +3,22 @@
 import { createContext } from "./zk_context.js";
 import { makeApi } from "./zk_api.js";
 import { mountLayout } from "./zk_layout.js";
+import { bindModeView } from "./zk_modeview.js";
 import { bindUi, guarded } from "./zk_ui.js";
 import { bindPointEdit } from "./zk_pointedit.js";
+import { bindPen } from "./zk_penbind.js";
 import { REGISTRY } from "../components/registry.js";
 import cfg from "../config/zkroto.json" with { type: "json" };
 import k from "../constants/zkroto.json" with { type: "json" };
 
 function start() {
   const ctx = createContext(cfg, k, document);
-  const { api, overlay, parts } = makeApi(ctx);
+  const { api, overlay, pen, parts } = makeApi(ctx);
   mountLayout(ctx, parts, REGISTRY, document);
+  bindModeView(ctx, parts, document);
   bindUi(ctx, api, overlay);
   bindPointEdit(ctx, api, overlay);
+  bindPen(ctx, pen);
   ctx.status(ctx.t("ready"));
   window.zk = api;
   const q = new URLSearchParams(location.search);

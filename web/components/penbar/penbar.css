@@ -1,0 +1,11 @@
+/* COMPONENT penbar: vertical tool bar (canvas module UI1: canvas.css .cv-toolbar / .cv-tool / .cv-key).
+   Feel per z-ui: hover sinks 1px, press 3px with an inset shadow, 100 ms. Sizes and colours from the theme. */
+[data-component="penbar"] { flex-direction: column; flex-wrap: nowrap; gap: var(--zk-gap-small); width: var(--zk-toolbar-width); padding: var(--zk-gap); }
+.zk-tool { position: relative; width: var(--zk-tool-size); height: var(--zk-tool-size); padding: 0; display: flex; align-items: center; justify-content: center; border-radius: var(--zk-tool-radius); box-shadow: var(--zk-tool-shadow); transition: transform 100ms ease-out, box-shadow 100ms ease-out; }
+.zk-tool:hover { transform: translateY(1px); box-shadow: var(--zk-tool-shadow-hover); }
+.zk-tool:active { transform: translateY(3px); box-shadow: var(--zk-tool-shadow-press); }
+.zk-tool:focus-visible { outline: 2px solid var(--zk-acc); outline-offset: 2px; }
+.zk-tool[aria-pressed="true"] { background: var(--zk-acc); border-color: var(--zk-acc); color: var(--zk-on-acc); }
+.zk-tool-ico { width: var(--zk-icon-size); height: var(--zk-icon-size); }
+.zk-tool-key { position: absolute; right: 2px; bottom: 1px; font-size: var(--zk-font-key); line-height: 1; opacity: 0.55; }
+.zk-tool[data-tip]:hover::after, .zk-tool[data-tip]:focus-visible::after { content: attr(data-tip); position: absolute; left: calc(100% + var(--zk-gap)); top: 50%; transform: translateY(-50%); white-space: nowrap; padding: var(--zk-pad-control); border-radius: var(--zk-radius); background: var(--zk-panel); border: 1px solid var(--zk-line); color: var(--zk-fg); font-size: var(--zk-font-small); pointer-events: none; z-index: 5; }

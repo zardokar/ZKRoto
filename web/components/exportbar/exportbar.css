@@ -1,4 +1,11 @@
-/* component exportbar: Export, source camera, shot and character, Export range (from / to). Variables: theme/zk_theme.css */
-.zk-export, .zk-export-range { background: var(--zk-primary); border-color: var(--zk-primary-line); }
-.zk-field { display: flex; gap: var(--zk-gap-small); align-items: center; color: var(--zk-dim); }
-.zk-name { font-family: var(--zk-mono); color: var(--zk-fg); }
+/* component exportbar in the Roto panel (Export tab): label | value grid, rows 16 apart (z-ui P4), Export range | Export 50:50 (B1). */
+[data-component="exportbar"] { display: grid; grid-template-columns: var(--zk-exp-label-width) 1fr; gap: var(--zk-gap-group) var(--zk-gap); align-items: center; padding-top: var(--zk-gap); } /* + panel gap 8 = 16 under the tabs */
+.zk-exp-label { color: var(--zk-dim); }
+.zk-name { font-family: var(--zk-mono); color: var(--zk-fg); height: var(--zk-tool-size); min-width: 0; width: 100%; }
+.zk-exp-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--zk-gap); }
+.zk-exp-acts { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: var(--zk-gap); }
+.zk-exp-acts button { height: var(--zk-tool-size); }
+.zk-export { background: var(--zk-primary); border-color: var(--zk-primary-line); }
+.zk-switch { position: relative; width: var(--zk-switch-width); height: var(--zk-tool-size); padding: 0; border-radius: calc(var(--zk-tool-size) / 2); }
+.zk-switch::after { content: ""; position: absolute; top: 50%; left: var(--zk-gap); width: var(--zk-knob); height: var(--zk-knob); margin-top: calc(var(--zk-knob) / -2); border-radius: 50%; background: var(--zk-dim); transition: left 120ms ease-out; }
+.zk-switch[aria-checked="true"]::after { left: calc(100% - var(--zk-gap) - var(--zk-knob)); background: var(--zk-acc); }

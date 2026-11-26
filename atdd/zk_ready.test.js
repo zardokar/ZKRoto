@@ -10,7 +10,7 @@ const MAIN = pathToFileURL(path.join(__dirname, "..", "web", "js", "zk_main.js")
 const API = ["load", "seek", "step", "capture", "pose", "info", "setFps", "selftest", "readBits",
   "view", "person", "swap", "camera", "preset", "layers", "names", "options", "povPoints", "exportPose",
   "exportRange", "stopRange",
-  "editMode", "movePoint", "resetPoint", "resetFrame", "edits"];
+  "editMode", "movePoint", "resetPoint", "resetFrame", "edits", "penTool", "penDoc"];
 const CFG = require("../web/config/zkroto.json");
 
 test("window.zk, page text, fps list and every component are ready right after the modules evaluate", async function () {
@@ -30,7 +30,7 @@ test("window.zk, page text, fps list and every component are ready right after t
   }
   assert.strictEqual(document.getElementById("status").textContent, "ready");
   assert.strictEqual(document.getElementById("fps").options.length, 6);
-  assert.strictEqual(document.getElementById("btnLoad").textContent, "Load");
+  assert.strictEqual(document.getElementById("btnLoad").dataset.tip, "Load by name (Enter)");
   for (const [slot, names] of Object.entries(CFG.layout.slots)) {
     const hosts = document.querySelector(`[data-slot="${slot}"]`).children;
     assert.deepStrictEqual(hosts.map(function (h) {

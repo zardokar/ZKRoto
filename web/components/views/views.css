@@ -1,3 +1,4 @@
 /* component views: Source | POV | Split. Variables: theme/zk_theme.css */
 .zk-views-label { color: var(--zk-dim); }
 .zk-views-hint { color: var(--zk-dim); font-size: var(--zk-font-small); }
+.zk-view { width: var(--zk-text-btn-width); height: var(--zk-tool-size); padding: 0; } /* 64 x 36 (wf_modes round 1) */

@@ -5,3 +5,5 @@
 .zk-person-1[aria-pressed="true"] { background: var(--zk-person-1); color: var(--zk-black); }
 .zk-person-2[aria-pressed="true"] { background: var(--zk-person-2); color: var(--zk-black); }
 .zk-person.zk-missing { opacity: var(--zk-missing); }
+.zk-person { width: var(--zk-tool-size); height: var(--zk-tool-size); padding: 0; } /* chips 36 x 36 (wf_modes round 1) */
+.zk-swap { width: var(--zk-text-btn-width); height: var(--zk-tool-size); padding: 0; }

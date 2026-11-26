@@ -1,6 +1,7 @@
 // COMPONENT: the <video> element - load, frame-exact seek (serialized), frame canvas, fps grid;
 // a still picture (png / jpg / webp, 0.2.5) shows in <img id="still"> as a one-frame clip.
 import * as F from "./zk_frames.js";
+import { EVENTS } from "./zk_events.js";
 
 export function createVideo(ctx, hooks) {
   const { cfg, el, state, t } = ctx;
@@ -92,6 +93,7 @@ export function createVideo(ctx, hooks) {
       : t("loaded", { name: s.name, width: size.width, height: size.height,
         seconds: video.duration.toFixed(3), total: state.total, fps: ctx.fps().toFixed(3) }));
     await seek(0);
+    ctx.bus.emit(EVENTS.source, { still: state.still });
     ctx.status(t("ready"), "ok");
   }
 
@@ -175,6 +177,7 @@ export function createVideo(ctx, hooks) {
     state.fpsNum = f.num;
     state.fpsDen = f.den;
     el.fps.value = `${state.fpsNum}/${state.fpsDen}`;
+    ctx.bus.emit(EVENTS.fps, { value: el.fps.value });
     if (state.url && !state.still) {
       setTotal();
       await seek(state.frame);

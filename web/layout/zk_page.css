@@ -8,25 +8,63 @@ button:hover { border-color: var(--zk-acc); }
 button[aria-pressed="true"] { background: var(--zk-pressed); border-color: var(--zk-primary-line); }
 button.primary { background: var(--zk-primary); border-color: var(--zk-primary-line); }
 [hidden] { display: none !important; }
-header { display: flex; gap: var(--zk-gap); align-items: center; padding: var(--zk-pad); background: var(--zk-panel); border-bottom: 1px solid var(--zk-line); flex-wrap: wrap; }
-header b { font-size: var(--zk-font-title); margin-right: 6px; }
+header { position: relative; display: flex; gap: var(--zk-gap-mid); align-items: center; padding: var(--zk-pad); background: var(--zk-panel); border-bottom: 1px solid var(--zk-line); flex-wrap: nowrap; }
+header b { font-size: var(--zk-font-title); }
 .zk-slot { display: flex; gap: var(--zk-gap); align-items: center; flex-wrap: wrap; }
+header > [data-slot="header"] { flex: 0 0 auto; margin-left: var(--zk-gap-small); gap: var(--zk-gap-group); } /* one row, groups flush right (wf_modes round 1) */
+header > :not(.zk-statuswrap):not(.zk-load) { flex-shrink: 0; } /* the one row never wraps: the status gives way, then the name field (live 885 px) */
+header > .zk-slot { flex-wrap: nowrap; }
+body:not([data-zk-source]) header > [data-slot="header"] { display: none; } /* empty page: the status runs to the page margin */
+body:not([data-zk-source]) .zk-toolslot { display: none; } /* empty page: no empty bar, no stray 1 px line */
+.zk-load { display: flex; gap: var(--zk-gap-small); align-items: center; min-width: 0; }
+#name { width: var(--zk-name-width); min-width: var(--zk-name-min-width); flex: 0 1 auto; height: var(--zk-tool-size); }
+.zk-statuswrap { position: relative; flex: 1 1 0; min-width: var(--zk-status-min-width); display: flex; } /* a few letters and the ok / err colour stay at 885 px */
+.zk-statuswrap[data-tip]:hover::after { content: attr(data-tip); position: absolute; left: 0; top: calc(100% + var(--zk-gap-small) - 1px); white-space: nowrap; padding: var(--zk-pad-control); border-radius: var(--zk-radius); background: var(--zk-panel); border: 1px solid var(--zk-line); color: var(--zk-fg); font-size: var(--zk-font-small); pointer-events: none; z-index: 5; }
+.zk-statuswrap[data-tip]:hover:has(> .zk-status[aria-expanded="true"])::after { content: none; } /* no tip over the open drawer (P7) */
+/* (the -1px: button tips start inside their 1 px border, so all header tips share one top line) */
+.zk-status { flex: 1 1 auto; min-width: 0; height: var(--zk-tool-size); background: none; border: none; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zk-status:hover { border: none; color: var(--zk-fg); }
+#log.zk-logdrawer { position: absolute; right: 0; top: calc(100% + var(--zk-gap-small)); z-index: 20; width: var(--zk-log-width); max-height: var(--zk-log-drawer-height); padding: var(--zk-gap); background: var(--zk-panel); border: 1px solid var(--zk-line); border-radius: var(--zk-radius); }
+/* The progress border of a header button (Koh 2026-11-25 21:0x: on the button's own rounded square, not a circle). */
+.zk-req-ring { position: absolute; inset: 0; pointer-events: none; }
+.zk-req-ringsvg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.zk-req-ring rect { x: 1px; y: 1px; width: calc(100% - 2px); height: calc(100% - 2px); rx: calc(var(--zk-tool-radius) - 1px); fill: none; stroke: transparent; stroke-width: var(--zk-ring-width); }
+.zk-busy .zk-req-ring rect, [data-stage="claude"] .zk-req-ring rect, [data-stage="write"] .zk-req-ring rect { stroke: var(--zk-ring-claude); }
+[data-stage="comfy"] .zk-req-ring rect, [data-stage="save"] .zk-req-ring rect { stroke: var(--zk-ring-comfy); }
+.zk-busy .zk-req-ring rect, [data-stage="write"] .zk-req-ring rect, [data-stage="claude"] .zk-req-ring rect, [data-stage="comfy"]:not([data-known="1"]) .zk-req-ring rect, [data-stage="save"] .zk-req-ring rect { stroke-dasharray: 22 78; animation: zk-ring-run 1s linear infinite; }
+[data-stage="comfy"][data-known="1"] .zk-req-ring rect { stroke-dasharray: var(--zk-progress) 100; animation: none; }
+@keyframes zk-ring-run { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 .zk-host { display: flex; gap: var(--zk-gap-small); align-items: center; flex-wrap: wrap; }
 #main { flex: 1; display: flex; min-height: 0; }
+#stagecol { flex: 1; display: flex; flex-direction: column; min-width: 0; }
 #stage { flex: 1; position: relative; overflow: hidden; display: flex; background: var(--zk-black); min-width: 0; }
 #srcpane { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; min-width: 0; }
 #srcpane video, #srcpane img, #srcpane canvas { position: absolute; max-width: 100%; max-height: 100%; }
 #overlay { pointer-events: none; }
 #overlay.zk-editing { pointer-events: auto; cursor: crosshair; touch-action: none; }
+#pen { touch-action: none; left: 0; top: 0; width: 100%; height: 100%; max-width: none; max-height: none; }
+#overlay.zk-editing ~ #pen { pointer-events: none; }
+#srcpane { overflow: hidden; }
+.zk-toolslot { position: relative; z-index: 2; flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 0; background: var(--zk-panel); border-right: 1px solid var(--zk-line); }
 #drop { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--zk-dim); font-size: 15px; }
 #stage > .zk-slot { flex: 1; min-width: 0; align-items: stretch; }
 #stage > .zk-slot > .zk-host { flex: 1; min-width: 0; position: relative; }
 #panel { width: var(--zk-panel-width); background: var(--zk-panel); border-left: 1px solid var(--zk-line); overflow: auto; padding: var(--zk-gap); flex-direction: column; align-items: stretch; flex-wrap: nowrap; }
 #panel > .zk-host { width: 100%; }
+#panel { scrollbar-gutter: stable; } /* the tabs keep their width when a tab needs a scrollbar (live check) */
 body[data-view="source"] #stage > .zk-slot, body[data-view="source"] #panel { display: none; }
 body[data-view="pov"] #srcpane { display: none; }
 body[data-view="split"] #srcpane { border-right: 1px solid var(--zk-line); }
-footer { padding: 6px 12px; background: var(--zk-panel); border-top: 1px solid var(--zk-line); display: flex; flex-direction: column; gap: 6px; }
+footer { padding: var(--zk-gap); background: var(--zk-panel); border-top: 1px solid var(--zk-line); display: flex; flex-direction: column; gap: var(--zk-gap); }
+#framebar .row { gap: var(--zk-gap-small); flex-wrap: nowrap; }
+#framebar [data-slot="fps"] { margin-left: var(--zk-gap); }
+#tc { flex: 1 1 auto; margin-right: var(--zk-gap-mid); }
+#frame { width: var(--zk-frame-width); height: var(--zk-tool-size); }
+#scrub { height: var(--zk-tool-size); margin: 0; color-scheme: dark; accent-color: var(--zk-acc); } /* no browser margin (P1); dark track, theme accent: not the white browser slider */
+#btnPose { height: var(--zk-tool-size); min-width: var(--zk-main-btn-width); } /* the main button, largest of its row (P2) */
+#framebar [data-step][data-tip]:hover::after, #framebar [data-step][data-tip]:focus-visible::after { left: 0; right: auto; } /* left-end tips stay on screen */
+#framebar:has(.zk-fps-btn[aria-expanded="true"]) [data-tip]:hover::after { content: none; } /* no tip over the open frame rate list (P7) */
+#framebar .zk-req-btn[data-tip]:hover::after, #framebar .zk-req-btn[data-tip]:focus-visible::after { top: auto; bottom: calc(100% + var(--zk-tool-size) + var(--zk-gap) + var(--zk-gap-small)); } /* tips above the scrub row (P7) */
 #scrub { width: 100%; }
 .row { display: flex; gap: var(--zk-gap); align-items: center; flex-wrap: wrap; }
 .mono { font-family: var(--zk-mono); }
@@ -34,3 +72,14 @@ footer { padding: 6px 12px; background: var(--zk-panel); border-top: 1px solid v
 #status.ok { color: var(--zk-ok); }
 #status.err { color: var(--zk-err); }
 #log { max-height: var(--zk-log-height); overflow: auto; color: var(--zk-dim); font-size: var(--zk-font-small); white-space: pre-wrap; }
+/* Modes (wf_modes round 1, Koh OK 2026-11-26 17:54): body data-zk-mode / data-zk-source from zk_modeview.js. */
+body[data-zk-mode="mask"] [data-zk-only="roto"], body[data-zk-mode="roto"] [data-zk-only="mask"] { display: none !important; }
+body:not([data-zk-source]) [data-zk-only], body:not([data-zk-source]) [data-component="modeswitch"] { display: none !important; }
+body:not([data-zk-source="video"]) #framebar { display: none; }
+body[data-zk-mode="roto"][data-view="source"] #panel { display: flex; }
+body[data-zk-mode="mask"] #panel, body[data-zk-mode="mask"] #stage > .zk-slot { display: none; }
+body[data-zk-mode="mask"] #srcpane { display: flex; }
+body[data-zk-mode="mask"] #overlay { visibility: hidden; }
+body[data-zk-mode="roto"] #pen { opacity: 0; }
+.zk-softedge, .zk-softink { position: fixed; left: 0; top: 0; width: 16px; height: 16px; pointer-events: none; z-index: 30; }
+.zk-softink { mix-blend-mode: difference; }

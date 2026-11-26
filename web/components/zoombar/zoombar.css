@@ -1,0 +1,7 @@
+/* COMPONENT zoombar: Fit | - | % | + (canvas.css .cv-zoomgrp / .cv-zoom), shown while Z is on. Since wf_modes round 1 it
+   sits in the left bar under the tools (one header row has no room for it at 1000 px): a column, + on top (DOM keeps
+   the canvas order Fit - % +), tips open to the right over the stage like the other left-bar tips. */
+[data-component="zoombar"] { flex-direction: column-reverse; flex-wrap: nowrap; align-items: center; gap: var(--zk-gap-small); margin-top: var(--zk-gap); padding: 0 var(--zk-gap) var(--zk-gap); }
+.zk-zoom-btn { position: relative; width: var(--zk-tool-size); height: var(--zk-tool-size); padding: 0; }
+.zk-zoom-pct { width: var(--zk-tool-size); height: var(--zk-zoom-pct-height); line-height: var(--zk-zoom-pct-height); text-align: center; font-size: var(--zk-font-tiny); }
+.zk-zoom-btn[data-tip]:hover::after, .zk-zoom-btn[data-tip]:focus-visible::after { content: attr(data-tip); position: absolute; left: calc(100% + var(--zk-gap)); top: 50%; transform: translateY(-50%); white-space: nowrap; padding: var(--zk-pad-control); border-radius: var(--zk-radius); background: var(--zk-panel); border: 1px solid var(--zk-line); color: var(--zk-fg); font-size: var(--zk-font-small); pointer-events: none; z-index: 5; }

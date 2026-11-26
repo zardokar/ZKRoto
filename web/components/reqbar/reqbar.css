@@ -1,0 +1,21 @@
+/* COMPONENT reqbar: icon group flush right in the header (wf_zkreq_3; Koh 16:21 "ชิดขวาเลย"). Feel per z-ui:
+   hover sinks 1px, press 3px with an inset shadow, 100 ms; tips themed; colours and sizes from the theme. */
+[data-component="reqbar"] { margin-left: auto; gap: var(--zk-gap-small); position: relative; }
+.zk-req-btn { position: relative; width: var(--zk-tool-size); height: var(--zk-tool-size); padding: 0; display: flex; align-items: center; justify-content: center; border-radius: var(--zk-tool-radius); box-shadow: var(--zk-tool-shadow); transition: transform 100ms ease-out, box-shadow 100ms ease-out; }
+.zk-req-btn:hover:not(:disabled) { transform: translateY(1px); box-shadow: var(--zk-tool-shadow-hover); }
+.zk-req-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: var(--zk-tool-shadow-press); }
+.zk-req-btn:disabled { opacity: 0.4; }
+.zk-req-btn:focus-visible { outline: 2px solid var(--zk-acc); outline-offset: 2px; }
+.zk-req-btn[data-tip]:hover::after, .zk-req-btn[data-tip]:focus-visible::after { content: attr(data-tip); position: absolute; right: 0; top: calc(100% + var(--zk-gap-small)); white-space: nowrap; padding: var(--zk-pad-control); border-radius: var(--zk-radius); background: var(--zk-panel); border: 1px solid var(--zk-line); color: var(--zk-fg); font-size: var(--zk-font-small); pointer-events: none; z-index: 5; }
+.zk-req-divider { width: 1px; align-self: stretch; margin: 2px var(--zk-gap-small); background: var(--zk-line); }
+/* One header row since wf_modes round 1 (Koh OK 2026-11-26 17:54): Send | Compare are two groups 16 apart, no line, as drawn. */
+[data-component="reqbar"] .zk-req-divider { display: none; }
+[data-component="reqbar"] .zk-req-divider + .zk-req-btn { margin-left: var(--zk-gap-mid); }
+.zk-req-dot { position: absolute; top: -5px; right: -5px; min-width: var(--zk-req-dot-size); height: var(--zk-req-dot-size); padding: 0 3px; border-radius: var(--zk-req-dot-size); background: var(--zk-err); color: var(--zk-on-acc); font-size: var(--zk-font-key); line-height: var(--zk-req-dot-size); text-align: center; }
+.zk-req-toast { position: absolute; right: 0; top: calc(100% + var(--zk-gap)); white-space: nowrap; padding: var(--zk-pad-control); border-radius: var(--zk-radius); background: var(--zk-panel); border: 1px solid var(--zk-ok); color: var(--zk-fg); font-size: var(--zk-font-small); z-index: 6; }
+/* Word box under the plane (wf_zkapi_3 B; X on Koh's word 21:0x): the main input stands out at rest (accent edge). */
+.zk-req-words { position: absolute; right: 0; top: calc(100% + var(--zk-gap-small)); z-index: 20; width: var(--zk-req-words-width); display: flex; gap: var(--zk-gap-small); align-items: center; padding: calc(var(--zk-api-small) + var(--zk-gap)) var(--zk-gap) var(--zk-gap); background: var(--zk-panel); border: 1px solid var(--zk-line); border-radius: var(--zk-radius); box-shadow: var(--zk-tool-shadow); }
+.zk-req-winput { flex: 1; min-width: 0; height: var(--zk-tool-size); border: 2px solid var(--zk-acc); }
+.zk-req-wbtn { flex: none; }
+.zk-req-words > .zk-req-wclose { position: absolute; top: var(--zk-gap-small); right: var(--zk-gap-small); width: var(--zk-api-small); height: var(--zk-api-small); box-shadow: none; }
+.zk-req-winput:focus-visible { outline: 2px solid var(--zk-acc); outline-offset: 2px; }

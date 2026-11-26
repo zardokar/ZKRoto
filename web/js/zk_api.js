@@ -12,13 +12,27 @@ import { createExporter } from "./zk_exporter.js";
 import { createRange } from "./zk_range.js";
 import { createEditStore } from "./zk_editstore.js";
 import { createRender } from "./zk_render.js";
+import { createPen } from "./zk_pen.js";
+import { createPenView } from "./zk_penview.js";
+import { createRequester } from "./zk_requester.js";
+import { createAiParts } from "./zk_aiparts.js";
 import { EVENTS } from "./zk_events.js";
+import { createMode } from "./zk_mode.js";
 
 function makeCanvas(w, h) {
   const c = document.createElement("canvas");
   c.width = w;
   c.height = h;
   return c;
+}
+
+// Save text as a file through the browser (Export SVG); a link the page clicks, never shown.
+function download(name, text) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type: "image/svg+xml" }));
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
 function makeInfo(ctx) {
@@ -90,13 +104,16 @@ function povCalls(ctx, pov, exporter, range, edits) {
 export function makeApi(ctx) {
   const info = makeInfo(ctx);
   let overlay = null;
+  const pen = createPen(ctx, createPenView(ctx));
   const hooks = {
     onClear: function () {
       overlay.clear();
+      pen.reset();
       ctx.bus.emit(EVENTS.pose, null);
     },
     onSize: function (w, h) {
       overlay.resize(w, h);
+      pen.resize(w, h);
     },
     onPose: function () {
       overlay.draw();
@@ -154,6 +171,20 @@ export function makeApi(ctx) {
       return ctx.state.lastPose;
     },
     ...povCalls(ctx, pov, exporter, range, edits),
+    penTool: pen.tool,
+    penDoc: pen.doc,
   };
-  return { api, overlay, parts: { zk: api, pov } };
+  const request = createRequester(ctx, { pen, info, makeCanvas, frameCanvas: video.frameCanvas, now: () => new Date(),
+    fetch: globalThis.fetch.bind(globalThis), download, store: globalThis.localStorage });
+  const { models, ai } = createAiParts(ctx, request);
+  api.sendRequest = request.send;
+  api.exportSvg = request.exportSvg;
+  api.importSvg = request.importSvg;
+  api.requests = request.list;
+  api.aiSend = ai.send;
+  const mode = createMode(ctx.bus, EVENTS);
+  api.mode = function (m) {
+    return m === undefined ? mode.get() : mode.set(m);
+  };
+  return { api, overlay, pen, parts: { zk: api, pov, pen, request, models, ai, mode } };
 }

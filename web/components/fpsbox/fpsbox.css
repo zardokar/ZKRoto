@@ -1,0 +1,12 @@
+/* COMPONENT fpsbox: a field-height button + a list that opens upward over the stage (frame bar is at the bottom). */
+[data-component="fpsbox"] { position: relative; }
+.zk-fps-btn { position: relative; min-width: var(--zk-fps-width); height: var(--zk-tool-size); display: flex; align-items: center; justify-content: space-between; gap: var(--zk-gap-small); padding: 0 var(--zk-gap-small) 0 var(--zk-gap); }
+.zk-fps-chevron { display: flex; color: var(--zk-dim); transform: rotate(180deg); } /* the list opens upward */
+.zk-fps-chevron svg { width: var(--zk-chevron-size); height: var(--zk-chevron-size); fill: none; stroke: currentColor; stroke-width: var(--zk-chevron-stroke); stroke-linecap: round; stroke-linejoin: round; }
+/* Tip above the scrub row like the other frame bar tips (P7); none while the list is open. */
+.zk-fps-btn[data-tip]:hover::after { content: attr(data-tip); position: absolute; left: 0; bottom: calc(100% + var(--zk-tool-size) + var(--zk-gap) + var(--zk-gap-small)); white-space: nowrap; padding: var(--zk-pad-control); border-radius: var(--zk-radius); background: var(--zk-panel); border: 1px solid var(--zk-line); color: var(--zk-fg); font-size: var(--zk-font-small); pointer-events: none; z-index: 5; }
+.zk-fps-btn[data-tip][aria-expanded="true"]:hover::after { content: none; } /* beats the hover rule above */
+.zk-fps-list { position: absolute; bottom: calc(100% + var(--zk-gap-small)); left: 0; min-width: 100%; display: flex; flex-direction: column; padding: var(--zk-gap-small); gap: var(--zk-gap-small); background: var(--zk-panel); border: 1px solid var(--zk-line); border-radius: var(--zk-radius); z-index: 6; }
+.zk-fps-item { text-align: left; border-color: transparent; }
+.zk-fps-item:hover { border-color: var(--zk-acc); }
+.zk-fps-item[aria-selected="true"] { background: var(--zk-pressed); } /* the rate in use */

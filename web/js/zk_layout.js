@@ -31,6 +31,9 @@ export function mountLayout(ctx, api, registry, doc) {
       const host = doc.createElement("div");
       host.className = HOST_CLASS;
       host.dataset.component = name;
+      if (cfg.layout.modes && cfg.layout.modes[name]) {
+        host.dataset.zkOnly = cfg.layout.modes[name];
+      }
       place.appendChild(host);
       loadCss(doc, name, k.version);
       registry[name](host, ctx, api);
